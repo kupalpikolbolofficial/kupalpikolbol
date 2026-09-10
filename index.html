@@ -1,0 +1,2102 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head><link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>KUPAL PIKOLBOL — Book Your Court</title>
+<style>
+
+:root{
+  --black:#080a09;--green:#0d241d;--green2:#153b2f;--cream:#f3efe4;
+  --yellow:#f4dc32;--white:#fffdf5;--muted:#9ea69e;--line:rgba(255,255,255,.12)
+}
+*{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;background:var(--black);color:var(--white);font-family:var(--font-body);overflow-x:hidden}
+button,input{font:inherit} button{cursor:pointer}
+a{color:inherit;text-decoration:none}
+.noise{position:fixed;inset:0;pointer-events:none;opacity:.035;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.nav{position:absolute;z-index:20;top:0;left:0;right:0;padding:26px clamp(20px,5vw,72px);display:flex;align-items:center;justify-content:space-between}
+.logo{font-weight:950;letter-spacing:-.08em;font-size:25px} .logo span{color:var(--yellow)} .navlinks{display:flex;gap:30px;font-size:12px;text-transform:uppercase;letter-spacing:.18em;color:#d6d9d2} .navbtn{border:1px solid rgba(244,220,50,.55);padding:11px 16px;border-radius:999px;color:var(--yellow);font-size:11px;letter-spacing:.16em;text-transform:uppercase}
+.hero{min-height:820px;position:relative;display:grid;grid-template-columns:1.02fr .98fr;align-items:center;padding:110px clamp(20px,6vw,88px) 70px;background:
+radial-gradient(circle at 72% 45%,rgba(42,101,75,.45),transparent 28%),linear-gradient(115deg,#080a09 0%,#0b1712 54%,#102b21 100%);isolation:isolate}
+.hero:after{content:"";position:absolute;width:520px;height:520px;border-radius:50%;right:-150px;top:160px;background:rgba(244,220,50,.05);filter:blur(5px);z-index:-1}
+.kicker{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--yellow);font-weight:800;margin-bottom:25px}
+.hero h1{font-size:clamp(64px,9vw,142px);line-height:.78;letter-spacing:-.09em;margin:0;max-width:800px;text-transform:uppercase}
+.hero h1 em{font-style:normal;color:var(--yellow);display:block;margin-left:.08em}
+.hero-copy{max-width:500px;margin-top:34px;color:#b7beb7;line-height:1.7;font-size:15px}
+.hero-actions{display:flex;gap:12px;margin-top:32px;flex-wrap:wrap}
+.primary{background:var(--yellow);color:#111;padding:15px 22px;border:0;border-radius:999px;font-weight:900;letter-spacing:.06em;text-transform:uppercase;font-size:12px}
+.secondary{background:transparent;color:#fff;padding:14px 20px;border:1px solid rgba(255,255,255,.2);border-radius:999px;font-weight:700;font-size:12px}
+.scene{height:570px;position:relative;display:grid;place-items:center;perspective:1300px}
+.orbit{position:absolute;width:500px;height:500px;border:1px solid rgba(244,220,50,.18);border-radius:50%;transform:rotateX(67deg) rotateZ(-12deg);animation:spin 18s linear infinite}
+.orbit.o2{width:390px;height:390px;animation-direction:reverse;animation-duration:13s;border-color:rgba(255,255,255,.12)}
+@keyframes spin{to{transform:rotateX(67deg) rotateZ(348deg)}}
+.court3d{width:min(520px,85vw);aspect-ratio:1.45;transform:rotateX(55deg) rotateZ(-9deg) rotateY(-10deg);transform-style:preserve-3d;filter:drop-shadow(0 45px 28px rgba(0,0,0,.5));animation:float 4.8s ease-in-out infinite}
+@keyframes float{50%{transform:rotateX(55deg) rotateZ(-9deg) rotateY(-10deg) translateY(-16px)}}
+.court-face{position:absolute;inset:0;border-radius:14px;background:linear-gradient(135deg,#174736,#0a241b);border:4px solid #f6f0d9;box-shadow:inset 0 0 0 3px #153a2e;overflow:hidden;transform:translateZ(0)}
+.court-face:before,.court-face:after{content:"";position:absolute;background:#f6f0d9;opacity:.95}
+.court-face:before{width:3px;top:0;bottom:0;left:50%} .court-face:after{height:3px;left:0;right:0;top:50%}
+.box{position:absolute;inset:16% 22%;border:3px solid #f6f0d9} .net{position:absolute;left:0;right:0;top:50%;height:13px;transform:translateY(-50%);background:repeating-linear-gradient(90deg,rgba(255,255,255,.08) 0 3px,rgba(0,0,0,.12) 3px 6px);border-block:2px solid rgba(255,255,255,.55)}
+.ball{position:absolute;width:38px;height:38px;border-radius:50%;background:var(--yellow);box-shadow:0 8px 20px rgba(244,220,50,.28);right:17%;top:18%;transform:translateZ(90px);animation:ball 3.2s ease-in-out infinite}
+@keyframes ball{50%{transform:translateZ(150px) translate(-25px,45px)}}
+.brandplate{position:absolute;bottom:14%;left:12%;padding:12px 15px;background:rgba(8,10,9,.8);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.12);transform:translateZ(70px);font-size:11px;letter-spacing:.2em;font-weight:900}
+.float-tag{position:absolute;right:5%;top:13%;background:var(--yellow);color:#111;border:0;cursor:pointer;padding:10px 13px;font-weight:900;font-size:11px;letter-spacing:.12em;transform:rotate(7deg);box-shadow:0 15px 30px rgba(0,0,0,.25);animation:tag 3s ease-in-out infinite}
+@keyframes tag{50%{transform:rotate(3deg) translateY(-8px)}}
+.float-tag:hover{filter:brightness(1.04);box-shadow:0 18px 34px rgba(0,0,0,.3)}
+.float-tag:focus-visible{outline:3px solid #fff;outline-offset:4px}
+.marquee{overflow:hidden;background:var(--yellow);color:#111;border-block:1px solid #111;white-space:nowrap}
+.marquee div{display:inline-block;padding:13px 0;font-size:12px;font-weight:950;letter-spacing:.22em;animation:marq 22s linear infinite}
+@keyframes marq{to{transform:translateX(-50%)}}
+.booking{background:var(--cream);color:#101310;padding:100px clamp(20px,6vw,88px)}
+.sectiontop{display:flex;justify-content:space-between;align-items:end;gap:30px;margin-bottom:55px}
+.eyebrow{font-size:11px;letter-spacing:.24em;font-weight:900;color:#53635a;text-transform:uppercase}
+.sectiontop h2{font-size:clamp(50px,7vw,92px);letter-spacing:-.08em;line-height:.82;margin:10px 0 0;max-width:750px}
+.sectiontop p{max-width:350px;color:#657067;line-height:1.6;font-size:14px}
+.bookgrid{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:22px;align-items:start;max-width:1320px;margin:auto}
+.panel{background:#fffdf6;border:1px solid #d9d5c8;border-radius:28px;padding:30px}
+.step{padding:0 0 38px;margin-bottom:35px;border-bottom:1px solid #ddd9ce}
+.step:last-child{border-bottom:0;margin-bottom:0;padding-bottom:0}
+.stepno{font-size:10px;letter-spacing:.2em;color:#7a837b;font-weight:900;text-transform:uppercase}
+.step h3{font-size:28px;letter-spacing:-.045em;margin:8px 0 22px}
+.month{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.month strong{font-size:20px;letter-spacing:-.04em}
+.arrow{width:42px;height:42px;border:1px solid #d5d1c5;border-radius:50%;background:#fffdf6}
+.week,.days{display:grid;grid-template-columns:repeat(7,1fr);gap:7px}
+.week div{font-size:9px;text-align:center;color:#879087;font-weight:800;letter-spacing:.12em;padding-bottom:4px}
+.day{aspect-ratio:1;border:1px solid #e0dcd1;border-radius:14px;background:#fffdf6;font-weight:800;color:#2d342f;transition:.2s}
+.day.muted{color:#b5b8b3;background:#f3f1e9} .day:hover{transform:translateY(-2px);border-color:#8f9b91}
+.day.selected{background:var(--green);color:#fff;border-color:var(--green);box-shadow:0 10px 22px rgba(13,36,29,.18)}
+.courts{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.courtbtn{text-align:left;border:1px solid #d9d5c8;background:#fffdf6;border-radius:20px;padding:20px;min-height:120px;transition:.22s}
+.courtbtn strong{display:block;font-size:18px;margin-bottom:10px} .courtbtn span{font-size:11px;color:#747d75}
+.courtbtn.active{background:var(--green);color:#fff;border-color:var(--green);transform:translateY(-3px);box-shadow:0 15px 28px rgba(13,36,29,.16)}
+.courtbtn.active span{color:#b7c9bf}
+.times{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}
+.time{border:1px solid #ddd9ce;background:#fffdf6;border-radius:13px;padding:13px 7px;font-size:12px;font-weight:850}
+.time.booked{opacity:.35;text-decoration:line-through;cursor:not-allowed} .time.active{background:var(--yellow);border-color:#111;color:#111;transform:translateY(-2px)}
+.summary{background:#090c0a;color:#fff;border-radius:28px;padding:28px;position:sticky;top:22px;overflow:hidden}
+.summary:before{content:"";position:absolute;right:-60px;top:-60px;width:180px;height:180px;border-radius:50%;background:var(--yellow);opacity:.12}
+.summary .eyebrow{color:#849187} .summary h3{font-size:32px;letter-spacing:-.06em;margin:10px 0 30px}
+.sumline{display:flex;justify-content:space-between;gap:15px;padding:13px 0;border-bottom:1px solid var(--line);font-size:12px}
+.sumline span:first-child{color:#89938b} .total{margin:27px 0} .total small{color:#89938b;font-size:10px;letter-spacing:.18em} .total strong{display:block;font-size:45px;letter-spacing:-.07em;margin-top:4px}
+.review{width:100%;background:var(--yellow);border:0;padding:16px;border-radius:999px;font-weight:950;color:#111;letter-spacing:.05em;text-transform:uppercase}
+.note{font-size:10px;color:#6f786f;line-height:1.5;margin-top:14px}
+.features{background:#101713;padding:90px clamp(20px,6vw,88px);color:#fff}
+.featuregrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;max-width:1320px;margin:auto}
+.feature{min-height:250px;border:1px solid rgba(255,255,255,.1);border-radius:24px;padding:25px;position:relative;overflow:hidden;background:linear-gradient(145deg,#14271f,#0b110e)}
+.feature b{font-size:48px;letter-spacing:-.07em;color:var(--yellow)} .feature h3{font-size:22px;margin:28px 0 8px} .feature p{color:#929d95;font-size:13px;line-height:1.6;max-width:300px}
+.find{background:var(--yellow);color:#111;padding:80px clamp(20px,6vw,88px);display:flex;justify-content:space-between;align-items:center;gap:30px}
+.find h2{font-size:clamp(48px,6vw,78px);letter-spacing:-.08em;line-height:.85;margin:0;max-width:700px}
+.find button{border:0;background:#111;color:#fff;padding:17px 25px;border-radius:999px;font-weight:900;white-space:nowrap}
+footer{padding:35px clamp(20px,6vw,88px);display:flex;justify-content:space-between;gap:20px;color:#8e978f;font-size:11px;letter-spacing:.1em;text-transform:uppercase}
+.toast{position:fixed;right:20px;bottom:20px;background:#111;color:#fff;padding:13px 17px;border-radius:14px;border:1px solid rgba(244,220,50,.35);transform:translateY(120px);transition:.3s;z-index:100;font-size:12px} .toast.show{transform:none}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.65);backdrop-filter:blur(10px);display:none;place-items:center;padding:20px;z-index:90} .modal.open{display:grid}
+.modalbox{width:min(560px,100%);background:var(--cream);color:#111;border-radius:28px;padding:28px;position:relative}
+.close{position:absolute;right:18px;top:18px;width:40px;height:40px;border-radius:50%;border:1px solid #ccc;background:transparent}
+.modalbox h2{font-size:42px;letter-spacing:-.07em;line-height:.9;margin:35px 0 20px}
+.field{margin:12px 0} .field label{font-size:10px;letter-spacing:.15em;text-transform:uppercase;font-weight:900;display:block;margin-bottom:7px} .field input{width:100%;padding:14px;border:1px solid #d0ccc1;border-radius:13px;background:#fffdf6}
+@media(max-width:900px){
+.hero{grid-template-columns:1fr;padding-top:130px} .scene{height:470px;order:-1} .hero h1{font-size:clamp(62px,15vw,110px)}
+.bookgrid{grid-template-columns:1fr} .summary{position:relative;top:0} .featuregrid{grid-template-columns:1fr} .sectiontop{display:block} .sectiontop p{margin-top:20px}
+}
+@media(max-width:560px){
+.navlinks{display:none} .hero{min-height:auto;padding-bottom:70px} .scene{height:380px} .court3d{width:330px} .orbit{width:330px;height:330px} .orbit.o2{width:270px;height:270px}
+.booking{padding-top:70px} .panel{padding:20px;border-radius:22px} .courts{grid-template-columns:1fr} .times{grid-template-columns:repeat(3,1fr)} .day{border-radius:10px;font-size:12px}
+footer{display:block;line-height:2}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+
+/* V2 — actual KUPAL editorial sections */
+.actual-court{background:#f3efe4;color:#0b110e;padding:120px clamp(20px,6vw,88px);overflow:hidden}
+.actual-wrap{max-width:1320px;margin:auto;display:grid;grid-template-columns:.7fr 1.3fr;gap:70px;align-items:center}
+.actual-copy{padding-bottom:20px}
+.actual-copy h2{font-size:clamp(70px,9vw,132px);line-height:.78;letter-spacing:-.09em;margin:14px 0 28px}
+.actual-copy h2 span{color:#0d241d}
+.actual-copy p{max-width:430px;color:#5e685f;line-height:1.7;font-size:15px}
+.actual-meta{display:flex;gap:34px;margin-top:42px}
+.actual-meta div{border-left:2px solid #f4dc32;padding-left:14px}
+.actual-meta strong{display:block;font-size:25px;letter-spacing:-.05em}
+.actual-meta span{display:block;font-size:9px;letter-spacing:.18em;color:#7a837b;margin-top:3px}
+.actual-image{position:relative}
+.image-frame{position:relative;overflow:hidden;border-radius:3px;background:#0d241d;aspect-ratio:1.48;transform:rotate(1.4deg);box-shadow:25px 30px 0 #0d241d}
+.image-frame img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(.95);transform:scale(1.035);transition:transform 1.2s cubic-bezier(.2,.7,.2,1)}
+.image-frame:hover img{transform:scale(1.08)}
+.image-frame:after{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(244,220,50,.08),transparent 42%,rgba(0,0,0,.2))}
+.image-stamp{position:absolute;z-index:2;left:22px;bottom:22px;background:#f4dc32;color:#111;padding:12px 14px;font-size:9px;line-height:1.35;font-weight:950;letter-spacing:.14em}
+.image-index{position:absolute;z-index:2;right:20px;top:20px;color:#fff;background:rgba(8,10,9,.72);padding:9px 11px;font-size:9px;letter-spacing:.18em}
+.rates-how{background:#0d241d;color:#fff;padding:105px clamp(20px,6vw,88px)}
+.rh-head{max-width:1320px;margin:auto;display:flex;justify-content:space-between;align-items:end;gap:30px}
+.rh-head h2{font-size:clamp(60px,8vw,105px);line-height:.8;letter-spacing:-.09em;margin:12px 0 0}
+.rh-head p{max-width:360px;color:#9da8a0;line-height:1.6;font-size:14px}
+.rate-row{max-width:1320px;margin:55px auto 0;display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.rate-card{min-height:235px;border:1px solid rgba(255,255,255,.13);padding:25px;display:flex;flex-direction:column;justify-content:space-between;transition:.25s}
+.rate-card:hover{transform:translateY(-6px);border-color:#f4dc32}
+.rate-card span{font-size:11px;color:#aeb8b0;letter-spacing:.08em}
+.rate-card strong{font-size:58px;letter-spacing:-.08em}
+.rate-card strong span{font-size:14px;color:#89948b;letter-spacing:0}
+.rate-card b{font-size:10px;letter-spacing:.2em;color:#f4dc32}
+.rate-card.featured{background:#f4dc32;color:#111;border-color:#f4dc32}
+.rate-card.featured span,.rate-card.featured strong span{color:#303329}
+.rate-card.featured b{color:#111}
+.how{background:#f3efe4;color:#101310;padding:105px clamp(20px,6vw,88px)}
+.how-inner{max-width:1320px;margin:auto}
+.how h2{font-size:clamp(62px,8vw,110px);line-height:.8;letter-spacing:-.09em;margin:15px 0 60px}
+.how h2 span{color:#0d5a3d}
+.how-steps{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid #cfcabe}
+.how-steps>div{padding:25px 25px 15px 0;border-right:1px solid #cfcabe;margin-right:25px;min-height:190px}
+.how-steps>div:last-child{border-right:0}
+.how-steps b{display:block;color:#0d5a3d;font-size:12px;letter-spacing:.2em}
+.how-steps strong{display:block;font-size:25px;letter-spacing:-.04em;margin-top:45px}
+.how-steps p{color:#69736b;line-height:1.6;font-size:13px;max-width:300px}
+.feature-link{display:inline-block;margin-top:16px;color:#f4dc32;font-size:11px;font-weight:900;letter-spacing:.12em;text-transform:uppercase}
+.pending{color:#8d978f}
+footer{background:#080a09;padding:55px clamp(20px,6vw,88px);display:grid;grid-template-columns:1.5fr 1fr .55fr;gap:45px;color:#fff;font-size:11px;letter-spacing:.08em;text-transform:uppercase}
+.footer-brand strong{font-size:35px;letter-spacing:-.08em;display:block}
+.footer-brand strong span{color:#f4dc32}
+.footer-brand small{display:block;color:#6f7972;margin-top:12px;font-size:9px;letter-spacing:.16em}
+.footer-label{font-size:9px;color:#f4dc32;font-weight:900;letter-spacing:.2em;margin-bottom:18px}
+.footer-info{display:flex;flex-direction:column;align-items:flex-start;gap:11px}
+.footer-info a,.footer-social a{color:#b1b8b2;text-transform:none;letter-spacing:.02em}
+.footer-social a{color:#fff}
+@media(max-width:900px){
+.actual-wrap{grid-template-columns:1fr;gap:45px}.image-frame{box-shadow:15px 18px 0 #0d241d}
+.rate-row{grid-template-columns:1fr}.how-steps{grid-template-columns:1fr}.how-steps>div{border-right:0;border-bottom:1px solid #cfcabe;margin:0;padding:25px 0}
+footer{grid-template-columns:1fr}
+}
+
+/* ============================================================
+   REVISION 1 — TYPOGRAPHY / SPACING / ALIGNMENT ONLY
+   ============================================================ */
+:root{
+  --font-body:"Lato",Arial,Helvetica,sans-serif;
+  --font-display:"Poppins",Arial,Helvetica,sans-serif;
+}
+
+body{
+  font-family:var(--font-body);
+  letter-spacing:-.01em;
+}
+
+button,input{font-family:var(--font-body);}
+
+.logo,
+.hero h1,
+.sectiontop h2,
+.step h3,
+.summary h3,
+.total strong,
+.actual-copy h2,
+.rh-head h2,
+.rate-card strong,
+.how h2,
+.how-steps strong,
+.find h2,
+.footer-brand strong{
+  font-family:var(--font-display);
+  font-variant-numeric:tabular-nums;
+}
+
+.logo{
+  font-weight:800;
+  letter-spacing:-.075em;
+}
+
+.nav{
+  padding:28px clamp(24px,5vw,72px);
+}
+
+.navlinks{
+  gap:34px;
+  font-weight:600;
+  letter-spacing:.16em;
+}
+
+.navbtn{
+  padding:12px 18px;
+  font-weight:700;
+}
+
+.hero{
+  padding:118px clamp(24px,6vw,88px) 76px;
+}
+
+.hero h1{
+  line-height:.84;
+  letter-spacing:-.085em;
+  font-weight:800;
+}
+
+.kicker,
+.eyebrow,
+.stepno,
+.footer-label,
+.feature-link,
+.actual-meta span,
+.image-stamp,
+.image-index,
+.float-tag{
+  font-family:var(--font-body);
+  font-weight:700;
+}
+
+.hero-copy{
+  line-height:1.75;
+  letter-spacing:-.005em;
+}
+
+.hero-actions{
+  margin-top:34px;
+}
+
+.primary,
+.secondary{
+  font-family:var(--font-body);
+  font-weight:700;
+}
+
+.marquee div{
+  line-height:1;
+  padding:15px 0;
+  font-weight:700;
+  letter-spacing:.19em;
+}
+
+.booking{
+  padding:104px clamp(24px,6vw,88px);
+}
+
+.sectiontop{
+  max-width:1320px;
+  margin:0 auto 58px;
+  align-items:flex-end;
+}
+
+.sectiontop h2{
+  margin-top:12px;
+  line-height:.86;
+  font-weight:800;
+}
+
+.sectiontop p{
+  line-height:1.7;
+  margin-bottom:2px;
+}
+
+.bookgrid{
+  gap:24px;
+}
+
+.panel{
+  padding:32px;
+}
+
+.step{
+  padding-bottom:40px;
+  margin-bottom:37px;
+}
+
+.step h3{
+  margin:9px 0 24px;
+  line-height:1.05;
+  font-weight:700;
+}
+
+.month{
+  margin-bottom:18px;
+}
+
+.month strong{
+  font-family:var(--font-display);
+  font-weight:700;
+}
+
+.week,.days{
+  gap:8px;
+}
+
+.week div{
+  padding-bottom:5px;
+  font-weight:700;
+}
+
+.day{
+  font-family:var(--font-body);
+  font-weight:600;
+}
+
+.courtbtn{
+  padding:22px;
+}
+
+.courtbtn strong{
+  font-family:var(--font-display);
+  font-weight:700;
+  margin-bottom:9px;
+}
+
+.times{
+  gap:10px;
+}
+
+.time{
+  padding:14px 8px;
+  font-family:var(--font-body);
+  font-weight:600;
+}
+
+.summary{
+  padding:30px;
+}
+
+.summary h3{
+  margin:11px 0 31px;
+  line-height:1;
+  font-weight:700;
+}
+
+.sumline{
+  padding:14px 0;
+  line-height:1.35;
+}
+
+.total{
+  margin:29px 0;
+}
+
+.total strong{
+  font-weight:800;
+  line-height:1;
+}
+
+.review{
+  padding:17px;
+  font-weight:800;
+}
+
+.note{
+  line-height:1.55;
+}
+
+.actual-court{
+  padding:124px clamp(24px,6vw,88px);
+}
+
+.actual-wrap{
+  gap:76px;
+}
+
+.actual-copy h2{
+  margin:16px 0 30px;
+  line-height:.82;
+  font-weight:800;
+}
+
+.actual-copy p{
+  line-height:1.75;
+}
+
+.actual-meta{
+  gap:36px;
+  margin-top:44px;
+}
+
+.actual-meta strong{
+  font-family:var(--font-display);
+  font-weight:700;
+}
+
+.rates-how{
+  padding:110px clamp(24px,6vw,88px);
+}
+
+.rh-head h2{
+  margin-top:14px;
+  line-height:.84;
+  font-weight:800;
+}
+
+.rh-head p{
+  line-height:1.7;
+  margin-bottom:2px;
+}
+
+.rate-row{
+  margin-top:58px;
+  gap:14px;
+}
+
+.rate-card{
+  min-height:240px;
+  padding:27px;
+}
+
+.rate-card strong{
+  font-weight:800;
+  line-height:1;
+}
+
+.how{
+  padding:110px clamp(24px,6vw,88px);
+}
+
+.how h2{
+  margin:16px 0 62px;
+  line-height:.84;
+  font-weight:800;
+}
+
+.how-steps>div{
+  padding:27px 27px 18px 0;
+  margin-right:27px;
+}
+
+.how-steps strong{
+  margin-top:48px;
+  line-height:1.05;
+  font-weight:700;
+}
+
+.how-steps p{
+  line-height:1.7;
+}
+
+.features{
+  padding:94px clamp(24px,6vw,88px);
+}
+
+.featuregrid{
+  gap:16px;
+}
+
+.feature{
+  padding:27px;
+}
+
+.feature b{
+  font-family:var(--font-display);
+  font-weight:800;
+}
+
+.feature h3{
+  margin:30px 0 9px;
+  line-height:1.05;
+  font-weight:700;
+}
+
+.feature p{
+  line-height:1.7;
+}
+
+.find{
+  padding:84px clamp(24px,6vw,88px);
+}
+
+.find h2{
+  line-height:.88;
+  font-weight:800;
+}
+
+.find button{
+  padding:18px 27px;
+  font-weight:700;
+}
+
+footer{
+  padding:58px clamp(24px,6vw,88px);
+  gap:50px;
+}
+
+.footer-brand strong{
+  font-weight:800;
+}
+
+.footer-info{
+  gap:12px;
+  line-height:1.45;
+}
+
+/* Responsive spacing alignment only */
+@media(max-width:900px){
+  .hero{
+    padding-top:132px;
+  }
+
+  .actual-wrap{
+    gap:50px;
+  }
+
+  .sectiontop{
+    margin-bottom:46px;
+  }
+}
+
+@media(max-width:560px){
+  .nav{
+    padding:22px 20px;
+  }
+
+  .hero{
+    padding:118px 20px 64px;
+  }
+
+  .booking,
+  .actual-court,
+  .rates-how,
+  .how,
+  .features,
+  .find{
+    padding-left:20px;
+    padding-right:20px;
+  }
+
+  .panel{
+    padding:21px;
+  }
+
+  footer{
+    padding-left:20px;
+    padding-right:20px;
+  }
+}
+
+
+/* ============================================================
+   REVISION 7 — SALDO HERO + HEADLINE SPACING FIX
+   One deterministic font stack for every reload.
+   ============================================================ */
+:root{
+  --font-body:"Lato",Arial,Helvetica,sans-serif;
+  --font-display:"Poppins",Arial,Helvetica,sans-serif;
+  --font-accent:"Poppins",Arial,Helvetica,sans-serif;
+}
+html,body{font-family:var(--font-body)!important}
+button,input,select,textarea{font-family:var(--font-body)!important}
+.logo,.hero h1,.sectiontop h2,.step h3,.summary h3,.total strong,
+.actual-copy h2,.rh-head h2,.rate-card strong,.how h2,.how-steps strong,
+.find h2,.footer-brand strong{
+  font-family:var(--font-display)!important;
+}
+
+
+/* ============================================================
+   REVISION 6 — HERO COPY + SPORTY FONT LOCK
+   Copy source: user's Image 1.
+   Existing hero design/layout remains unchanged.
+   ============================================================ */
+:root{
+  --font-body:"DM Sans",Arial,Helvetica,sans-serif;
+  --font-display:"Sora",Arial,Helvetica,sans-serif;
+  --font-accent:"Sora",Arial,Helvetica,sans-serif;
+}
+html,body{font-family:var(--font-body)!important}
+button,input,select,textarea{font-family:var(--font-body)!important}
+.logo,.hero h1,.sectiontop h2,.step h3,.summary h3,.total strong,
+.actual-copy h2,.rh-head h2,.rate-card strong,.how h2,.how-steps strong,
+.find h2,.footer-brand strong{
+  font-family:var(--font-display)!important;
+}
+.hero h1{font-weight:800}
+
+
+/* ============================================================
+   REVISION 7 — SALDO HERO + HEADLINE SPACING FIX
+   Saldo is used only for PLAY / COMPETE / CONNECT.
+   ============================================================ */
+:root{
+  --font-body:"DM Sans",Arial,Helvetica,sans-serif;
+  --font-display:"Saldo","Arial Black",Arial,Helvetica,sans-serif;
+  --font-accent:"Saldo","Arial Black",Arial,Helvetica,sans-serif;
+}
+html,body{font-family:var(--font-body)!important}
+button,input,select,textarea{font-family:var(--font-body)!important}
+
+/* Hero display type */
+.hero h1{
+  font-family:"Saldo","Arial Black",Arial,Helvetica,sans-serif!important;
+  font-weight:800;
+  font-style:normal;
+  letter-spacing:-.055em;
+  line-height:.78;
+  max-width:760px;
+}
+
+/* Give the three-line headline enough vertical breathing room before the copy. */
+.hero-copy{
+  margin-top:30px;
+  max-width:560px;
+}
+
+/* Keep the rest of the display headings on the existing premium sans stack. */
+.logo,.sectiontop h2,.step h3,.summary h3,.total strong,
+.actual-copy h2,.rh-head h2,.rate-card strong,.how h2,.how-steps strong,
+.find h2,.footer-brand strong{
+  font-family:"DM Sans",Arial,Helvetica,sans-serif!important;
+}
+@media(max-width:900px){
+  .hero h1{max-width:100%;line-height:.82}
+}
+
+</style>
+<style>
+/* REVISION 2 — Rates + How to Book popups only */
+.info-popup{position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;padding:24px;background:rgba(3,10,7,.72);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.info-popup.open{display:flex;animation:popupFade .22s ease both}
+.info-popup-box{position:relative;width:min(920px,94vw);max-height:min(760px,88vh);overflow:auto;background:#f5f1e7;color:#0a110e;border:1px solid rgba(10,17,14,.16);box-shadow:0 30px 90px rgba(0,0,0,.35);padding:48px 52px}
+.info-popup-close{position:absolute;top:18px;right:18px;width:42px;height:42px;border:1px solid rgba(10,17,14,.2);background:transparent;border-radius:50%;font-size:24px;line-height:1;cursor:pointer;color:#0a110e;transition:.2s}
+.info-popup-close:hover{background:#f6dd24;transform:rotate(90deg)}
+.info-popup-kicker{font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;color:#0b6b4f;margin-bottom:12px}
+.info-popup-title{font-size:clamp(42px,6vw,76px);line-height:.92;letter-spacing:-.045em;margin:0 0 18px;font-weight:700}
+.info-popup-lead{max-width:580px;color:#5c6762;font-size:16px;line-height:1.6;margin:0 0 34px}
+.popup-rate-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.popup-rate{border:1px solid rgba(10,17,14,.18);padding:24px;min-height:205px;display:flex;flex-direction:column;justify-content:space-between;background:#f9f6ef}
+.popup-rate.featured{background:#f6dd24;border-color:#f6dd24}
+.popup-rate-time{font-size:12px;letter-spacing:.08em;font-weight:700}
+.popup-rate-price{font-size:clamp(38px,5vw,58px);line-height:1;font-weight:700;letter-spacing:-.04em}.popup-rate-price small{font-size:15px;letter-spacing:0}
+.popup-rate-name{font-size:11px;letter-spacing:.16em;font-weight:700}
+.popup-how-grid{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid rgba(10,17,14,.18);border-left:1px solid rgba(10,17,14,.18)}
+.popup-how-step{padding:26px;border-right:1px solid rgba(10,17,14,.18);border-bottom:1px solid rgba(10,17,14,.18);min-height:210px}
+.popup-how-num{font-size:12px;color:#0b6b4f;font-weight:700;letter-spacing:.12em}.popup-how-step h3{font-size:23px;line-height:1.1;margin:48px 0 10px}.popup-how-step p{font-size:14px;line-height:1.55;color:#65706b;margin:0}
+@keyframes popupFade{from{opacity:0}to{opacity:1}}
+@media(max-width:700px){.info-popup{padding:12px}.info-popup-box{padding:34px 22px 28px;max-height:92vh}.popup-rate-grid,.popup-how-grid{grid-template-columns:1fr}.popup-rate{min-height:170px}.popup-how-step{min-height:0}.popup-how-step h3{margin-top:28px}}
+
+/* ============================================================
+   REVISION 5A — FONT LOCK
+   Only the hour-selection presentation is changed.
+   ============================================================ */
+.time-status-legend{display:flex;flex-wrap:wrap;gap:12px 18px;margin:2px 0 20px;color:#6b746e;font-size:10px;font-weight:700;letter-spacing:.02em}
+.time-status-legend span{display:inline-flex;align-items:center;gap:7px}
+.legend-dot{width:9px;height:9px;border-radius:50%;display:inline-block;border:1px solid #d5d0c5;background:#fffdf6}
+.legend-dot.pending{background:#e9c978;border-color:#e9c978}
+.legend-dot.openplay{background:#6eae8e;border-color:#6eae8e}
+.legend-dot.booked{background:#f2b8b8;border-color:#f2b8b8}
+.time-groups{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;align-items:start}
+.time-group{min-width:0}
+.time-group-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin:0 2px 12px}
+.time-group-head span{font-size:12px;font-weight:800;letter-spacing:.01em;color:#39443d}
+.time-group-head small{display:none}
+.time-group-list{display:flex;flex-direction:column;gap:9px}
+.time-group .time{width:100%;min-height:42px;padding:11px 14px;border:1px solid #ddd9ce;background:#fffdf6;border-radius:10px;font-family:var(--font-body);font-size:11px;font-weight:600;color:#667068;text-align:left;letter-spacing:.01em;transition:.2s ease}
+.time-group .time:hover:not(:disabled){transform:translateY(-1px);border-color:#9ca69f;color:#202722}
+.time-group .time.active{background:var(--green);border-color:var(--green);color:#fff;box-shadow:0 5px 12px rgba(13,36,29,.18);transform:none}
+.time-group .time.booked{background:#fceaea;border-color:#efc4c4;color:#b97878;cursor:not-allowed}
+.time-group .time.booked::after{content:"Booked";float:right;font-size:8px;letter-spacing:.08em;text-transform:uppercase;font-weight:800;color:#b97878}
+.time-group .time.pending{background:#fff3d8;border-color:#e9c978;color:#9b7424;cursor:not-allowed}
+.time-group .time.pending::after{content:"Pending";float:right;font-size:8px;letter-spacing:.08em;text-transform:uppercase;font-weight:800;color:#a77c20}
+.time-group .time.openplay{background:#e5f1eb;border-color:#9fc7b3;color:#27634d;cursor:not-allowed}
+.time-group .time.openplay::after{content:"Open Play";float:right;font-size:8px;letter-spacing:.08em;text-transform:uppercase;font-weight:800;color:#287052}
+.time-group .time.active::after{content:"Selected";float:right;font-size:8px;letter-spacing:.08em;text-transform:uppercase;font-weight:800;color:#fff}
+@media(max-width:900px){.time-groups{grid-template-columns:1fr;gap:24px}.time-group-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}}
+@media(max-width:560px){.time-group-head{display:block}.time-group-list{grid-template-columns:1fr}}
+
+
+/* ============================================================
+   REVISION 4 — COMPACT DATE PICKER
+   Seven-day horizontal date selector; arrows move one week.
+   ============================================================ */
+.date-picker-compact .week,
+.date-picker-compact .days{display:none}
+.date-picker-compact .month{margin-bottom:14px}
+.date-picker-compact .month strong{font-size:19px}
+.compact-week{
+  display:grid;
+  grid-template-columns:repeat(7,minmax(0,1fr));
+  gap:8px;
+}
+.compact-date{
+  min-width:0;
+  min-height:74px;
+  border:1px solid #e0dcd1;
+  border-radius:14px;
+  background:#fffdf6;
+  color:#2d342f;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  transition:.2s ease;
+}
+.compact-date .dow{
+  font-size:8px;
+  letter-spacing:.12em;
+  color:#89918a;
+  font-weight:700;
+}
+.compact-date .num{
+  font-size:18px;
+  line-height:1;
+  font-weight:700;
+}
+.compact-date.selected{
+  background:var(--green);
+  color:#fff;
+  border-color:var(--green);
+  box-shadow:0 10px 22px rgba(13,36,29,.18);
+}
+.compact-date.selected .dow{color:#b7c9bf}
+.compact-date:hover:not(.selected){
+  transform:translateY(-2px);
+  border-color:#8f9b91;
+}
+@media(max-width:560px){
+  .compact-week{gap:5px}
+  .compact-date{min-height:66px;border-radius:10px}
+  .compact-date .dow{font-size:7px}
+  .compact-date .num{font-size:15px}
+}
+
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style id="clean-final-styles">
+/* ============================================================
+   CLEAN FINAL CSS
+   Consolidated from the approved revisions. No revision stack.
+   ============================================================ */
+
+/* Typography */
+:root{
+  --font-body:"DM Sans",Arial,Helvetica,sans-serif;
+  --font-display:"DM Sans",Arial,Helvetica,sans-serif;
+  --font-accent:"DM Sans",Arial,Helvetica,sans-serif;
+}
+html,body{
+  font-family:var(--font-body)!important;
+}
+button,input,select,textarea{
+  font-family:var(--font-body)!important;
+}
+
+/* Hero — approved League Spartan direction */
+.hero h1{
+  font-family:"League Spartan",Arial,sans-serif!important;
+  font-weight:600!important;
+  font-style:normal!important;
+  font-size:clamp(64px,8.6vw,136px)!important;
+  line-height:.86!important;
+  letter-spacing:-.035em!important;
+  max-width:800px!important;
+  margin:0!important;
+  text-transform:uppercase!important;
+}
+.hero h1 em{
+  display:inline!important;
+  font-family:"League Spartan",Arial,sans-serif!important;
+  font-weight:600!important;
+  font-style:normal!important;
+  color:var(--yellow)!important;
+  margin-left:0!important;
+}
+.hero-copy{
+  margin-top:30px!important;
+  max-width:560px!important;
+}
+@media(max-width:900px){
+  .hero h1{
+    font-size:clamp(58px,14.5vw,106px)!important;
+    line-height:.86!important;
+    max-width:100%!important;
+  }
+  .hero-copy{margin-top:24px!important;}
+}
+
+/* Keep non-hero display text clean and lighter */
+.logo,.sectiontop h2,.step h3,.summary h3,.total strong,
+.actual-copy h2,.rh-head h2,.rate-card strong,.how h2,
+.how-steps strong,.find h2,.footer-brand strong{
+  font-family:var(--font-display)!important;
+}
+
+/* Approved compact information cards */
+.features{
+  padding:72px clamp(20px,6vw,88px);
+}
+.featuregrid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:16px;
+  max-width:1100px;
+  margin:auto;
+}
+.feature{
+  min-height:210px;
+  border:1px solid rgba(255,255,255,.09);
+  border-radius:18px;
+  padding:28px;
+  position:relative;
+  overflow:hidden;
+  background:#0d1914;
+  box-shadow:none;
+}
+.feature b{
+  font-size:38px;
+  font-family:var(--font-display);
+  font-weight:500;
+  letter-spacing:-.045em;
+  color:var(--yellow);
+}
+.feature h3{
+  font-size:19px;
+  font-weight:500;
+  letter-spacing:-.02em;
+  margin:24px 0 9px;
+  line-height:1.2;
+}
+.feature p{
+  color:#8f9992;
+  font-size:12px;
+  font-weight:400;
+  line-height:1.65;
+  max-width:285px;
+}
+.feature-link{
+  display:inline-block;
+  margin-top:18px;
+  color:var(--yellow);
+  font-size:10px;
+  font-weight:500;
+  letter-spacing:.11em;
+}
+.pending{color:#8d978f}
+@media(max-width:800px){
+  .features{padding:58px 20px}
+  .featuregrid{grid-template-columns:1fr;gap:12px}
+  .feature{min-height:0;padding:24px}
+  .feature b{font-size:34px}
+  .feature h3{margin-top:20px}
+}
+
+/* Approved Find My Booking section — clean, no ball/circles */
+.find{
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+  min-height:270px;
+  padding:58px clamp(28px,7vw,104px);
+  background:#0d241d!important;
+  color:#fff!important;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:60px;
+}
+.find:before,
+.find:after{
+  display:none!important;
+}
+.find .eyebrow{
+  margin:0 0 12px;
+  color:var(--yellow)!important;
+  font-size:10px;
+  font-weight:500!important;
+  letter-spacing:.22em;
+}
+.find h2{
+  margin:0!important;
+  max-width:560px;
+  color:#fff!important;
+  font-size:clamp(46px,5.7vw,74px)!important;
+  font-weight:500!important;
+  letter-spacing:-.025em!important;
+  line-height:1.02!important;
+}
+.find button{
+  position:absolute!important;
+  right:7%!important;
+  top:50%;
+  transform:translateY(-50%);
+  min-width:190px;
+  margin:0!important;
+  padding:18px 30px!important;
+  border:0!important;
+  border-radius:999px;
+  background:var(--yellow)!important;
+  color:#111!important;
+  font-size:14px!important;
+  font-weight:600!important;
+  white-space:nowrap;
+  box-shadow:0 14px 30px rgba(0,0,0,.16);
+}
+.find button:hover{
+  transform:translateY(calc(-50% - 3px))!important;
+  background:var(--yellow)!important;
+  color:#111!important;
+}
+@media(max-width:800px){
+  .find{
+    min-height:0;
+    padding:50px 24px 56px;
+    display:block;
+  }
+  .find h2{
+    font-size:clamp(46px,13vw,66px)!important;
+    line-height:1.02!important;
+    max-width:420px;
+  }
+  .find button{
+    position:relative!important;
+    right:auto!important;
+    top:auto;
+    transform:none;
+    margin-top:28px!important;
+  }
+  .find button:hover{
+    transform:translateY(-3px)!important;
+  }
+}
+</style>
+
+
+<style id="clean-marquee-fun">
+/* Fun KUPAL marquee */
+.marquee{
+  background:#0d241d !important;
+  color:var(--yellow) !important;
+  border-block:1px solid rgba(244,220,50,.22) !important;
+}
+.marquee div{
+  padding:14px 0 !important;
+  color:var(--yellow) !important;
+  font-family:var(--font-body) !important;
+  font-size:11px !important;
+  font-weight:600 !important;
+  letter-spacing:.18em !important;
+  line-height:1 !important;
+}
+</style>
+
+
+<style id="nav-logo-replacement">
+/* Replace the text KUPAL nav mark with the supplied official logo.
+   The 3D hero scene remains unchanged. */
+.logo.logo-image{
+  display:flex;
+  align-items:center;
+  width:68px;
+  height:auto;
+  font-size:0;
+  letter-spacing:0;
+}
+.logo.logo-image img{
+  width:100%;
+  height:auto;
+  display:block;
+  object-fit:contain;
+}
+@media(max-width:560px){
+  .logo.logo-image{width:88px}
+}
+</style>
+
+
+<style id="spacing-actual-booking">
+/* Clean up excessive vertical gap between Actual Court and Booking */
+.actual-court{
+  padding-top:76px !important;
+  padding-bottom:76px !important;
+}
+.booking{
+  padding-top:72px !important;
+}
+@media(max-width:900px){
+  .actual-court{
+    padding-top:64px !important;
+    padding-bottom:64px !important;
+  }
+  .booking{
+    padding-top:60px !important;
+  }
+}
+</style>
+
+
+<style id="payment-policy-polish">
+/* Payment + footer policy polish — visual/frontend only. */
+.footer-info{gap:7px!important}
+.footer-info .policy-link{
+  width:min(245px,100%);
+  display:flex!important;
+  align-items:center;
+  justify-content:space-between;
+  gap:24px;
+  padding:8px 0;
+  border-bottom:1px solid rgba(255,255,255,.08);
+  color:#b1b8b2!important;
+  transition:color .2s ease, padding-left .2s ease;
+}
+.footer-info .policy-link b{
+  color:var(--yellow);
+  font-size:13px;
+  font-weight:500;
+  opacity:.85;
+}
+.footer-info .policy-link:hover{color:#fff!important;padding-left:5px}
+
+.payment-step h2{font-size:42px;letter-spacing:-.055em;line-height:.94;margin:28px 0 20px}
+.payment-total{display:flex;align-items:flex-end;justify-content:space-between;padding:17px 0;border-block:1px solid rgba(17,17,17,.10);margin-bottom:18px}
+.payment-total span{font-size:11px;color:#707772;text-transform:uppercase;letter-spacing:.14em}
+.payment-total strong{font-size:30px;letter-spacing:-.04em}
+.payment-methods{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.payment-method{border:1px solid #d9ddd6;background:transparent;border-radius:15px;padding:14px 15px;text-align:left;cursor:pointer;transition:.2s ease}
+.payment-method strong{display:block;font-size:14px;margin-bottom:3px}
+.payment-method span{font-size:10px;color:#7c847e}
+.payment-method.active{background:#0d241d;border-color:#0d241d;color:#fff}
+.payment-method.active span{color:#b5c0b9}
+.policy-check{display:flex;align-items:flex-start;gap:9px;margin:15px 0;font-size:10px;color:#69716b;line-height:1.45;cursor:pointer}
+.policy-check input{margin-top:2px;accent-color:#0d241d}
+.payment-actions{display:grid;grid-template-columns:100px 1fr;gap:10px;margin-top:8px}
+.secondary-action{border:1px solid #d3d8d2;background:transparent;border-radius:999px;font-size:12px;font-weight:600;cursor:pointer}
+@media(max-width:560px){
+  .payment-step h2{font-size:36px}
+  .payment-methods{grid-template-columns:1fr}
+  .payment-actions{grid-template-columns:90px 1fr}
+}
+</style>
+
+
+<style id="policy-popup-content">
+/* Policy popups: long-form content in the same visual language as the existing info popups. */
+.policy-popup .policy-popup-box{
+  max-height:min(84vh,900px);
+  overflow:auto;
+  scrollbar-width:thin;
+}
+.policy-content{
+  margin-top:28px;
+  max-width:760px;
+  color:rgba(255,255,255,.76);
+  font-family:var(--font-body);
+  font-size:13px;
+  line-height:1.72;
+}
+.policy-content h3{
+  margin:30px 0 9px;
+  color:#fff;
+  font-size:15px;
+  font-weight:600;
+  letter-spacing:-.01em;
+}
+.policy-content h3:first-child{margin-top:0}
+.policy-content p{margin:0 0 13px}
+.policy-content ul{
+  margin:0 0 15px;
+  padding-left:20px;
+}
+.policy-content li{
+  margin:0 0 7px;
+  padding-left:4px;
+}
+.policy-content strong{color:#fff;font-weight:600}
+.policy-contact{
+  margin-top:18px!important;
+}
+.policy-contact a{
+  color:var(--yellow);
+  font-weight:600;
+  text-decoration:none;
+}
+.policy-contact a:hover{text-decoration:underline}
+@media(max-width:700px){
+  .policy-popup .policy-popup-box{
+    max-height:88vh;
+    padding:28px 22px;
+  }
+  .policy-content{
+    font-size:12.5px;
+    line-height:1.68;
+  }
+  .policy-content h3{
+    font-size:14px;
+    margin-top:25px;
+  }
+}
+</style>
+
+
+<style id="policy-popup-force-visibility">
+.policy-popup{
+  position:fixed !important;
+  inset:0 !important;
+  z-index:100000 !important;
+  display:none !important;
+  align-items:center !important;
+  justify-content:center !important;
+}
+.policy-popup.open{
+  display:flex !important;
+}
+.policy-popup-box{
+  position:relative !important;
+  z-index:100001 !important;
+}
+</style>
+
+
+<style id="policy-readable-text">
+.policy-popup .policy-content{
+  color:#46524d !important;
+}
+.policy-popup .policy-content h3{
+  color:#0a110e !important;
+  font-weight:600 !important;
+}
+.policy-popup .policy-content strong{
+  color:#0a110e !important;
+}
+.policy-popup .policy-content li{
+  color:#46524d !important;
+}
+.policy-popup .policy-contact a{
+  color:#0b6b4f !important;
+  font-weight:700 !important;
+}
+.policy-popup .info-popup-lead{
+  color:#46524d !important;
+}
+</style>
+
+
+<style id="gcash-payment-details">
+.gcash-payment-card{
+  margin:16px 0 18px;
+  border:1px solid #d9ddd6;
+  border-radius:18px;
+  background:#f7f3e9;
+  padding:14px;
+  text-align:center;
+}
+.gcash-payment-card .gcash-qr{
+  display:block;
+  width:min(100%,230px);
+  aspect-ratio:1/1;
+  object-fit:cover;
+  object-position:center;
+  margin:0 auto 12px;
+  border-radius:14px;
+  background:#fff;
+}
+.gcash-payment-label{
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:.14em;
+  color:#707772;
+  font-weight:800;
+}
+.gcash-payment-number{
+  display:block;
+  margin-top:5px;
+  font-size:22px;
+  line-height:1.1;
+  letter-spacing:.02em;
+  color:#0d241d;
+}
+.gcash-payment-name{
+  margin-top:5px;
+  font-size:11px;
+  color:#707772;
+}
+
+.gcash-scan-trigger{
+  width:100%; display:flex; align-items:center; gap:12px; text-align:left;
+  border:1px solid #d9ddd6; border-radius:14px; background:#fff; padding:12px 13px;
+  cursor:pointer; transition:.2s ease;
+}
+.gcash-scan-trigger:hover{transform:translateY(-1px); border-color:#0d241d; box-shadow:0 8px 20px rgba(13,36,29,.07)}
+.gcash-scan-icon{width:40px;height:40px;border-radius:11px;background:#0d241d;color:#f4dc32;display:grid;place-items:center;font-size:25px;font-weight:800;line-height:1}
+.gcash-scan-trigger span:nth-child(2){display:flex;flex-direction:column;gap:2px;flex:1}
+.gcash-scan-trigger strong{font-size:13px;color:#0d241d}
+.gcash-scan-trigger small{font-size:10px;color:#707772}
+.gcash-scan-trigger>b{font-size:10px;color:#0d241d;white-space:nowrap}
+.gcash-qr-modal{position:fixed;inset:0;z-index:9000;display:none;align-items:center;justify-content:center;padding:20px}
+.gcash-qr-modal.open{display:flex}
+.gcash-qr-backdrop{position:absolute;inset:0;background:rgba(5,18,14,.72);backdrop-filter:blur(8px)}
+.gcash-qr-dialog{position:relative;z-index:1;width:min(430px,100%);border:1px solid #d9ddd6;border-radius:24px;background:#f7f3e9;padding:26px;text-align:center;box-shadow:0 28px 80px rgba(0,0,0,.3)}
+.gcash-qr-dialog h3{font-size:34px;letter-spacing:-.045em;line-height:1;margin:12px 0 8px;color:#0d241d}
+.gcash-qr-dialog p{font-size:12px;line-height:1.5;color:#707772;margin:0 auto 18px;max-width:320px}
+.gcash-qr-close{position:absolute;top:14px;right:14px;width:38px;height:38px;border:1px solid #d1d6cf;border-radius:50%;background:transparent;font-size:22px;cursor:pointer;color:#0d241d}
+.gcash-qr-large{display:block;width:min(100%,330px);aspect-ratio:1/1;object-fit:contain;margin:0 auto 15px;border-radius:18px;background:#fff}
+.gcash-popup-number{display:block;font-size:20px;color:#0d241d;letter-spacing:.02em}
+.gcash-popup-note{display:block;margin-top:4px;font-size:10px;color:#707772}
+@media(max-width:560px){.gcash-qr-dialog{padding:22px 18px}.gcash-qr-large{width:min(100%,290px)}}
+</style>
+
+
+<style id="open-play-live-styles">
+.open-play-live{background:#0d241d;color:#fff;padding:72px clamp(20px,6vw,88px);position:relative;overflow:hidden}
+.open-play-live:before{content:"OPEN PLAY";position:absolute;right:-30px;top:20px;font-family:"League Spartan";font-size:clamp(80px,15vw,210px);font-weight:900;letter-spacing:-.09em;color:rgba(244,220,50,.045);pointer-events:none}
+.open-play-inner{max-width:1320px;margin:auto;position:relative;z-index:1}.open-play-head{display:flex;justify-content:space-between;align-items:end;gap:30px;margin-bottom:30px}.open-play-eyebrow{font-size:10px;letter-spacing:.24em;text-transform:uppercase;font-weight:900;color:#f4dc32}.open-play-head h2{font-family:"League Spartan";font-size:clamp(48px,7vw,88px);line-height:.82;letter-spacing:-.075em;margin:10px 0 0}.open-play-head h2 span{color:#f4dc32}.open-play-head p{max-width:430px;color:#aeb8b0;line-height:1.65;font-size:13px;margin:0}.open-play-card{background:#f3efe4;color:#101310;border-radius:24px;padding:24px;display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center;border:1px solid rgba(255,255,255,.08)}.open-play-date{font-family:"League Spartan";font-size:32px;letter-spacing:-.055em}.open-play-meta{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}.open-play-pill{display:inline-flex;border-radius:999px;padding:7px 10px;background:#e4e0d5;font-size:9px;font-weight:900;text-transform:uppercase;letter-spacing:.06em}.open-play-pill.open{background:#dbeedb;color:#24532e}.open-play-pill.full,.open-play-pill.closed{background:#f0dfd8;color:#843f38}.open-play-side{text-align:right}.open-play-side strong{display:block;font-family:"League Spartan";font-size:27px;letter-spacing:-.04em}.open-play-side small{display:block;color:#687269;margin:3px 0 13px}.open-play-actions{display:flex;gap:8px;justify-content:flex-end}.open-play-btn{border:0;border-radius:999px;padding:13px 17px;background:#f4dc32;color:#111;font-weight:950;font-size:10px;text-transform:uppercase;letter-spacing:.07em}.open-play-btn.secondary{background:#0d241d;color:#fff}.open-play-empty{border:1px dashed rgba(255,255,255,.2);border-radius:22px;padding:28px;color:#aeb8b0;font-size:12px}.open-play-modal{position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.72);backdrop-filter:blur(12px);display:none;place-items:center;padding:18px}.open-play-modal.open{display:grid}.open-play-modal-card{width:min(620px,100%);background:#f3efe4;color:#111;border-radius:28px;padding:30px;position:relative;max-height:90vh;overflow:auto}.open-play-modal-close{position:absolute;right:18px;top:18px;width:40px;height:40px;border-radius:50%;border:1px solid #cfc9ba;background:transparent;font-size:20px}.open-play-modal h3{font-family:"League Spartan";font-size:54px;line-height:.82;letter-spacing:-.07em;margin:35px 0 20px}.open-play-modal h3 span{color:#0d241d}.open-play-detail{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:18px 0}.open-play-detail div{background:#fffdf6;border:1px solid #d8d3c6;border-radius:16px;padding:14px}.open-play-detail b{display:block;font-size:9px;text-transform:uppercase;letter-spacing:.14em;color:#687269;margin-bottom:5px}.open-play-detail strong{font-size:15px}.open-play-note{background:#e6e2d7;border-radius:15px;padding:13px;color:#687269;font-size:11px;line-height:1.55;margin-bottom:18px}.open-play-form{display:grid;gap:12px}.open-play-form label{font-size:9px;text-transform:uppercase;letter-spacing:.14em;font-weight:900}.open-play-form input,.open-play-form select{width:100%;border:1px solid #d5d0c2;border-radius:13px;background:#fffdf6;color:#111;padding:13px}.open-play-form .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}.open-play-success{background:#dbeedb;color:#24532e;border-radius:16px;padding:15px;font-size:12px;line-height:1.55}.open-play-error{color:#9f3e3e;font-size:11px;font-weight:800;min-height:16px}@media(max-width:700px){.open-play-head{display:block}.open-play-head p{margin-top:18px}.open-play-card{grid-template-columns:1fr}.open-play-side{text-align:left}.open-play-actions{justify-content:flex-start}.open-play-detail,.open-play-form .row{grid-template-columns:1fr}.open-play-modal-card{padding:22px}.open-play-modal h3{font-size:46px}}
+</style>
+
+<style id="open-play-registration-css">
+.open-play-register-box{margin-top:22px}
+.op-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.op-form-field{display:flex;flex-direction:column;gap:7px}
+.op-form-field.full{grid-column:1/-1}
+.op-form-field label{font-size:9px;text-transform:uppercase;letter-spacing:.15em;font-weight:800;color:#68726c}
+.op-form-field input,.op-form-field select{width:100%;padding:13px 14px;border:1px solid #d2cec3;border-radius:12px;background:#fffdf6;color:#111;outline:none}
+.op-form-field input:focus,.op-form-field select:focus{border-color:#0d241d;box-shadow:0 0 0 3px rgba(13,36,29,.08)}
+.op-gcash-mini{display:flex;justify-content:space-between;gap:14px;align-items:center;padding:12px 14px;border:1px solid #d9ddd6;border-radius:13px;background:#f7f3e9;font-size:11px}
+.op-gcash-mini strong{font-size:14px;color:#0d241d}
+.op-form-note{font-size:10px;line-height:1.5;color:#6a746d;background:#e9e5da;border-radius:12px;padding:11px 12px}
+.op-submit{width:100%;margin-top:12px;border:0;border-radius:999px;background:#f4dc32;color:#111;padding:15px;font-weight:800;cursor:pointer}
+.op-submit:disabled{opacity:.55;cursor:wait}
+.op-error{display:none;margin-top:10px;padding:10px 12px;border-radius:11px;background:#fceaea;color:#9a5555;font-size:11px}
+.op-success{display:none}
+.op-success-id{font-size:31px;font-weight:800;letter-spacing:-.04em;color:#0d241d}
+.op-success-card{margin-top:16px;padding:15px;border:1px solid #d9ddd6;border-radius:15px;background:#fffdf6}
+.op-qr-placeholder{margin-top:12px;padding:12px;border-radius:12px;background:#f1eee5;color:#68726c;font-size:10px;line-height:1.5}
+@media(max-width:650px){.op-form-grid{grid-template-columns:1fr}.op-form-field.full{grid-column:auto}}
+</style>
+
+</head>
+<body>
+<div class="noise"></div>
+<header class="nav">
+<a class="logo logo-image" href="#"><img src="assets/asset_0.webp" alt="KUPAL Pikolbol"/></a>
+<nav class="navlinks">
+<a data-popup="ratesPopup" href="#">Rates</a>
+<a data-popup="howPopup" href="#">How to Book</a>
+<a href="https://www.facebook.com/profile.php?id=61593038529583" target="_blank" rel="noopener">Facebook</a>
+<a href="https://maps.app.goo.gl/wJQ49g7U4NAUNWs76" target="_blank" rel="noopener">Location</a>
+</nav>
+<a class="navbtn" href="#book">Reserve</a>
+</header>
+<section class="hero">
+<div>
+<div class="kicker">Digos City · Pickleball Club</div>
+<h1>PLAY.<br/><em>COMPETE.</em><br/>CONNECT.</h1>
+<p class="hero-copy">Looking for a fun game in Digos? Grab your friends, pick your court, choose your time, and enjoy a good game at Kupal Pikolbol — simple, friendly, and ready when you are.</p>
+<div class="hero-actions"><a class="primary" href="#book">Book a court →</a><a class="secondary" href="#club">Explore KUPAL</a></div>
+</div>
+<div aria-label="3D KUPAL court illustration" class="scene">
+<div class="orbit"></div><div class="orbit o2"></div>
+<div class="court3d">
+<div class="court-face"><div class="box"></div><div class="net"></div><div class="brandplate">KUPAL PIKOLBOL</div><div class="ball"></div></div>
+</div>
+<button type="button" class="float-tag" id="openPlayFloat" aria-label="Open Play">OPEN PLAY</button>
+</div>
+</section>
+<div class="marquee"><div>
+BOOK YOUR COURT · PLAY HARD · HAVE FUN ·
+SMASH · SWEAT · REPEAT ·
+LESS TALK · MORE RALLIES ·
+KUPAL PIKOLBOL · BRING YOUR A-GAME ·
+PLAY NOW · REGRET NOTHING ·
+BOOK YOUR COURT · PLAY HARD · HAVE FUN ·
+SMASH · SWEAT · REPEAT ·
+LESS TALK · MORE RALLIES ·
+KUPAL PIKOLBOL · BRING YOUR A-GAME ·
+PLAY NOW · REGRET NOTHING ·
+</div></div>
+<section class="actual-court" id="club">
+<div class="actual-wrap">
+<div class="actual-copy">
+<div class="eyebrow">02 · The real KUPAL</div>
+<h2>This is<br/><span>KUPAL.</span></h2>
+<p>This isn't a stock image. This is the actual court you'll be stepping onto. Built for rallies, night games, and the kind of sessions you remember.</p>
+<div class="actual-meta">
+<div><strong>02</strong><span>COURTS</span></div>
+<div><strong>06—23</strong><span>PLAYING HOURS</span></div>
+</div>
+</div>
+<div class="actual-image">
+<div class="image-frame">
+<img alt="Actual KUPAL Pikolbol courts at night" src="assets/asset_1.webp"/>
+<div class="image-stamp">ACTUAL KUPAL COURTS<br/>DGOS CITY</div>
+<div class="image-index">02 / 02</div>
+</div>
+</div>
+</div>
+</section>
+
+<section class="open-play-live" id="openPlay">
+  <div class="open-play-inner">
+    <div class="open-play-head">
+      <div>
+        <div class="open-play-eyebrow">KUPAL · COMMUNITY SESSIONS</div>
+        <h2>Open <span>Play.</span></h2>
+      </div>
+      <p>Join the next KUPAL Open Play session. Pick your level, meet other players, and get on court without the pressure of arranging a full group.</p>
+    </div>
+    <div id="openPlayLiveContent">
+      <div class="open-play-empty">Loading the next Open Play session…</div>
+    </div>
+  </div>
+</section>
+
+<section class="booking" id="book">
+<div class="sectiontop">
+<div><div class="eyebrow">Reservations · Open now</div><h2>Choose your<br/>game.</h2></div>
+<p>One clean flow from date to court to hours. Your total updates as you build the session.</p>
+</div>
+<div class="bookgrid">
+<div class="panel">
+<div class="step date-picker-compact">
+<div class="stepno">01 · Date</div><h3>When are you playing?</h3>
+<div class="month"><button class="arrow" id="prev">←</button><strong id="month">September 2026</strong><button class="arrow" id="next">→</button></div>
+<div class="week"><div>MON</div><div>TUE</div><div>WED</div><div>THU</div><div>FRI</div><div>SAT</div><div>SUN</div></div>
+<div class="days" id="days"></div><div class="compact-week" id="compact-week"></div>
+</div>
+<div class="step">
+<div class="stepno">02 · Court</div><h3>Choose your court</h3>
+<div class="courts">
+<button class="courtbtn active" data-court="Left Court"><strong>Left Court</strong><span>Competition-ready · night lights</span></button>
+<button class="courtbtn" data-court="Right Court"><strong>Right Court</strong><span>Competition-ready · night lights</span></button>
+</div>
+</div>
+<div class="step">
+<div class="stepno">03 · Hours</div><h3>Select your hours</h3>
+<div class="time-status-legend" aria-label="Time slot status">
+  <span><i class="legend-dot available"></i>Available</span>
+  <span><i class="legend-dot pending"></i>Pending</span>
+  <span><i class="legend-dot openplay"></i>Open Play</span>
+  <span><i class="legend-dot booked"></i>Booked</span>
+</div>
+<div class="time-groups" id="times">
+  <div class="time-group">
+    <div class="time-group-head"><span>Morning</span></div>
+    <div class="time-group-list" id="times-morning"></div>
+  </div>
+  <div class="time-group">
+    <div class="time-group-head"><span>Afternoon</span></div>
+    <div class="time-group-list" id="times-afternoon"></div>
+  </div>
+  <div class="time-group">
+    <div class="time-group-head"><span>Evening</span></div>
+    <div class="time-group-list" id="times-evening"></div>
+  </div>
+</div>
+</div>
+</div>
+<aside class="summary">
+<div class="eyebrow">Your booking</div><h3 id="sumtitle">Left Court reservation</h3>
+<div class="sumline"><span>Date</span><strong id="sumdate">Sep 3, 2026</strong></div>
+<div class="sumline"><span>Court</span><strong id="sumcourt">Court 01</strong></div>
+<div class="sumline"><span>Hours</span><strong id="sumhours">1 hour</strong></div>
+<div class="sumline"><span>Time</span><strong id="sumtime">Select hours</strong></div>
+<div class="total"><small>TOTAL</small><strong id="total">₱250</strong></div>
+<button class="review" id="review">Review &amp; Confirm →</button>
+<div class="note" id="bookingNote">Checking live court availability…</div>
+</aside>
+</div>
+</section>
+
+
+<section class="features" id="facebook">
+<div class="featuregrid">
+<article class="feature"><b>02</b><h3>Courts</h3><p>Two dedicated courts for quick games, longer rallies, and late-night sessions.</p></article>
+<article class="feature"><b>FB</b><h3>Follow KUPAL</h3><p>Club updates, open-play announcements, events, and booking information.</p><a class="feature-link" href="https://www.facebook.com/profile.php?id=61593038529583" target="_blank" rel="noopener" id="facebookLink">Facebook →</a></article>
+<article class="feature" id="location"><b>PH</b><h3>Find us</h3><p>Digos City. Find the court location on Google Maps.</p><a class="feature-link" href="https://maps.app.goo.gl/wJQ49g7U4NAUNWs76" target="_blank" rel="noopener">Google Maps →</a></article>
+</div>
+</section>
+<section class="find" id="find"><div><div class="eyebrow">Already reserved?</div><h2>Find your<br/>session.</h2></div><button id="findBtn">Find My Booking →</button></section>
+<footer>
+<div class="footer-brand"><strong>KUPAL<span>.</span></strong><small>KUPAL PIKOLBOL · DIGOS CITY</small></div>
+<div class="footer-info">
+<div class="footer-label">INFO &amp; POLICIES</div>
+<a class="policy-link" href="#" data-policy="cancellationPolicy"><span>Cancellation Policy</span><b>↗</b></a>
+<a class="policy-link" href="#" data-policy="termsPolicy"><span>Terms &amp; Conditions</span><b>↗</b></a>
+<a class="policy-link" href="#" data-policy="privacyPolicy"><span>Privacy Policy</span><b>↗</b></a>
+</div>
+<div class="footer-social">
+<div class="footer-label">FOLLOW</div>
+<a href="https://www.facebook.com/profile.php?id=61593038529583" target="_blank" rel="noopener" id="footerFacebook">Facebook ↗</a>
+</div>
+</footer>
+
+<div class="open-play-modal" id="openPlayModal" aria-hidden="true">
+  <div class="open-play-modal-card" role="dialog" aria-modal="true" aria-labelledby="openPlayModalTitle">
+    <button type="button" class="open-play-modal-close" id="openPlayClose" aria-label="Close Open Play">×</button>
+    <div class="open-play-eyebrow">KUPAL · OPEN PLAY</div>
+    <h3 id="openPlayModalTitle">Next <span>Session.</span></h3>
+    <div id="openPlayModalBody"></div>
+  </div>
+</div>
+
+<div class="modal" id="modal">
+<div class="modalbox">
+<button class="close" id="close">×</button>
+<div id="reviewStep">
+<div class="eyebrow">Review your session</div><h2 id="modalTitle">Ready to play?</h2>
+<div class="field"><label>Full name</label><input id="customerName" autocomplete="name" placeholder="Your name"/></div>
+<div class="field"><label>Mobile number</label><input id="customerPhone" autocomplete="tel" inputmode="tel" placeholder="09XX XXX XXXX"/></div>
+<div class="sumline"><span>Session</span><strong id="modalSession">Left Court · 1 hour</strong></div>
+<div style="margin-top:18px"><button class="review" id="modalDone">Continue to payment →</button></div>
+</div>
+<div id="paymentStep" class="payment-step" hidden>
+<div class="eyebrow">Payment</div><h2>Lock in your session.</h2>
+<div class="payment-total"><span>Total to pay</span><strong id="paymentAmount">₱0</strong></div>
+<div class="gcash-payment-card">
+  <button type="button" class="gcash-scan-trigger" id="openGcashQr" aria-label="Open GCash QR code"><span class="gcash-scan-icon">⌁</span><span><strong>Scan to pay</strong><small>Open GCash QR code</small></span><b>View QR →</b></button>
+  <div class="gcash-payment-label">Send payment via GCash</div>
+  <strong class="gcash-payment-number">0951 687 4649</strong>
+  <div class="gcash-payment-name">Scan the QR or send to this number</div>
+</div>
+<div class="payment-methods" role="group" aria-label="Payment method">
+<button type="button" class="payment-method active" data-method="GCash"><strong>GCash</strong><span>Fast &amp; familiar</span></button>
+<button type="button" class="payment-method" data-method="Maya" aria-disabled="true"><strong>Maya</strong><span>Coming soon</span></button>
+</div>
+<div class="field"><label>Payment reference number</label><input id="paymentRef" placeholder="Enter reference number"/></div>
+<label class="policy-check"><input type="checkbox" id="paymentPolicy"/> <span>I agree to the booking and payment policies.</span></label>
+<div class="payment-actions"><button type="button" class="secondary-action" id="backToReview">← Back</button><button type="button" class="review" id="submitPayment">Submit payment →</button></div>
+</div>
+</div>
+</div>
+<div class="gcash-qr-modal" id="gcashQrModal" aria-hidden="true">
+  <div class="gcash-qr-backdrop" data-close-gcash-qr></div>
+  <div class="gcash-qr-dialog" role="dialog" aria-modal="true" aria-labelledby="gcashQrTitle">
+    <button type="button" class="gcash-qr-close" id="closeGcashQr" aria-label="Close QR code">×</button>
+    <div class="eyebrow">GCash</div>
+    <h3 id="gcashQrTitle">Scan to pay.</h3>
+    <p>Open your GCash app and scan this QR code to send your payment.</p>
+    <img class="gcash-qr-large" src="assets/asset_2.webp" alt="KUPAL PIKOLBOL GCash payment QR code"/>
+    <strong class="gcash-popup-number">0951 687 4649</strong>
+    <span class="gcash-popup-note">Or send directly to this GCash number.</span>
+  </div>
+</div>
+<div class="toast" id="toast">Booking updated.</div>
+<script>
+(() => {
+  const API_URL = "https://kupal-pikolbol-api.kupalpikolbol-official.workers.dev/api";
+  const state = {
+    date: new Date(),
+    court: "",
+    courtId: "",
+    slots: [],
+    courts: [],
+    bookings: [],
+    monthlyStatus: {},
+    loadedMonth: "",
+    clubInfo: {},
+    loading: false
+  };
+
+  const months=["January","February","March","April","May","June","July","August","September","October","November","December"];
+  const timeSlots=["06:00","07:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00"];
+  const pad=n=>String(n).padStart(2,"0");
+  const fmtDate=d=>d.toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"});
+  const isoDate=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+  const fmtTime=h=>{const ap=h>=12?"PM":"AM";const hh=h%12||12;return pad(hh)+":00 "+ap};
+  const timeLabel=t=>{const [h,m]=String(t||"").split(":").map(Number); if(Number.isNaN(h)) return String(t||""); const ap=h>=12?"PM":"AM"; const hh=h%12||12; return pad(hh)+":"+pad(m||0)+" "+ap};
+  const addHour=t=>{const [h,m]=String(t).split(":").map(Number); return pad((h+1)%24)+":"+pad(m||0)};
+  const toMinutes=t=>{const [h,m]=String(t||"").split(":").map(Number); return (h||0)*60+(m||0)};
+  const esc=v=>String(v==null?"":v).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;");
+
+  const daysEl=document.getElementById("days"), monthEl=document.getElementById("month");
+  const bookingNote=document.getElementById("bookingNote");
+
+  async function api(action,args=[]){
+    const res=await fetch(API_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action,args})});
+    const text=await res.text();
+    let data;
+    try{data=JSON.parse(text)}catch(e){throw new Error("Invalid API response.")}
+    if(!res.ok || data?.success===false){throw new Error(data?.error||data?.message||"Request failed.")}
+    return data?.data!==undefined?data.data:data;
+  }
+
+  function setNote(text,error=false){
+    if(!bookingNote)return;
+    bookingNote.textContent=text;
+    bookingNote.style.color=error?"#9f3e3e":"";
+  }
+
+  function renderCalendar(){
+    const y=state.date.getFullYear(),m=state.date.getMonth();
+    monthEl.textContent=months[m]+" "+y;
+    daysEl.innerHTML="";
+    const compact=document.getElementById("compact-week"); compact.innerHTML="";
+    const start=new Date(state.date); start.setDate(start.getDate()-3);
+    const dayNames=["SUN","MON","TUE","WED","THU","FRI","SAT"];
+    for(let i=0;i<7;i++){
+      const d=new Date(start); d.setDate(start.getDate()+i);
+      const b=document.createElement("button"); b.type="button"; b.className="compact-date";
+      const dow=document.createElement("span"); dow.className="dow"; dow.textContent=dayNames[d.getDay()];
+      const num=document.createElement("span"); num.className="num"; num.textContent=d.getDate();
+      b.append(dow,num);
+      if(d.toDateString()===state.date.toDateString()) b.classList.add("selected");
+      b.addEventListener("click",()=>{state.date=new Date(d);state.slots=[];state.bookings=bookingsForSelectedDate();renderCalendar();updateSummary();loadBookings()});
+      compact.appendChild(b);
+    }
+  }
+
+  function normalizeCourtName(name,index){
+    const n=String(name||"").trim();
+    if(/left/i.test(n)) return "Left Court";
+    if(/right/i.test(n)) return "Right Court";
+    if(index===0) return "Left Court";
+    if(index===1) return "Right Court";
+    return n||`Court ${index+1}`;
+  }
+
+  function renderCourts(){
+    const wrap=document.querySelector(".courts"); if(!wrap)return;
+    wrap.innerHTML="";
+    state.courts.slice(0,2).forEach((court,index)=>{
+      const b=document.createElement("button"); b.type="button"; b.className="courtbtn";
+      const label=normalizeCourtName(court.name,index);
+      b.dataset.court=label; b.dataset.courtId=String(court.id);
+      b.innerHTML=`<strong>${esc(label)}</strong><span>${esc(court.status||"Competition-ready · night lights")}</span>`;
+      b.addEventListener("click",()=>{
+        document.querySelectorAll(".courtbtn").forEach(x=>x.classList.remove("active"));
+        b.classList.add("active"); state.court=label; state.courtId=String(court.id); state.slots=[]; renderTimes(); updateSummary();
+      });
+      wrap.appendChild(b);
+    });
+    if(state.courts.length){
+      const first=wrap.querySelector(".courtbtn");
+      if(first){first.classList.add("active");state.court=first.dataset.court;state.courtId=first.dataset.courtId;}
+    }
+  }
+
+  function bookingStatusFor(start,end){
+    const a=toMinutes(start), b=toMinutes(end);
+    const matches=state.bookings.filter(x=>String(x.courtId)===String(state.courtId)).filter(x=>{
+      const s=toMinutes(x.startTime), e=toMinutes(x.endTime); return s<b && a<e;
+    });
+    if(!matches.length)return "available";
+    const hasPending=matches.some(x=>/pending/i.test(String(x.paymentStatus||""))||/pending/i.test(String(x.bookingStatus||"")));
+    return hasPending?"pending":"booked";
+  }
+
+  function renderTimes(){
+    const groups={morning:document.getElementById("times-morning"),afternoon:document.getElementById("times-afternoon"),evening:document.getElementById("times-evening")};
+    Object.values(groups).forEach(el=>el.innerHTML="");
+    if(!state.courtId){Object.values(groups)[0].innerHTML='<div class="availability-empty">Loading courts…</div>';return;}
+    for(const t of timeSlots){
+      const h=Number(t.slice(0,2)); const status=bookingStatusFor(t,addHour(t));
+      const b=document.createElement("button"); b.type="button"; b.className="time"; b.textContent=timeLabel(t)+" — "+timeLabel(addHour(t));
+      if(status!=="available"){b.classList.add(status);b.disabled=true;}
+      if(state.slots.includes(t)){b.classList.add("active");b.disabled=false;}
+      b.addEventListener("click",()=>{
+        if(state.slots.includes(t)) state.slots=state.slots.filter(x=>x!==t); else state.slots=[...state.slots,t].sort((a,b)=>toMinutes(a)-toMinutes(b));
+        renderTimes();updateSummary();
+      });
+      groups[h<12?"morning":h<18?"afternoon":"evening"].appendChild(b);
+    }
+  }
+
+  function price(){return Number(state.clubInfo["Booking Price"])||250;}
+  function total(){return state.slots.length*price();}
+  function updateSummary(){
+    const hours=state.slots.length;
+    document.getElementById("sumdate").textContent=fmtDate(state.date);
+    document.getElementById("sumcourt").textContent=state.court||"Choose a court";
+    document.getElementById("sumhours").textContent=hours?hours+" "+(hours===1?"hour":"hours"):"Choose hours";
+    document.getElementById("sumtime").textContent=hours?timeLabel(state.slots[0])+" → "+timeLabel(addHour(state.slots[state.slots.length-1])):"Select hours";
+    document.getElementById("sumtitle").textContent=(state.court||"Court")+" reservation";
+    document.getElementById("total").textContent="₱"+total().toLocaleString();
+    document.getElementById("modalSession").textContent=hours?`${state.court} · ${hours} ${hours===1?"hour":"hours"} · ₱${total().toLocaleString()}`:"Choose a court and at least one hour";
+    document.getElementById("paymentAmount").textContent="₱"+total().toLocaleString();
+  }
+
+  function currentMonthKey(){
+    return `${state.date.getFullYear()}-${pad(state.date.getMonth()+1)}`;
+  }
+
+  function bookingsForSelectedDate(){
+    const day=isoDate(state.date);
+    const courtMap=state.monthlyStatus?.[day]||{};
+    const rows=[];
+    Object.keys(courtMap).forEach(courtId=>{
+      (Array.isArray(courtMap[courtId])?courtMap[courtId]:[]).forEach(x=>rows.push({
+        courtId, startTime:x.startTime, endTime:x.endTime,
+        paymentStatus:x.paymentStatus, bookingStatus:x.bookingStatus
+      }));
+    });
+    return rows;
+  }
+
+  async function loadBookings(force=false){
+    const key=currentMonthKey();
+    renderTimes(); setNote("Checking live court availability…");
+    if(!force && state.loadedMonth===key){
+      state.bookings=bookingsForSelectedDate();
+      renderTimes(); setNote("Live availability · updates from KUPAL booking system.");
+      return;
+    }
+    try{
+      const data=await api("getMonthlyBookingStatus",[state.date.getFullYear(),state.date.getMonth()]);
+      state.monthlyStatus=(data&&typeof data==="object")?data:{};
+      state.loadedMonth=key;
+      state.bookings=bookingsForSelectedDate();
+      renderTimes(); setNote("Live availability · updates from KUPAL booking system.");
+    }catch(err){
+      state.bookings=[];renderTimes();setNote("Live availability is temporarily unavailable. Please try again.",true);showToast(err.message||"Unable to load availability.");
+    }
+  }
+
+  async function init(){
+    try{
+      const [info,courts,monthStatus]=await Promise.all([
+        api("getClubInfo"),
+        api("getCourts"),
+        api("getMonthlyBookingStatus",[state.date.getFullYear(),state.date.getMonth()])
+      ]);
+      state.clubInfo=info||{};
+      state.courts=Array.isArray(courts)?courts:[];
+      state.monthlyStatus=(monthStatus&&typeof monthStatus==="object")?monthStatus:{};
+      state.loadedMonth=currentMonthKey();
+      state.bookings=bookingsForSelectedDate();
+      renderCourts();renderCalendar();updateSummary();renderTimes();setNote("Live availability · updates from KUPAL booking system.");
+    }catch(err){
+      renderCalendar();updateSummary();renderTimes();setNote("Could not connect to the live booking system.",true);showToast(err.message||"Backend connection failed.");
+    }
+  }
+
+  document.getElementById("prev").addEventListener("click",()=>{state.date=new Date(state.date.getFullYear(),state.date.getMonth(),state.date.getDate()-7);state.slots=[];state.bookings=bookingsForSelectedDate();renderCalendar();updateSummary();loadBookings()});
+  document.getElementById("next").addEventListener("click",()=>{state.date=new Date(state.date.getFullYear(),state.date.getMonth(),state.date.getDate()+7);state.slots=[];state.bookings=bookingsForSelectedDate();renderCalendar();updateSummary();loadBookings()});
+
+  const modal=document.getElementById("modal");
+  document.getElementById("review").addEventListener("click",()=>{
+    if(!state.courtId)return showToast("Choose a court first.");
+    if(!state.slots.length)return showToast("Choose at least one available hour.");
+    modal.classList.add("open");
+  });
+  document.getElementById("close").addEventListener("click",()=>modal.classList.remove("open"));
+  modal.addEventListener("click",e=>{if(e.target===modal)modal.classList.remove("open")});
+
+  document.getElementById("modalDone").addEventListener("click",()=>{
+    const name=document.getElementById("customerName").value.trim(),phone=document.getElementById("customerPhone").value.trim();
+    if(!name||!phone)return showToast("Please enter your name and mobile number.");
+    document.getElementById("reviewStep").hidden=true;document.getElementById("paymentStep").hidden=false;updateSummary();
+  });
+  document.getElementById("backToReview").addEventListener("click",()=>{document.getElementById("paymentStep").hidden=true;document.getElementById("reviewStep").hidden=false});
+
+  document.querySelectorAll(".payment-method").forEach(btn=>btn.addEventListener("click",()=>{
+    if(btn.dataset.method!=="GCash")return showToast("GCash is currently the available payment method.");
+    document.querySelectorAll(".payment-method").forEach(x=>x.classList.remove("active"));btn.classList.add("active");
+  }));
+
+  async function submitBookings(){
+    const name=document.getElementById("customerName").value.trim(),phone=document.getElementById("customerPhone").value.trim();
+    const ref=document.getElementById("paymentRef").value.trim(),agreed=document.getElementById("paymentPolicy").checked;
+    if(!name||!phone)return showToast("Please enter your name and mobile number.");
+    if(!ref)return showToast("Payment reference number is required.");
+    if(!agreed)return showToast("Please accept the booking and payment policies.");
+    if(!state.slots.length)return showToast("Choose at least one hour.");
+    const btn=document.getElementById("submitPayment");btn.disabled=true;btn.textContent="Submitting…";
+    try{
+      const fresh=await api("getBookingsByDate",[isoDate(state.date)]); state.bookings=Array.isArray(fresh)?fresh:[]; renderTimes();
+      if(state.slots.some(t=>bookingStatusFor(t,addHour(t))!=="available"))throw new Error("One of your selected hours was just taken. Please review your selections.");
+      const sorted=state.slots.slice().sort((a,b)=>toMinutes(a)-toMinutes(b));
+      const blocks=[]; let block=null;
+      sorted.forEach(t=>{
+        if(!block)block={startTime:t,endTime:addHour(t)};
+        else if(toMinutes(t)===toMinutes(block.endTime))block.endTime=addHour(t);
+        else{blocks.push(block);block={startTime:t,endTime:addHour(t)}}
+      }); if(block)blocks.push(block);
+      const ids=[];
+      for(const b of blocks){
+        const result=await api("createBooking",[{date:isoDate(state.date),courtId:state.courtId,startTime:b.startTime,endTime:b.endTime,customerName:name,phone:phone,email:"",reference:ref,notes:"",bookingGroup:ref+"-"+isoDate(state.date)+"-"+state.courtId}]);
+        if(!result?.success && !result?.bookingId)throw new Error(result?.error||"A booking could not be submitted.");
+        ids.push(result.bookingId||"Submitted");
+      }
+      modal.classList.remove("open");document.getElementById("paymentStep").hidden=true;document.getElementById("reviewStep").hidden=false;
+      document.getElementById("paymentRef").value="";document.getElementById("paymentPolicy").checked=false;
+      state.slots=[];renderTimes();updateSummary();
+      showBookingSuccess(ids);
+      await loadBookings(true);
+    }catch(err){showToast(err.message||"Unable to submit booking.");}
+    finally{btn.disabled=false;btn.textContent="Submit payment →";}
+  }
+
+  const gcashQrModal=document.getElementById("gcashQrModal");
+  const openGcashQr=()=>{gcashQrModal.classList.add("open");gcashQrModal.setAttribute("aria-hidden","false");};
+  const closeGcashQr=()=>{gcashQrModal.classList.remove("open");gcashQrModal.setAttribute("aria-hidden","true");};
+  document.getElementById("openGcashQr").addEventListener("click",openGcashQr);
+  document.getElementById("closeGcashQr").addEventListener("click",closeGcashQr);
+  gcashQrModal.addEventListener("click",e=>{if(e.target.hasAttribute("data-close-gcash-qr"))closeGcashQr();});
+  document.addEventListener("keydown",e=>{if(e.key==="Escape")closeGcashQr();});
+
+  document.getElementById("submitPayment").addEventListener("click",submitBookings);
+
+  function showBookingSuccess(ids){
+    const list=ids.join(", ");
+    const box=document.createElement("div");box.className="info-popup";box.style.display="flex";
+    box.innerHTML=`<div class="info-popup-box" style="max-width:620px"><button class="info-popup-close" aria-label="Close">×</button><div class="info-popup-kicker">BOOKING SUBMITTED</div><h2 class="info-popup-title">You're in.<br/><span>For verification.</span></h2><p class="info-popup-lead">Your booking has been submitted and is pending payment verification.</p><div style="background:#f4efe3;border-radius:18px;padding:20px;margin-top:20px"><small style="display:block;letter-spacing:.12em;text-transform:uppercase;font-weight:800">Booking ID</small><strong style="display:block;font-size:22px;margin-top:8px;word-break:break-word">${esc(list)}</strong></div><p class="info-popup-lead" style="margin-top:18px">Keep this Booking ID and your GCash reference number for your records.</p></div>`;
+    document.body.appendChild(box);box.querySelector(".info-popup-close").addEventListener("click",()=>box.remove());box.addEventListener("click",e=>{if(e.target===box)box.remove()});
+  }
+
+  function showFindModal(){
+    const box=document.createElement("div");box.className="info-popup";box.style.display="flex";
+    box.innerHTML=`<div class="info-popup-box" style="max-width:620px"><button class="info-popup-close" aria-label="Close">×</button><div class="info-popup-kicker">BOOKING LOOKUP</div><h2 class="info-popup-title">Find your<br/><span>session.</span></h2><p class="info-popup-lead">Enter your Booking ID to view the current booking and payment status.</p><div class="field" style="margin-top:22px"><label>Booking ID</label><input id="lookupId" placeholder="e.g. KP-0001" autocomplete="off"/></div><button class="review" id="lookupBtn" style="margin-top:8px">Check Booking →</button><div id="lookupResult" style="margin-top:18px"></div></div>`;
+    document.body.appendChild(box);
+    box.querySelector(".info-popup-close").addEventListener("click",()=>box.remove());
+    box.addEventListener("click",e=>{if(e.target===box)box.remove()});
+    const input=box.querySelector("#lookupId"); input.focus();
+    box.querySelector("#lookupBtn").addEventListener("click",async()=>{
+      const id=input.value.trim(),btn=box.querySelector("#lookupBtn"),out=box.querySelector("#lookupResult");
+      if(!id)return out.innerHTML='<p class="info-popup-lead">Enter your Booking ID.</p>';
+      btn.disabled=true;btn.textContent="Checking…";out.innerHTML="";
+      try{
+        const r=await api("getBookingById",[id]);
+        if(!r)throw new Error("Booking not found.");
+        const court=(state.courts.find(c=>String(c.id)===String(r.courtId))?.name)||r.courtId;
+        out.innerHTML=`<div style="background:#f4efe3;border-radius:18px;padding:20px"><strong style="display:block;font-size:22px">${esc(r.bookingId||id)}</strong><p style="margin:10px 0 0">${esc(r.customerName||"")} · ${esc(r.date||"")}</p><p style="margin:6px 0">${esc(court)} · ${esc(timeLabel(r.startTime))} – ${esc(timeLabel(r.endTime))}</p><p style="margin:10px 0 0"><strong>Payment:</strong> ${esc(r.paymentStatus||"—")}<br/><strong>Booking:</strong> ${esc(r.bookingStatus||"—")}</p></div>`;
+      }catch(err){out.innerHTML=`<p class="info-popup-lead" style="color:#9f3e3e">${esc(err.message||"Unable to find booking.")}</p>`}
+      finally{btn.disabled=false;btn.textContent="Check Booking →"}
+    });
+  }
+  document.getElementById("findBtn").addEventListener("click",showFindModal);
+
+  function showToast(t){const x=document.getElementById("toast");x.textContent=t;x.classList.add("show");clearTimeout(window.__kToast);window.__kToast=setTimeout(()=>x.classList.remove("show"),3200)}
+
+  renderCalendar();renderTimes();updateSummary();init();
+})();
+</script>
+<div aria-labelledby="ratesPopupTitle" aria-modal="true" class="info-popup" id="ratesPopup" role="dialog"><div class="info-popup-box"><button aria-label="Close rates" class="info-popup-close" data-close-popup="ratesPopup">×</button><div class="info-popup-kicker">KUPAL PIKOLBOL RATES</div><h2 class="info-popup-title" id="ratesPopupTitle">Simple rates.<br/><span>Ready to play.</span></h2><p class="info-popup-lead">Straightforward rates for the things you need to play.</p><div class="popup-rate-grid"><article class="popup-rate"><span class="popup-rate-time">FOR RENT</span><strong class="popup-rate-price">₱250<small>/hr</small></strong><b class="popup-rate-name">COURT</b></article><article class="popup-rate"><span class="popup-rate-time">FOR RENT</span><strong class="popup-rate-price">₱50<small>/hr</small></strong><b class="popup-rate-name">PADDLE</b></article><article class="popup-rate featured"><span class="popup-rate-time">FOR SALE</span><strong class="popup-rate-price">₱130</strong><b class="popup-rate-name">PICKLE BALL</b></article></div></div></div><div aria-labelledby="howPopupTitle" aria-modal="true" class="info-popup" id="howPopup" role="dialog"><div class="info-popup-box"><button aria-label="Close how to book" class="info-popup-close" data-close-popup="howPopup">×</button><div class="info-popup-kicker">04 · How to book</div><h2 class="info-popup-title" id="howPopupTitle">Three moves. Then play.</h2><p class="info-popup-lead">Booking is designed to stay simple: choose your day, build your session, then review and pay.</p><div class="popup-how-grid"><article class="popup-how-step"><div class="popup-how-num">01</div><h3>Choose a date</h3><p>Pick the day you want to play from the live booking calendar.</p></article><article class="popup-how-step"><div class="popup-how-num">02</div><h3>Choose a court + hours</h3><p>Select your court and the available hourly slots that fit your session.</p></article><article class="popup-how-step"><div class="popup-how-num">03</div><h3>Review + pay</h3><p>Confirm your details, complete payment, and keep your booking reference.</p></article></div></div></div>
+<div aria-labelledby="cancellationPolicyTitle" aria-modal="true" class="info-popup policy-popup" id="cancellationPolicy" role="dialog">
+  <div class="info-popup-box policy-popup-box">
+    <button aria-label="Close cancellation policy" class="info-popup-close" data-close-popup="cancellationPolicy">×</button>
+    <div class="info-popup-kicker">INFO &amp; POLICIES</div>
+    <h2 class="info-popup-title" id="cancellationPolicyTitle">Cancellation<br/><span>Policy.</span></h2>
+    <div class="policy-content">
+      <h3>1. Customer Cancellation / Rescheduling</h3>
+      <p>Customers may request a cancellation or rescheduling of their booking <strong>at least 12 hours before the scheduled playing time</strong>.</p>
+      <p>Requests made within the allowed period may be eligible for a <strong>refund or rescheduling</strong>, subject to confirmation by Kupal Pikolbol.</p>
+
+      <h3>2. Less Than 12 Hours Before Booking</h3>
+      <p>Cancellations or rescheduling requests made <strong>less than 12 hours before the scheduled playing time</strong> are generally not eligible for a refund or rescheduling.</p>
+
+      <h3>3. No-Show</h3>
+      <p>If a customer does not arrive for their scheduled booking and does not contact Kupal Pikolbol beforehand, the booking will be considered a <strong>no-show</strong> and will be <strong>non-refundable and non-reschedulable</strong>.</p>
+
+      <h3>4. Weather / Unsafe Playing Conditions</h3>
+      <p>If weather conditions or other circumstances make the court unsafe or unavailable, customers may request a <strong>refund or rescheduling</strong>.</p>
+      <p>Please contact Kupal Pikolbol through our official Facebook Page regarding weather-related cancellations or rescheduling.</p>
+
+      <h3>5. Cancellation by Kupal Pikolbol</h3>
+      <p>Kupal Pikolbol may cancel a booking when necessary due to unsafe court conditions, maintenance, facility issues, or other circumstances affecting court availability.</p>
+      <p>If Kupal Pikolbol cancels a paid booking, the customer will be contacted regarding the available <strong>refund or rescheduling arrangement</strong>.</p>
+
+      <h3>6. How to Request a Cancellation or Rescheduling</h3>
+      <p>For cancellation, refund, or rescheduling requests, please contact us through our official Facebook Page and provide:</p>
+      <ul>
+        <li>Booking ID</li>
+        <li>Full name</li>
+        <li>Scheduled date and time</li>
+        <li>Reason for the request</li>
+      </ul>
+      <p class="policy-contact"><a href="https://www.facebook.com/profile.php?id=61593038529583" target="_blank" rel="noopener">Message us on Facebook →</a></p>
+    </div>
+  </div>
+</div>
+
+<div aria-labelledby="termsPolicyTitle" aria-modal="true" class="info-popup policy-popup" id="termsPolicy" role="dialog">
+  <div class="info-popup-box policy-popup-box">
+    <button aria-label="Close terms and conditions" class="info-popup-close" data-close-popup="termsPolicy">×</button>
+    <div class="info-popup-kicker">INFO &amp; POLICIES</div>
+    <h2 class="info-popup-title" id="termsPolicyTitle">Terms &amp;<br/><span>Conditions.</span></h2>
+    <div class="policy-content">
+      <p>By making a booking with Kupal Pikolbol, you agree to the following terms and conditions.</p>
+
+      <h3>1. Booking</h3>
+      <ul>
+        <li>All court bookings must be made through the official Kupal Pikolbol booking system or through an authorized Kupal Pikolbol representative.</li>
+        <li>A booking is considered submitted once the required booking information and GCash payment reference have been provided.</li>
+        <li>Players are responsible for providing accurate contact and booking information.</li>
+        <li>Each booking is valid only for the selected date, court, and playing time.</li>
+      </ul>
+
+      <h3>2. Payment</h3>
+      <ul>
+        <li>Court fees must be paid through the payment method provided by Kupal Pikolbol.</li>
+        <li>Customers must provide the correct GCash payment reference when submitting a booking.</li>
+        <li>Bookings may remain subject to payment verification before being considered confirmed.</li>
+        <li>Customers should keep their payment reference and Booking ID for their records.</li>
+      </ul>
+
+      <h3>3. Arrival &amp; Use of Court</h3>
+      <ul>
+        <li>Players should arrive on time for their scheduled booking.</li>
+        <li>Court time is limited to the reserved period.</li>
+        <li>Players should vacate the court when their scheduled time ends so the next booking can begin.</li>
+        <li>Players are responsible for keeping the court and surrounding areas clean and orderly.</li>
+      </ul>
+
+      <h3>4. Court Rules &amp; Player Conduct</h3>
+      <p>Players are expected to follow reasonable facility and court rules, treat other players and staff with respect, use the court and equipment responsibly, and avoid behavior that may damage the facility or disturb other players.</p>
+      <p>Kupal Pikolbol reserves the right to address inappropriate or unsafe behavior.</p>
+
+      <h3>5. Cancellation &amp; Rescheduling</h3>
+      <p>Cancellations and rescheduling are subject to the <strong>Kupal Pikolbol Cancellation Policy</strong>. Customers should review the Cancellation Policy before completing their booking.</p>
+
+      <h3>6. No-Show</h3>
+      <p>A customer who does not arrive for their scheduled booking and does not contact Kupal Pikolbol beforehand will be considered a <strong>no-show</strong>. No-show bookings are non-refundable and non-reschedulable.</p>
+
+      <h3>7. Weather &amp; Court Availability</h3>
+      <p>Kupal Pikolbol may temporarily suspend or cancel play when weather, court conditions, maintenance, or other circumstances make playing unsafe or the court unavailable. Customers may contact Kupal Pikolbol through the official Facebook Page regarding available refund or rescheduling arrangements.</p>
+
+      <h3>8. Facility &amp; Personal Responsibility</h3>
+      <p>Players are responsible for their personal belongings while inside the facility. Kupal Pikolbol is not responsible for loss, theft, or damage to personal belongings brought to the facility.</p>
+
+      <h3>9. Safety</h3>
+      <p>Players are responsible for playing within their own physical ability and following reasonable safety practices. Please use appropriate sports attire and footwear suitable for pickleball and the court surface.</p>
+
+      <h3>10. Right to Refuse or Cancel a Booking</h3>
+      <p>Kupal Pikolbol reserves the right to refuse, suspend, or cancel a booking when necessary due to unsafe conditions, facility or maintenance issues, violation of facility rules, inappropriate behavior, or other circumstances affecting safe and proper operation of the facility.</p>
+
+      <h3>11. Contact</h3>
+      <p>For questions, booking concerns, cancellations, rescheduling, or other inquiries, please contact Kupal Pikolbol through the official Facebook Page.</p>
+      <p class="policy-contact"><a href="https://www.facebook.com/profile.php?id=61593038529583" target="_blank" rel="noopener">Message us on Facebook →</a></p>
+    </div>
+  </div>
+</div>
+
+<div aria-labelledby="privacyPolicyTitle" aria-modal="true" class="info-popup policy-popup" id="privacyPolicy" role="dialog">
+  <div class="info-popup-box policy-popup-box">
+    <button aria-label="Close privacy policy" class="info-popup-close" data-close-popup="privacyPolicy">×</button>
+    <div class="info-popup-kicker">INFO &amp; POLICIES</div>
+    <h2 class="info-popup-title" id="privacyPolicyTitle">Privacy<br/><span>Policy.</span></h2>
+    <div class="policy-content">
+      <p>Kupal Pikolbol respects your privacy. This Privacy Policy explains what information we collect when you use our booking service and how we use it.</p>
+
+      <h3>1. Information We Collect</h3>
+      <p>When you make a booking, we may collect:</p>
+      <ul>
+        <li>Full name</li>
+        <li>Phone number</li>
+        <li>Email address, if provided</li>
+        <li>Booking date</li>
+        <li>Selected court</li>
+        <li>Selected playing time</li>
+        <li>GCash payment reference number</li>
+        <li>Booking notes or other information you choose to provide</li>
+      </ul>
+      <p>We also generate a <strong>Booking ID</strong> to help you check and manage your booking.</p>
+
+      <h3>2. How We Use Your Information</h3>
+      <ul>
+        <li>Process and manage your court booking</li>
+        <li>Verify your payment</li>
+        <li>Confirm or update your booking</li>
+        <li>Contact you regarding your booking when necessary</li>
+        <li>Respond to booking concerns, cancellations, or rescheduling requests</li>
+        <li>Maintain booking and payment records</li>
+        <li>Manage court availability and prevent double bookings</li>
+        <li>Improve the operation of Kupal Pikolbol's booking service</li>
+      </ul>
+      <p>We do not require customers to create a member account to make a booking.</p>
+
+      <h3>3. Payment Information</h3>
+      <p>Kupal Pikolbol may collect your <strong>GCash payment reference number</strong> for payment verification. We do not ask customers to provide their GCash password, PIN, or other private account credentials through the booking system.</p>
+
+      <h3>4. How We Protect Your Information</h3>
+      <p>We take reasonable steps to protect customer information and limit access to authorized persons involved in managing Kupal Pikolbol bookings and operations. However, no electronic system can be guaranteed to be completely secure.</p>
+
+      <h3>5. Sharing of Information</h3>
+      <p>Customer information is used primarily for Kupal Pikolbol's booking and operational purposes. We do not sell customer information.</p>
+      <p>Information may be accessed by authorized persons when necessary to process bookings, verify payments, manage the facility, respond to customer concerns, or comply with applicable legal requirements.</p>
+
+      <h3>6. How Long We Keep Information</h3>
+      <p>Booking and payment information may be retained as part of Kupal Pikolbol's operational records. Records may be kept for as long as reasonably necessary for booking management, payment verification, recordkeeping, and other legitimate business purposes.</p>
+
+      <h3>7. Your Privacy Concerns</h3>
+      <p>If you have questions or concerns about how your information is handled, please contact Kupal Pikolbol through our official Facebook Page.</p>
+      <p class="policy-contact"><a href="https://www.facebook.com/profile.php?id=61593038529583" target="_blank" rel="noopener">Contact us on Facebook →</a></p>
+
+      <h3>8. Changes to This Privacy Policy</h3>
+      <p>Kupal Pikolbol may update this Privacy Policy when necessary. Any updated version will be made available through the Kupal Pikolbol website.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+// Rates + How to Book popup behavior
+(function(){
+  const popups=document.querySelectorAll('.info-popup');
+  const openPopup=id=>{const el=document.getElementById(id);if(!el)return;el.classList.add('open');document.body.style.overflow='hidden';};
+  const closePopup=el=>{el.classList.remove('open');if(!document.querySelector('.info-popup.open'))document.body.style.overflow='';};
+  document.querySelectorAll('[data-popup]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();openPopup(a.dataset.popup);}));
+  document.querySelectorAll('[data-close-popup]').forEach(b=>b.addEventListener('click',()=>closePopup(document.getElementById(b.dataset.closePopup))));
+  popups.forEach(p=>p.addEventListener('click',e=>{if(e.target===p)closePopup(p);}));
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'){const p=document.querySelector('.info-popup.open');if(p)closePopup(p);}});
+})();
+</script>
+<script id="policy-popup-controller">
+(function(){
+  function initPolicyPopups(){
+    var links = document.querySelectorAll('.policy-link[data-policy]');
+    var popups = document.querySelectorAll('.policy-popup');
+
+    links.forEach(function(link){
+      link.addEventListener('click', function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        var id = link.getAttribute('data-policy');
+        var popup = document.getElementById(id);
+        if (!popup) return;
+        popup.classList.add('open');
+        popup.setAttribute('aria-hidden','false');
+        document.body.style.overflow='hidden';
+      });
+    });
+
+    popups.forEach(function(popup){
+      popup.querySelectorAll('[data-close-popup]').forEach(function(btn){
+        btn.addEventListener('click', function(e){
+          e.preventDefault();
+          e.stopPropagation();
+          popup.classList.remove('open');
+          popup.setAttribute('aria-hidden','true');
+          if (!document.querySelector('.info-popup.open')) document.body.style.overflow='';
+        });
+      });
+
+      popup.addEventListener('click', function(e){
+        if (e.target === popup){
+          popup.classList.remove('open');
+          popup.setAttribute('aria-hidden','true');
+          if (!document.querySelector('.info-popup.open')) document.body.style.overflow='';
+        }
+      });
+    });
+
+    document.addEventListener('keydown', function(e){
+      if (e.key !== 'Escape') return;
+      var open = document.querySelector('.policy-popup.open');
+      if (!open) return;
+      open.classList.remove('open');
+      open.setAttribute('aria-hidden','true');
+      if (!document.querySelector('.info-popup.open')) document.body.style.overflow='';
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initPolicyPopups);
+  } else {
+    initPolicyPopups();
+  }
+})();
+</script>
+
+
+<div class="open-play-modal" id="openPlayRegisterModal" aria-hidden="true">
+  <div class="open-play-modal-card" role="dialog" aria-modal="true" aria-labelledby="openPlayRegisterTitle">
+    <button type="button" class="open-play-modal-close" id="openPlayRegisterClose" aria-label="Close registration">×</button>
+    <div class="open-play-eyebrow">KUPAL · OPEN PLAY REGISTRATION</div>
+    <h3 id="openPlayRegisterTitle">Save your <span>spot.</span></h3>
+    <div id="openPlayRegisterEventSummary"></div>
+    <form id="openPlayRegistrationForm" class="open-play-register-box">
+      <div class="op-form-grid">
+        <div class="op-form-field full"><label>Full Name</label><input id="opName" autocomplete="name" required placeholder="Your full name"></div>
+        <div class="op-form-field"><label>Mobile Number</label><input id="opPhone" inputmode="tel" autocomplete="tel" required placeholder="09XXXXXXXXX"></div>
+        <div class="op-form-field"><label>Level</label><select id="opLevel" required></select></div>
+        <div class="op-form-field full"><label>GCash Reference Number</label><input id="opPaymentRef" required placeholder="Enter your GCash reference number"></div>
+        <div class="op-form-field full">
+          <div class="op-gcash-mini"><span>GCash payment</span><strong>0951 687 4649</strong></div>
+        </div>
+        <div class="op-form-field full"><div class="op-form-note">After you submit, your registration is recorded as <b>Pending Verification</b>. Your player QR is generated immediately and will become active after payment is verified by KUPAL Open Play Admin.</div></div>
+      </div>
+      <div class="op-error" id="opRegError"></div>
+      <button class="op-submit" id="opSubmit" type="submit">SUBMIT REGISTRATION →</button>
+    </form>
+    <div class="op-success" id="opRegSuccess">
+      <div class="op-form-note"><b>Registration received.</b><br>Save this QR. It becomes valid for check-in once your GCash payment is verified.</div>
+      <div class="op-success-card">
+        <div class="op-form-field"><label>Player</label><div class="op-success-id" id="opSuccessPlayer"></div></div>
+        <div class="op-form-field" style="margin-top:14px"><label>Level</label><strong id="opSuccessLevel"></strong></div>
+        <div class="op-form-field" style="margin-top:14px"><label>Registration ID</label><div class="op-success-id" id="opSuccessId"></div></div>
+        <div id="opQrCode" style="margin:20px auto 8px;width:220px;height:220px;background:#fffdf6;padding:8px;border-radius:18px;display:grid;place-items:center"></div>
+        <div style="text-align:center;font-size:10px;color:#687269;line-height:1.5">PAYMENT STATUS: <b>PENDING VERIFICATION</b></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script id="open-play-live-script">
+(function(){
+  const API_URL="https://kupal-pikolbol-api.kupalpikolbol-official.workers.dev/api";
+  const root=document.getElementById("openPlayLiveContent"),modal=document.getElementById("openPlayModal"),body=document.getElementById("openPlayModalBody");
+  const registerModal=document.getElementById("openPlayRegisterModal"),registerBody=document.getElementById("openPlayRegisterEventSummary"),form=document.getElementById("openPlayRegistrationForm"),regClose=document.getElementById("openPlayRegisterClose"),errorBox=document.getElementById("opRegError"),submit=document.getElementById("opSubmit"),success=document.getElementById("opRegSuccess"),floatTag=document.getElementById("openPlayFloat");
+  if(!root||!modal||!registerModal||!form)return;
+  let selectedRegistrationEvent=null;
+  const esc=v=>String(v==null?"":v).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;");
+  const api=async(action,args=[])=>{const res=await fetch(API_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action,args})});const t=await res.text();let d;try{d=JSON.parse(t)}catch(e){throw new Error("Invalid API response.")}if(!res.ok||d?.success===false)throw new Error(d?.error||"Unable to contact Open Play.");return d?.data!==undefined?d.data:d;};
+  function dateLabel(v){const p=String(v||"").split("-").map(Number);if(p.length!==3)return v||"Open Play";return new Date(p[0],p[1]-1,p[2]).toLocaleDateString("en-US",{weekday:"long",month:"long",day:"numeric",year:"numeric"});}
+  function shortDateLabel(v){const p=String(v||"").split("-").map(Number);if(p.length!==3)return "OPEN PLAY";return new Date(p[0],p[1]-1,p[2]).toLocaleDateString("en-US",{month:"short",day:"numeric"}).toUpperCase()+" · OPEN PLAY";}
+  function statusClass(s){const x=String(s||"").toLowerCase();return x==="open"?"open":(x==="full"?"full":"closed");}
+  function openRegistration(e){
+    selectedRegistrationEvent=e;
+    document.getElementById("opName").value="";document.getElementById("opPhone").value="";document.getElementById("opPaymentRef").value="";
+    errorBox.style.display="none";success.style.display="none";form.style.display="";submit.disabled=false;submit.textContent="SUBMIT REGISTRATION →";
+    const level=document.getElementById("opLevel"),levels=[];[e.court1Level,e.court2Level].forEach(v=>{if(v&&levels.indexOf(v)<0)levels.push(v)});
+    level.innerHTML=levels.map(v=>{const spots=e.levelAvailability?.[v]??"";return `<option value="${esc(v)}">${esc(v)}${spots!==""?` — ${esc(spots)} spots left`:""}</option>`}).join("");
+    registerBody.innerHTML=`<div class="open-play-detail"><div><b>SESSION</b><strong>${esc(dateLabel(e.date))}</strong></div><div><b>TIME</b><strong>${esc(e.startTime)} — ${esc(e.endTime)}</strong></div><div><b>RATE</b><strong>₱${Number(e.ratePerPlayer||170).toLocaleString()} / player</strong></div></div>`;
+    registerModal.classList.add("open");registerModal.setAttribute("aria-hidden","false");document.body.style.overflow="hidden";
+  }
+  function closeRegistration(){registerModal.classList.remove("open");registerModal.setAttribute("aria-hidden","true");document.body.style.overflow="";}
+  function openModal(e){
+    const full=String(e.status).toLowerCase()==="full",closed=String(e.status).toLowerCase()!=="open";
+    body.innerHTML=`<div class="open-play-date">${esc(dateLabel(e.date))}</div><div class="open-play-detail"><div><b>Session</b><strong>${esc(e.startTime)} — ${esc(e.endTime)}</strong></div><div><b>Rate</b><strong>₱${Number(e.ratePerPlayer||170).toLocaleString()} / player</strong></div><div><b>Levels</b><strong>${esc(e.court1Level)}${e.courtCount==2?" + "+esc(e.court2Level):""}</strong></div><div><b>Spots</b><strong>${esc(e.spotsRemaining)} / ${esc(e.totalCapacity)} remaining</strong></div></div><div class="open-play-note">${full?"This session is full. Registration is closed.":closed?"Registration is currently closed.":"Registration is open. Complete the short form to reserve your spot."}</div><div class="open-play-actions"><button type="button" class="open-play-btn secondary" id="openPlayFacebook">${e.facebookUrl?"View announcement ↗":"KUPAL Open Play"}</button>${!closed?`<button type="button" class="open-play-btn" id="openPlayRegister">REGISTER FOR OPEN PLAY →</button>`:""}</div>`;
+    const fb=document.getElementById("openPlayFacebook");if(fb&&e.facebookUrl)fb.onclick=()=>window.open(e.facebookUrl,"_blank","noopener");
+    const reg=document.getElementById("openPlayRegister");if(reg)reg.onclick=()=>openRegistration(e);
+    modal.classList.add("open");modal.setAttribute("aria-hidden","false");document.body.style.overflow="hidden";
+  }
+  function close(){modal.classList.remove("open");modal.setAttribute("aria-hidden","true");document.body.style.overflow="";}
+  let qrLoader=null;
+  function ensureQRCode(){
+    if(window.QRCode) return Promise.resolve();
+    if(qrLoader) return qrLoader;
+    qrLoader=new Promise((resolve,reject)=>{
+      const sc=document.createElement("script"); sc.src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"; sc.async=true;
+      sc.onload=resolve; sc.onerror=()=>reject(new Error("QR generator could not load.")); document.head.appendChild(sc);
+    });
+    return qrLoader;
+  }
+  async function showSuccessQR(result){
+    const wrap=document.getElementById("opQrCode");wrap.innerHTML="<div style=\"font-size:10px;color:#687269\">Preparing your QR…</div>";
+    try{await ensureQRCode();new QRCode(wrap,{text:String(result.participantId||result.qrToken),width:220,height:220,colorDark:"#0d241d",colorLight:"#fffdf6",correctLevel:QRCode.CorrectLevel.M});}catch(e){wrap.innerHTML="<div style=\"font-size:10px;color:#9f3e3e;text-align:center\">QR generator unavailable. Your Registration ID is the backup.</div>";}
+    document.getElementById("opSuccessId").textContent=result.participantId||"—";
+    document.getElementById("opSuccessPlayer").textContent=result.playerName||"—";
+    document.getElementById("opSuccessLevel").textContent=result.level||"—";
+  }
+  async function load(){try{const events=await api("getPublicOpenPlayEvents",[]),list=(Array.isArray(events)?events:[]).filter(e=>String(e.status).toLowerCase()!=="cancelled"),today=new Date();today.setHours(0,0,0,0);const upcoming=list.filter(e=>{const d=new Date(String(e.date||""));return !Number.isNaN(d.getTime())&&d>=today;});upcoming.sort((a,b)=>String(a.date).localeCompare(String(b.date)));const actionable=upcoming.filter(e=>["open","full"].includes(String(e.status||"").toLowerCase())),next=actionable[0]||upcoming[0]||list[0];if(floatTag){floatTag.textContent=next?shortDateLabel(next.date):"OPEN PLAY";floatTag.onclick=next?()=>openModal(next):null;}if(!next){root.innerHTML='<div class="open-play-empty">No Open Play session has been announced yet. Check back soon.</div>';return;}const sc=statusClass(next.status);root.innerHTML=`<article class="open-play-card"><div><div class="open-play-eyebrow">Next Open Play</div><div class="open-play-date">${esc(dateLabel(next.date))}</div><div class="open-play-meta"><span class="open-play-pill ${sc}">${esc(next.status)}</span><span class="open-play-pill">${esc(next.courtCount)} court${next.courtCount==1?"":"s"}</span><span class="open-play-pill">${esc(next.court1Level)}${next.courtCount==2?" + "+esc(next.court2Level):""}</span></div></div><div class="open-play-side"><strong>${esc(next.startTime)} — ${esc(next.endTime)}</strong><small>₱${Number(next.ratePerPlayer||170).toLocaleString()} / player · ${esc(next.spotsRemaining)} spots left</small><div class="open-play-actions"><button type="button" class="open-play-btn" id="openPlayView">OPEN PLAY →</button></div></div></article>`;document.getElementById("openPlayView").onclick=()=>openModal(next);}catch(e){root.innerHTML='<div class="open-play-empty">Open Play is temporarily unavailable. Please check again shortly.</div>';}}
+  form.addEventListener("submit",async ev=>{ev.preventDefault();if(!selectedRegistrationEvent)throw new Error("Please select an Open Play session first.");errorBox.style.display="none";submit.disabled=true;submit.textContent="SUBMITTING…";try{const result=await api("registerOpenPlayParticipant",[{eventId:selectedRegistrationEvent.eventId,playerName:document.getElementById("opName").value,phone:document.getElementById("opPhone").value,level:document.getElementById("opLevel").value,paymentReference:document.getElementById("opPaymentRef").value}]);await showSuccessQR(result);form.style.display="none";success.style.display="block";}catch(e){errorBox.textContent=e.message||"Unable to submit registration.";errorBox.style.display="block";submit.disabled=false;submit.textContent="SUBMIT REGISTRATION →";}});
+  document.getElementById("openPlayClose").onclick=close;regClose.onclick=closeRegistration;modal.addEventListener("click",e=>{if(e.target===modal)close()});registerModal.addEventListener("click",e=>{if(e.target===registerModal)closeRegistration()});document.addEventListener("keydown",e=>{if(e.key==="Escape"){close();closeRegistration();}});load();
+})();
+</script>
+
+
+
+</body>
+
+
+</html>
+
+
+
+
+
+
+
