@@ -2125,20 +2125,86 @@ PLAY NOW · REGRET NOTHING ·
   function statusClass(s){const x=String(s||"").toLowerCase();return x==="open"?"open":(x==="full"?"full":"closed");}
   function openRegistration(e){
     selectedRegistrationEvent=e;
-    document.getElementById("opName").value="";document.getElementById("opPhone").value="";document.getElementById("opPaymentRef").value="";
-    errorBox.style.display="none";success.style.display="none";form.style.display="";submit.disabled=false;submit.textContent="SUBMIT REGISTRATION →";
-    const level=document.getElementById("opLevel"),levels=[];[e.court1Level,e.court2Level].forEach(v=>{if(v&&levels.indexOf(v)<0)levels.push(v)});
-    level.innerHTML=levels.map(v=>{const spots=e.levelAvailability?.[v]??"";return `<option value="${esc(v)}">${esc(v)}${spots!==""?` — ${esc(spots)} spots left`:""}</option>`}).join("");
-    registerBody.innerHTML=`<div class="open-play-detail"><div><b>SESSION</b><strong>${esc(dateLabel(e.date))}</strong></div><div><b>TIME</b><strong>${esc(timeLabel(e.startTime))} — ${esc(timeLabel(e.endTime))}</strong></div><div><b>RATE</b><strong>₱${Number(e.ratePerPlayer||170).toLocaleString()} / player</strong></div></div>`;
-    registerModal.classList.add("open");registerModal.setAttribute("aria-hidden","false");document.body.style.overflow="hidden";
+    document.getElementById("opName").value="";
+    document.getElementById("opPhone").value="";
+    document.getElementById("opPaymentRef").value="";
+    errorBox.style.display="none";
+    success.style.display="none";
+    form.style.display="";
+    submit.disabled=false;
+    submit.textContent="SUBMIT REGISTRATION →";
+
+    const level=document.getElementById("opLevel");
+    const levels=[];
+    [e.court1Level,e.court2Level].forEach(v=>{
+      if(v&&levels.indexOf(v)<0)levels.push(v);
+    });
+
+    const availableLevels=levels.filter(v=>
+      Number(e.levelAvailability?.[v]??0)>0
+    );
+
+    level.innerHTML=levels.map(v=>{
+      const spots=Number(e.levelAvailability?.[v]??0);
+      const full=spots<=0;
+      return `<option value="${esc(v)}" ${full?"disabled":""}>${esc(v)}${full?" — FULL":` — ${spots} spot${spots===1?"":"s"} left`}</option>`;
+    }).join("");
+
+    if(availableLevels.length){
+      level.value=availableLevels[0];
+      submit.disabled=false;
+    }else{
+      level.innerHTML='<option value="" selected>No slots available</option>';
+      submit.disabled=true;
+      submit.textContent="REGISTRATION FULL";
+    }
+
+    registerBody.innerHTML=`<div class="open-play-detail">
+      <div><b>SESSION</b><strong>${esc(dateLabel(e.date))}</strong></div>
+      <div><b>TIME</b><strong>${esc(timeLabel(e.startTime))} — ${esc(timeLabel(e.endTime))}</strong></div>
+      <div><b>RATE</b><strong>₱${Number(e.ratePerPlayer||170).toLocaleString()} / player</strong></div>
+    </div>`;
+
+    registerModal.classList.add("open");
+    registerModal.setAttribute("aria-hidden","false");
+    document.body.style.overflow="hidden";
   }
   function closeRegistration(){registerModal.classList.remove("open");registerModal.setAttribute("aria-hidden","true");document.body.style.overflow="";}
   function openModal(e){
-    const full=String(e.status).toLowerCase()==="full",closed=String(e.status).toLowerCase()!=="open";
-    body.innerHTML=`<div class="open-play-date">${esc(dateLabel(e.date))}</div><div class="open-play-detail"><div><b>Session</b><strong>${esc(timeLabel(e.startTime))} — ${esc(timeLabel(e.endTime))}</strong></div><div><b>Rate</b><strong>₱${Number(e.ratePerPlayer||170).toLocaleString()} / player</strong></div><div><b>Levels</b><strong>${esc(e.court1Level)}${e.courtCount==2?" + "+esc(e.court2Level):""}</strong></div><div><b>Spots</b><strong>${esc(e.spotsRemaining)} / ${esc(e.totalCapacity)} remaining</strong></div></div><div class="open-play-note">${full?"This session is full. Registration is closed.":closed?"Registration is currently closed.":"Registration is open. Complete the short form to reserve your spot."}</div><div class="open-play-actions"><button type="button" class="open-play-btn secondary" id="openPlayFacebook">${e.facebookUrl?"View announcement ↗":"KUPAL Open Play"}</button>${!closed?`<button type="button" class="open-play-btn" id="openPlayRegister">REGISTER FOR OPEN PLAY →</button>`:""}</div>`;
-    const fb=document.getElementById("openPlayFacebook");if(fb&&e.facebookUrl)fb.onclick=()=>window.open(e.facebookUrl,"_blank","noopener");
-    const reg=document.getElementById("openPlayRegister");if(reg)reg.onclick=()=>openRegistration(e);
-    modal.classList.add("open");modal.setAttribute("aria-hidden","false");document.body.style.overflow="hidden";
+    const full=String(e.status).toLowerCase()==="full";
+    const closed=String(e.status).toLowerCase()!=="open";
+    const hasAvailableLevel=[e.court1Level,e.court2Level].some(v=>
+      v&&Number(e.levelAvailability?.[v]??0)>0
+    );
+    const registrationClosed=closed||full||!hasAvailableLevel;
+    const registrationNote=full||!hasAvailableLevel
+      ?"All slots for this session are full. Registration is closed."
+      :closed
+        ?"Registration is currently closed."
+        :"Registration is open. Complete the short form to reserve your spot.";
+
+    body.innerHTML=`<div class="open-play-date">${esc(dateLabel(e.date))}</div>
+      <div class="open-play-detail">
+        <div><b>Session</b><strong>${esc(timeLabel(e.startTime))} — ${esc(timeLabel(e.endTime))}</strong></div>
+        <div><b>Rate</b><strong>₱${Number(e.ratePerPlayer||170).toLocaleString()} / player</strong></div>
+        <div><b>Levels</b><strong>${esc(e.court1Level)}${e.courtCount==2?" + "+esc(e.court2Level):""}</strong></div>
+        <div><b>Spots</b><strong>${esc(e.spotsRemaining)} / ${esc(e.totalCapacity)} remaining</strong></div>
+      </div>
+      <div class="open-play-note">${registrationNote}</div>
+      <div class="open-play-actions">
+        <button type="button" class="open-play-btn secondary" id="openPlayFacebook">${e.facebookUrl?"View announcement ↗":"KUPAL Open Play"}</button>
+        ${!registrationClosed?`<button type="button" class="open-play-btn" id="openPlayRegister">REGISTER FOR OPEN PLAY →</button>`:""}
+      </div>`;
+
+    const fb=document.getElementById("openPlayFacebook");
+    if(fb&&e.facebookUrl)fb.onclick=()=>window.open(e.facebookUrl,"_blank","noopener");
+
+    const reg=document.getElementById("openPlayRegister");
+    if(reg)reg.onclick=()=>openRegistration(e);
+
+    modal.classList.add("open");
+    modal.setAttribute("aria-hidden","false");
+    document.body.style.overflow="hidden";
   }
   function close(){modal.classList.remove("open");modal.setAttribute("aria-hidden","true");document.body.style.overflow="";}
   let qrLoader=null;
@@ -2170,7 +2236,5 @@ PLAY NOW · REGRET NOTHING ·
 
 
 </html>
-
-
 
 
