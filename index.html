@@ -1354,6 +1354,98 @@ button,input,select,textarea{
   color:#0d5a3d !important;
 }
 </style>
+
+<style id="mobile-ux-final">
+/* MOBILE UX PASS — same approved visual direction, responsive usability only */
+html{overflow-x:hidden}
+body{-webkit-text-size-adjust:100%;text-size-adjust:100%;}
+button,a,input,select,textarea{touch-action:manipulation}
+button,a{ -webkit-tap-highlight-color:transparent; }
+
+/* Comfortable touch targets without changing the desktop look */
+@media (max-width:700px){
+  .nav{padding:18px 18px;min-height:72px}
+  .logo.logo-image{width:92px;max-width:32vw;height:auto}
+  .navbtn{min-height:44px;display:inline-flex;align-items:center;justify-content:center;padding:11px 16px}
+
+  .hero{padding-left:18px!important;padding-right:18px!important;padding-top:104px!important}
+  .hero-copy{font-size:14px;line-height:1.7;max-width:100%}
+  .hero-actions{display:grid;grid-template-columns:1fr;gap:10px;width:100%;max-width:360px}
+  .hero-actions a{min-height:48px;display:flex;align-items:center;justify-content:center}
+  .scene{width:100%;max-width:100%;overflow:visible}
+  .court3d,.orbit{max-width:82vw}
+
+  .booking,.actual-court,.rates-how,.how,.features,.find,.open-play-live{padding-left:18px!important;padding-right:18px!important}
+  .booking{padding-top:58px!important}
+  .sectiontop{margin-bottom:34px!important}
+  .sectiontop h2{font-size:clamp(48px,15vw,72px)!important}
+  .sectiontop p{font-size:13px;line-height:1.65}
+  .panel{padding:18px!important;border-radius:20px!important}
+  .step{padding-bottom:28px;margin-bottom:28px}
+  .step h3{font-size:25px;margin-bottom:18px}
+
+  /* Date controls remain seven-across but become easy to tap */
+  .week,.days{gap:5px}
+  .day{min-height:43px;border-radius:10px}
+  .compact-week{gap:4px}
+  .compact-date{min-height:62px;border-radius:10px;padding:7px 2px}
+  .compact-date .dow{font-size:7px;letter-spacing:.05em}
+  .compact-date .num{font-size:15px}
+  .arrow{width:44px;height:44px;flex:0 0 44px}
+
+  .courts{gap:10px}
+  .court{min-height:58px}
+  .times{gap:7px}
+  .time,.time-slot{min-height:46px!important}
+
+  /* Open Play — phone-first card and registration flow */
+  .open-play-live{padding-top:56px!important;padding-bottom:58px!important}
+  .open-play-head h2{font-size:clamp(48px,15vw,70px)!important}
+  .open-play-head p{font-size:12.5px;line-height:1.65}
+  .open-play-card{padding:18px!important;border-radius:20px!important;gap:18px}
+  .open-play-date{font-size:28px}
+  .open-play-side strong{font-size:25px}
+  .open-play-actions{display:grid!important;grid-template-columns:1fr;gap:9px;width:100%}
+  .open-play-actions button,.open-play-actions a{width:100%;min-height:46px;display:flex;align-items:center;justify-content:center}
+  .open-play-modal{padding:12px!important}
+  .open-play-modal-card{width:100%!important;max-height:94vh!important;padding:20px!important;border-radius:22px!important}
+  .open-play-modal h3{font-size:clamp(42px,13vw,58px)!important;margin:34px 42px 18px 0!important}
+  .open-play-modal-close{width:44px;height:44px;top:14px;right:14px}
+  .open-play-detail{gap:8px!important}
+  .open-play-detail div{padding:12px}
+  .open-play-form input,.open-play-form select,.op-form-field input,.op-form-field select{min-height:48px;font-size:16px!important}
+  .op-form-grid{gap:10px}
+  .op-submit{min-height:50px}
+
+  /* Payment / policy popups */
+  .info-popup{padding:10px!important}
+  .info-popup-box{width:100%;max-height:94vh;padding:28px 18px 22px!important;border-radius:20px}
+  .info-popup-close{width:44px;height:44px}
+  .payment-method{min-height:66px;padding:13px}
+  .payment-actions{grid-template-columns:1fr!important}
+  .payment-actions button{min-height:48px}
+  .policy-popup .policy-popup-box{padding:26px 18px!important}
+
+  /* Find My Booking CTA */
+  .find{padding-top:46px!important;padding-bottom:50px!important}
+  .find button{min-height:48px;width:100%;max-width:360px}
+
+  /* Footer links and controls */
+  footer a{min-height:40px;display:inline-flex;align-items:center}
+}
+
+@media (max-width:380px){
+  .nav{padding-left:14px;padding-right:14px}
+  .navbtn{font-size:10px;padding-inline:13px}
+  .hero{padding-left:14px!important;padding-right:14px!important}
+  .hero h1{font-size:clamp(52px,15vw,64px)!important}
+  .booking,.actual-court,.rates-how,.how,.features,.find,.open-play-live{padding-left:14px!important;padding-right:14px!important}
+  .panel{padding:15px!important}
+  .compact-date{min-height:58px}
+  .compact-date .dow{font-size:6px}
+  .compact-date .num{font-size:14px}
+}
+</style>
 </head>
 <body>
 <div class="noise"></div>
