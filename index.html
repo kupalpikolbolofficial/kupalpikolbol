@@ -637,30 +637,6 @@ button,input,select,textarea{font-family:var(--font-body)!important}
   .hero h1{max-width:100%;line-height:.82}
 }
 
-
-/* Open Play readability polish */
-.openplay h2,
-.open-play h2,
-#openPlay h2 {
-  font-weight: 600 !important;
-  letter-spacing: -0.055em !important;
-}
-
-.openplay .lead,
-.openplay .intro,
-.open-play .lead,
-.open-play .intro,
-#openPlay .lead,
-#openPlay .intro {
-  color: rgba(255,255,255,.78) !important;
-}
-
-.openplay .watermark,
-.open-play .watermark,
-#openPlay .watermark {
-  opacity: .42 !important;
-}
-
 </style>
 <style>
 /* REVISION 2 — Rates + How to Book popups only */
@@ -1301,6 +1277,83 @@ button,input,select,textarea{
 @media(max-width:650px){.op-form-grid{grid-template-columns:1fr}.op-form-field.full{grid-column:auto}}
 </style>
 
+<style id="open-play-spacing-fixed">
+
+/* OPEN PLAY — readability + spacing correction */
+.open-play-live .open-play-head h2{
+  font-family:"League Spartan",Arial,sans-serif !important;
+  font-weight:650 !important;
+  line-height:.95 !important;
+  letter-spacing:-.065em !important;
+  margin:10px 0 0 !important;
+}
+.open-play-live .open-play-head p{
+  color:#c4cdc7 !important;
+  line-height:1.7 !important;
+}
+.open-play-live .open-play-head .open-play-eyebrow{
+  display:block !important;
+  line-height:1.3 !important;
+  margin-bottom:4px !important;
+}
+.open-play-live .open-play-date{
+  display:block !important;
+  font-family:"League Spartan",Arial,sans-serif !important;
+  font-weight:500 !important;
+  line-height:1.08 !important;
+  letter-spacing:-.055em !important;
+  margin-top:8px !important;
+  margin-bottom:12px !important;
+}
+.open-play-live .open-play-card .open-play-eyebrow{
+  display:block !important;
+  line-height:1.3 !important;
+  margin-bottom:5px !important;
+}
+.open-play-modal .open-play-eyebrow{
+  display:block !important;
+  line-height:1.3 !important;
+  margin-bottom:12px !important;
+}
+.open-play-modal h3{
+  font-family:"League Spartan",Arial,sans-serif !important;
+  font-weight:650 !important;
+  line-height:.98 !important;
+  letter-spacing:-.065em !important;
+  margin:0 0 22px !important;
+}
+
+</style>
+
+<style id="open-play-copy-color-final">
+/* Final Open Play copy polish */
+.actual-copy p{
+  max-width:460px;
+}
+.open-play-live .open-play-card .open-play-eyebrow{
+  color:#0d5a3d !important;
+  font-weight:800 !important;
+  margin-bottom:7px !important;
+}
+.open-play-live .open-play-card .open-play-date{
+  margin-top:0 !important;
+}
+</style>
+
+<style id="open-play-popup-eyebrow-color">
+/* Only the Next Session popup label */
+#openPlayModal .open-play-eyebrow{
+  color:#0d5a3d !important;
+}
+</style>
+
+<style id="open-play-all-popup-eyebrow-color">
+/* Open Play popup labels — dark green for readability */
+#openPlayModal .open-play-eyebrow,
+#openPlayRegisterModal .open-play-eyebrow{
+  color:#0d5a3d !important;
+}
+</style>
 </head>
 <body>
 <div class="noise"></div>
@@ -1345,7 +1398,7 @@ PLAY NOW · REGRET NOTHING ·
 <div class="actual-wrap">
 <div class="actual-copy">
 <h2>This is<br/><span>KUPAL.</span></h2>
-<p>This isn't a stock image. This is the actual court you'll be stepping onto. Built for rallies, night games, and the kind of sessions you remember.</p>
+<p>Come for the game, stay for the people. KUPAL is built for good rallies, late-night games, and the kind of court time you'll want to come back for.</p>
 <div class="actual-meta">
 <div><strong>02</strong><span>COURTS</span></div>
 <div><strong>6 AM—11 PM</strong><span>PLAYING HOURS</span></div>
@@ -2117,7 +2170,6 @@ PLAY NOW · REGRET NOTHING ·
 
 
 </html>
-
 
 
 
