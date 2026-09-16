@@ -41,9 +41,37 @@ radial-gradient(circle at 72% 45%,rgba(42,101,75,.45),transparent 28%),linear-gr
 .ball{position:absolute;width:38px;height:38px;border-radius:50%;background:var(--yellow);box-shadow:0 8px 20px rgba(244,220,50,.28);right:17%;top:18%;transform:translateZ(90px);animation:ball 3.2s ease-in-out infinite}
 @keyframes ball{50%{transform:translateZ(150px) translate(-25px,45px)}}
 .brandplate{position:absolute;bottom:14%;left:12%;padding:12px 15px;background:rgba(8,10,9,.8);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.12);transform:translateZ(70px);font-size:11px;letter-spacing:.2em;font-weight:900}
-.float-tag{position:absolute;right:5%;top:13%;background:var(--yellow);color:#111;border:0;cursor:pointer;padding:10px 13px;font-weight:900;font-size:11px;letter-spacing:.12em;transform:rotate(7deg);box-shadow:0 15px 30px rgba(0,0,0,.25);animation:tag 3s ease-in-out infinite}
-@keyframes tag{50%{transform:rotate(3deg) translateY(-8px)}}
-.float-tag:hover{filter:brightness(1.04);box-shadow:0 18px 34px rgba(0,0,0,.3)}
+.float-tag{
+  position:absolute;right:5%;top:13%;
+  display:inline-flex;align-items:center;gap:8px;
+  min-height:42px;padding:10px 15px 10px 12px;
+  background:rgba(244,220,50,.98);color:#0d241d;
+  border:1px solid rgba(13,36,29,.16);border-radius:999px;
+  cursor:pointer;font-weight:950;font-size:10px;letter-spacing:.13em;
+  text-transform:uppercase;white-space:nowrap;
+  transform:rotate(5deg);
+  box-shadow:0 14px 30px rgba(0,0,0,.24),inset 0 1px 0 rgba(255,255,255,.45);
+  animation:tag 3.8s ease-in-out infinite;
+  transition:transform .22s ease,box-shadow .22s ease,filter .22s ease;
+  z-index:4;
+}
+.float-tag::before{
+  content:"";
+  width:7px;height:7px;border-radius:50%;
+  background:#0d241d;
+  box-shadow:0 0 0 4px rgba(13,36,29,.10);
+  flex:0 0 7px;
+}
+@keyframes tag{
+  0%,100%{transform:rotate(5deg) translateY(0)}
+  50%{transform:rotate(2deg) translateY(-7px)}
+}
+.float-tag:hover{
+  filter:brightness(1.03);
+  transform:rotate(2deg) translateY(-3px) scale(1.02);
+  box-shadow:0 19px 38px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.45);
+}
+.float-tag:active{transform:rotate(2deg) scale(.98)}
 .float-tag:focus-visible{outline:3px solid #fff;outline-offset:4px}
 .marquee{overflow:hidden;background:var(--yellow);color:#111;border-block:1px solid #111;white-space:nowrap}
 .marquee div{display:inline-block;padding:13px 0;font-size:12px;font-weight:950;letter-spacing:.22em;animation:marq 22s linear infinite}
@@ -1243,7 +1271,7 @@ button,input,select,textarea{
 .gcash-qr-dialog h3{font-size:34px;letter-spacing:-.045em;line-height:1;margin:12px 0 8px;color:#0d241d}
 .gcash-qr-dialog p{font-size:12px;line-height:1.5;color:#707772;margin:0 auto 18px;max-width:320px}
 .gcash-qr-close{position:absolute;top:14px;right:14px;width:38px;height:38px;border:1px solid #d1d6cf;border-radius:50%;background:transparent;font-size:22px;cursor:pointer;color:#0d241d}
-.gcash-qr-large{display:block;width:min(100%,330px);aspect-ratio:1/1;object-fit:contain;margin:0 auto 15px;border-radius:18px;background:#fff}
+.gcash-qr-large{display:block;width:min(100%,330px);max-height:62vh;aspect-ratio:3/4;object-fit:contain;margin:0 auto 15px;border-radius:18px;background:#fff}
 .gcash-popup-number{display:block;font-size:20px;color:#0d241d;letter-spacing:.02em}
 .gcash-popup-note{display:block;margin-top:4px;font-size:10px;color:#707772}
 @media(max-width:560px){.gcash-qr-dialog{padding:22px 18px}.gcash-qr-large{width:min(100%,290px)}}
@@ -1397,6 +1425,21 @@ button,a{ -webkit-tap-highlight-color:transparent; }
   .court{min-height:58px}
   .times{gap:7px}
   .time,.time-slot{min-height:46px!important}
+
+  /* Floating Open Play — refined mobile treatment */
+  .float-tag{
+    right:3%;
+    top:9%;
+    min-height:40px;
+    padding:9px 13px 9px 11px;
+    font-size:9px;
+    letter-spacing:.11em;
+    box-shadow:0 12px 25px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.45);
+  }
+  .float-tag::before{width:6px;height:6px;flex-basis:6px}
+  @media (prefers-reduced-motion: reduce){
+    .float-tag{animation:none}
+  }
 
   /* Open Play — phone-first card and registration flow */
   .open-play-live{padding-top:56px!important;padding-bottom:58px!important}
@@ -1626,7 +1669,7 @@ PLAY NOW · REGRET NOTHING ·
 <div class="gcash-payment-card">
   <button type="button" class="gcash-scan-trigger" id="openGcashQr" aria-label="Open GCash QR code"><span class="gcash-scan-icon">⌁</span><span><strong>Scan to pay</strong><small>Open GCash QR code</small></span><b>View QR →</b></button>
   <div class="gcash-payment-label">Send payment via GCash</div>
-  <strong class="gcash-payment-number">0951 687 4649</strong>
+  <strong class="gcash-payment-number">0945 630 7114</strong>
   <div class="gcash-payment-name">Scan the QR or send to this number</div>
 </div>
 <div class="payment-methods" role="group" aria-label="Payment method">
@@ -1647,7 +1690,7 @@ PLAY NOW · REGRET NOTHING ·
     <h3 id="gcashQrTitle">Scan to pay.</h3>
     <p>Open your GCash app and scan this QR code to send your payment.</p>
     <img class="gcash-qr-large" src="assets/asset_2.webp" alt="KUPAL PIKOLBOL GCash payment QR code"/>
-    <strong class="gcash-popup-number">0951 687 4649</strong>
+    <strong class="gcash-popup-number">0945 630 7114</strong>
     <span class="gcash-popup-note">Or send directly to this GCash number.</span>
   </div>
 </div>
@@ -2181,7 +2224,7 @@ PLAY NOW · REGRET NOTHING ·
         <div class="op-form-field"><label>Level</label><select id="opLevel" required></select></div>
         <div class="op-form-field full"><label>GCash Reference Number</label><input id="opPaymentRef" required placeholder="Enter your GCash reference number"></div>
         <div class="op-form-field full">
-          <div class="op-gcash-mini"><span>GCash payment</span><strong>0951 687 4649</strong></div>
+          <div class="op-gcash-mini"><span>GCash payment</span><strong>0945 630 7114</strong></div>
         </div>
         <div class="op-form-field full"><div class="op-form-note">After you submit, your registration is recorded as <b>Pending Verification</b>. Your player QR is generated immediately and will become active after payment is verified by KUPAL Open Play Admin.</div></div>
       </div>
