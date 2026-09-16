@@ -1489,6 +1489,17 @@ button,a{ -webkit-tap-highlight-color:transparent; }
   .compact-date .num{font-size:14px}
 }
 </style>
+<style id="open-play-gcash-scan-pay">
+.op-gcash-paybox{display:grid;gap:10px;padding:14px;border:1px solid #d9ddd6;border-radius:15px;background:#f7f3e9}
+.op-gcash-paybox-top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.op-gcash-paybox-label{font-size:10px;letter-spacing:.11em;text-transform:uppercase;color:#707772;font-weight:800}
+.op-gcash-paybox-number{font-size:15px;color:#0d241d;font-weight:900;letter-spacing:.02em}
+.op-gcash-scan-btn{width:100%;min-height:48px;border:1px solid #0d241d;border-radius:12px;background:#0d241d;color:#fffdf6;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;cursor:pointer;transition:.2s ease}
+.op-gcash-scan-btn:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(13,36,29,.12)}
+.op-gcash-scan-btn strong{font-size:12px;letter-spacing:.04em;text-transform:uppercase}
+.op-gcash-scan-btn span{font-size:11px;color:#f4dc32}
+@media(max-width:560px){.op-gcash-paybox{padding:12px}.op-gcash-paybox-number{font-size:14px}}
+</style>
 </head>
 <body>
 <div class="noise"></div>
@@ -2224,7 +2235,10 @@ PLAY NOW · REGRET NOTHING ·
         <div class="op-form-field"><label>Level</label><select id="opLevel" required></select></div>
         <div class="op-form-field full"><label>GCash Reference Number</label><input id="opPaymentRef" required placeholder="Enter your GCash reference number"></div>
         <div class="op-form-field full">
-          <div class="op-gcash-mini"><span>GCash payment</span><strong>0945 630 7114</strong></div>
+          <div class="op-gcash-paybox">
+            <div class="op-gcash-paybox-top"><span class="op-gcash-paybox-label">GCash payment</span><strong class="op-gcash-paybox-number">0945 630 7114</strong></div>
+            <button type="button" class="op-gcash-scan-btn" id="openOpGcashQr" aria-label="Scan to pay with GCash"><strong>Scan to pay</strong><span>View GCash QR →</span></button>
+          </div>
         </div>
         <div class="op-form-field full"><div class="op-form-note">After you submit, your registration is recorded as <b>Pending Verification</b>. Your player QR is generated immediately and will become active after payment is verified by KUPAL Open Play Admin.</div></div>
       </div>
@@ -2361,6 +2375,9 @@ PLAY NOW · REGRET NOTHING ·
   }
   async function load(){try{const events=await api("getPublicOpenPlayEvents",[]),list=(Array.isArray(events)?events:[]).filter(e=>String(e.status).toLowerCase()!=="cancelled"),today=new Date();today.setHours(0,0,0,0);const upcoming=list.filter(e=>{const d=new Date(String(e.date||""));return !Number.isNaN(d.getTime())&&d>=today;});upcoming.sort((a,b)=>String(a.date).localeCompare(String(b.date)));const actionable=upcoming.filter(e=>["open","full"].includes(String(e.status||"").toLowerCase())),next=actionable[0]||upcoming[0]||list[0];if(floatTag){floatTag.textContent=next?shortDateLabel(next.date):"OPEN PLAY";floatTag.onclick=next?()=>openModal(next):null;}if(!next){root.innerHTML='<div class="open-play-empty">No Open Play session has been announced yet. Check back soon.</div>';return;}const sc=statusClass(next.status);root.innerHTML=`<article class="open-play-card"><div><div class="open-play-eyebrow">Next Open Play</div><div class="open-play-date">${esc(dateLabel(next.date))}</div><div class="open-play-meta"><span class="open-play-pill ${sc}">${esc(next.status)}</span><span class="open-play-pill">${esc(next.courtCount)} court${next.courtCount==1?"":"s"}</span><span class="open-play-pill">${esc(next.court1Level)}${next.courtCount==2?" + "+esc(next.court2Level):""}</span></div></div><div class="open-play-side"><strong>${esc(timeLabel(next.startTime))} — ${esc(timeLabel(next.endTime))}</strong><small>₱${Number(next.ratePerPlayer||170).toLocaleString()} / player · ${esc(next.spotsRemaining)} spots left</small><div class="open-play-actions"><button type="button" class="open-play-btn" id="openPlayView">OPEN PLAY →</button></div></div></article>`;document.getElementById("openPlayView").onclick=()=>openModal(next);}catch(e){root.innerHTML='<div class="open-play-empty">Open Play is temporarily unavailable. Please check again shortly.</div>';}}
   form.addEventListener("submit",async ev=>{ev.preventDefault();if(!selectedRegistrationEvent)throw new Error("Please select an Open Play session first.");errorBox.style.display="none";submit.disabled=true;submit.textContent="SUBMITTING…";try{const result=await api("registerOpenPlayParticipant",[{eventId:selectedRegistrationEvent.eventId,playerName:document.getElementById("opName").value,phone:document.getElementById("opPhone").value,level:document.getElementById("opLevel").value,paymentReference:document.getElementById("opPaymentRef").value}]);await showSuccessQR(result);form.style.display="none";success.style.display="block";}catch(e){errorBox.textContent=e.message||"Unable to submit registration.";errorBox.style.display="block";submit.disabled=false;submit.textContent="SUBMIT REGISTRATION →";}});
+  const openOpGcashQr=document.getElementById("openOpGcashQr");
+  const opGcashQrModal=document.getElementById("gcashQrModal");
+  if(openOpGcashQr&&opGcashQrModal){openOpGcashQr.addEventListener("click",()=>{opGcashQrModal.classList.add("open");opGcashQrModal.setAttribute("aria-hidden","false");});}
   document.getElementById("openPlayClose").onclick=close;regClose.onclick=closeRegistration;modal.addEventListener("click",e=>{if(e.target===modal)close()});registerModal.addEventListener("click",e=>{if(e.target===registerModal)closeRegistration()});document.addEventListener("keydown",e=>{if(e.key==="Escape"){close();closeRegistration();}});load();
 })();
 </script>
