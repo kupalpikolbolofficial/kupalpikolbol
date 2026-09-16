@@ -2,10 +2,8 @@
 
 <html lang="en">
 <head>
-<!-- FAVICON & ASSETS -->
 <link rel="icon" type="image/webp" href="assets/asset_0.webp"/>
 <link rel="apple-touch-icon" href="assets/asset_0.webp"/>
-
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
@@ -782,6 +780,35 @@ button,input,select,textarea{font-family:var(--font-body)!important}
 }
 
 </style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <style id="clean-final-styles">
 /* ============================================================
@@ -1893,4 +1920,478 @@ PLAY NOW · REGRET NOTHING ·
 
   document.querySelectorAll(".payment-method").forEach(btn=>btn.addEventListener("click",()=>{
     if(btn.dataset.method!=="GCash")return showToast("GCash is currently the available payment method.");
-    document.querySelectorAll
+    document.querySelectorAll(".payment-method").forEach(x=>x.classList.remove("active"));btn.classList.add("active");
+  }));
+
+  async function submitBookings(){
+    const name=document.getElementById("customerName").value.trim(),phone=document.getElementById("customerPhone").value.trim();
+    const ref=document.getElementById("paymentRef").value.trim(),agreed=document.getElementById("paymentPolicy").checked;
+    if(!name||!phone)return showToast("Please enter your name and mobile number.");
+    if(!ref)return showToast("Payment reference number is required.");
+    if(!agreed)return showToast("Please accept the booking and payment policies.");
+    if(!state.slots.length)return showToast("Choose at least one hour.");
+    const btn=document.getElementById("submitPayment");btn.disabled=true;btn.textContent="Submitting…";
+    try{
+      const fresh=await api("getBookingsByDate",[isoDate(state.date)]); state.bookings=Array.isArray(fresh)?fresh:[]; renderTimes();
+      if(state.slots.some(t=>bookingStatusFor(t,addHour(t))!=="available"))throw new Error("One of your selected hours was just taken. Please review your selections.");
+      const sorted=state.slots.slice().sort((a,b)=>toMinutes(a)-toMinutes(b));
+      const blocks=[]; let block=null;
+      sorted.forEach(t=>{
+        if(!block)block={startTime:t,endTime:addHour(t)};
+        else if(toMinutes(t)===toMinutes(block.endTime))block.endTime=addHour(t);
+        else{blocks.push(block);block={startTime:t,endTime:addHour(t)}}
+      }); if(block)blocks.push(block);
+      const ids=[];
+      for(const b of blocks){
+        const result=await api("createBooking",[{date:isoDate(state.date),courtId:state.courtId,startTime:b.startTime,endTime:b.endTime,customerName:name,phone:phone,email:"",reference:ref,notes:"",bookingGroup:ref+"-"+isoDate(state.date)+"-"+state.courtId}]);
+        if(!result?.success && !result?.bookingId)throw new Error(result?.error||"A booking could not be submitted.");
+        ids.push(result.bookingId||"Submitted");
+      }
+      modal.classList.remove("open");document.getElementById("paymentStep").hidden=true;document.getElementById("reviewStep").hidden=false;
+      document.getElementById("paymentRef").value="";document.getElementById("paymentPolicy").checked=false;
+      state.slots=[];renderTimes();updateSummary();
+      showBookingSuccess(ids);
+      await loadBookings(true);
+    }catch(err){showToast(err.message||"Unable to submit booking.");}
+    finally{btn.disabled=false;btn.textContent="Submit payment →";}
+  }
+
+  const gcashQrModal=document.getElementById("gcashQrModal");
+  const openGcashQr=()=>{gcashQrModal.classList.add("open");gcashQrModal.setAttribute("aria-hidden","false");};
+  const closeGcashQr=()=>{gcashQrModal.classList.remove("open");gcashQrModal.setAttribute("aria-hidden","true");};
+  document.getElementById("openGcashQr").addEventListener("click",openGcashQr);
+  document.getElementById("closeGcashQr").addEventListener("click",closeGcashQr);
+  gcashQrModal.addEventListener("click",e=>{if(e.target.hasAttribute("data-close-gcash-qr"))closeGcashQr();});
+  document.addEventListener("keydown",e=>{if(e.key==="Escape")closeGcashQr();});
+
+  document.getElementById("submitPayment").addEventListener("click",submitBookings);
+
+  function showBookingSuccess(ids){
+    const list=ids.join(", ");
+    const box=document.createElement("div");box.className="info-popup";box.style.display="flex";
+    box.innerHTML=`<div class="info-popup-box" style="max-width:620px"><button class="info-popup-close" aria-label="Close">×</button><div class="info-popup-kicker">BOOKING SUBMITTED</div><h2 class="info-popup-title">You're in.<br/><span>For verification.</span></h2><p class="info-popup-lead">Your booking has been submitted and is pending payment verification.</p><div style="background:#f4efe3;border-radius:18px;padding:20px;margin-top:20px"><small style="display:block;letter-spacing:.12em;text-transform:uppercase;font-weight:800">Booking ID</small><strong style="display:block;font-size:22px;margin-top:8px;word-break:break-word">${esc(list)}</strong></div><p class="info-popup-lead" style="margin-top:18px">Keep this Booking ID and your GCash reference number for your records.</p></div>`;
+    document.body.appendChild(box);box.querySelector(".info-popup-close").addEventListener("click",()=>box.remove());box.addEventListener("click",e=>{if(e.target===box)box.remove()});
+  }
+
+  function showFindModal(){
+    const box=document.createElement("div");box.className="info-popup";box.style.display="flex";
+    box.innerHTML=`<div class="info-popup-box" style="max-width:620px"><button class="info-popup-close" aria-label="Close">×</button><div class="info-popup-kicker">BOOKING LOOKUP</div><h2 class="info-popup-title">Find your<br/><span>session.</span></h2><p class="info-popup-lead">Enter your Booking ID to view the current booking and payment status.</p><div class="field" style="margin-top:22px"><label>Booking ID</label><input id="lookupId" placeholder="e.g. KP-0001" autocomplete="off"/></div><button class="review" id="lookupBtn" style="margin-top:8px">Check Booking →</button><div id="lookupResult" style="margin-top:18px"></div></div>`;
+    document.body.appendChild(box);
+    box.querySelector(".info-popup-close").addEventListener("click",()=>box.remove());
+    box.addEventListener("click",e=>{if(e.target===box)box.remove()});
+    const input=box.querySelector("#lookupId"); input.focus();
+    box.querySelector("#lookupBtn").addEventListener("click",async()=>{
+      const id=input.value.trim(),btn=box.querySelector("#lookupBtn"),out=box.querySelector("#lookupResult");
+      if(!id)return out.innerHTML='<p class="info-popup-lead">Enter your Booking ID.</p>';
+      btn.disabled=true;btn.textContent="Checking…";out.innerHTML="";
+      try{
+        const r=await api("getBookingById",[id]);
+        if(!r)throw new Error("Booking not found.");
+        const court=(state.courts.find(c=>String(c.id)===String(r.courtId))?.name)||r.courtId;
+        out.innerHTML=`<div style="background:#f4efe3;border-radius:18px;padding:20px"><strong style="display:block;font-size:22px">${esc(r.bookingId||id)}</strong><p style="margin:10px 0 0">${esc(r.customerName||"")} · ${esc(r.date||"")}</p><p style="margin:6px 0">${esc(court)} · ${esc(timeLabel(r.startTime))} – ${esc(timeLabel(r.endTime))}</p><p style="margin:10px 0 0"><strong>Payment:</strong> ${esc(r.paymentStatus||"—")}<br/><strong>Booking:</strong> ${esc(r.bookingStatus||"—")}</p></div>`;
+      }catch(err){out.innerHTML=`<p class="info-popup-lead" style="color:#9f3e3e">${esc(err.message||"Unable to find booking.")}</p>`}
+      finally{btn.disabled=false;btn.textContent="Check Booking →"}
+    });
+  }
+  document.getElementById("findBtn").addEventListener("click",showFindModal);
+
+  function showToast(t){const x=document.getElementById("toast");x.textContent=t;x.classList.add("show");clearTimeout(window.__kToast);window.__kToast=setTimeout(()=>x.classList.remove("show"),3200)}
+
+  renderCalendar();renderTimes();updateSummary();init();
+})();
+</script>
+<div aria-labelledby="ratesPopupTitle" aria-modal="true" class="info-popup" id="ratesPopup" role="dialog"><div class="info-popup-box"><button aria-label="Close rates" class="info-popup-close" data-close-popup="ratesPopup">×</button><div class="info-popup-kicker">KUPAL PIKOLBOL RATES</div><h2 class="info-popup-title" id="ratesPopupTitle">Simple rates.<br/><span>Ready to play.</span></h2><p class="info-popup-lead">Straightforward rates for the things you need to play.</p><div class="popup-rate-grid"><article class="popup-rate"><span class="popup-rate-time">FOR RENT</span><strong class="popup-rate-price">₱250<small>/hr</small></strong><b class="popup-rate-name">COURT</b></article><article class="popup-rate"><span class="popup-rate-time">FOR RENT</span><strong class="popup-rate-price">₱50<small>/hr</small></strong><b class="popup-rate-name">PADDLE</b></article><article class="popup-rate featured"><span class="popup-rate-time">FOR SALE</span><strong class="popup-rate-price">₱130</strong><b class="popup-rate-name">PICKLE BALL</b></article></div></div></div><div aria-labelledby="howPopupTitle" aria-modal="true" class="info-popup" id="howPopup" role="dialog"><div class="info-popup-box"><button aria-label="Close how to book" class="info-popup-close" data-close-popup="howPopup">×</button><h2 class="info-popup-title" id="howPopupTitle">Three moves. Then play.</h2><p class="info-popup-lead">Booking is designed to stay simple: choose your day, build your session, then review and pay.</p><div class="popup-how-grid"><article class="popup-how-step"><div class="popup-how-num">01</div><h3>Choose a date</h3><p>Pick the day you want to play from the live booking calendar.</p></article><article class="popup-how-step"><div class="popup-how-num">02</div><h3>Choose a court + hours</h3><p>Select your court and the available hourly slots that fit your session.</p></article><article class="popup-how-step"><div class="popup-how-num">03</div><h3>Review + pay</h3><p>Confirm your details, complete payment, and keep your booking reference.</p></article></div></div></div>
+<div aria-labelledby="cancellationPolicyTitle" aria-modal="true" class="info-popup policy-popup" id="cancellationPolicy" role="dialog">
+  <div class="info-popup-box policy-popup-box">
+    <button aria-label="Close cancellation policy" class="info-popup-close" data-close-popup="cancellationPolicy">×</button>
+    <div class="info-popup-kicker">INFO &amp; POLICIES</div>
+    <h2 class="info-popup-title" id="cancellationPolicyTitle">Cancellation<br/><span>Policy.</span></h2>
+    <div class="policy-content">
+      <h3>1. Customer Cancellation / Rescheduling</h3>
+      <p>Customers may request a cancellation or rescheduling of their booking <strong>at least 12 hours before the scheduled playing time</strong>.</p>
+      <p>Requests made within the allowed period may be eligible for a <strong>refund or rescheduling</strong>, subject to confirmation by Kupal Pikolbol.</p>
+
+      <h3>2. Less Than 12 Hours Before Booking</h3>
+      <p>Cancellations or rescheduling requests made <strong>less than 12 hours before the scheduled playing time</strong> are generally not eligible for a refund or rescheduling.</p>
+
+      <h3>3. No-Show</h3>
+      <p>If a customer does not arrive for their scheduled booking and does not contact Kupal Pikolbol beforehand, the booking will be considered a <strong>no-show</strong> and will be <strong>non-refundable and non-reschedulable</strong>.</p>
+
+      <h3>4. Weather / Unsafe Playing Conditions</h3>
+      <p>If weather conditions or other circumstances make the court unsafe or unavailable, customers may request a <strong>refund or rescheduling</strong>.</p>
+      <p>Please contact Kupal Pikolbol through our official Facebook Page regarding weather-related cancellations or rescheduling.</p>
+
+      <h3>5. Cancellation by Kupal Pikolbol</h3>
+      <p>Kupal Pikolbol may cancel a booking when necessary due to unsafe court conditions, maintenance, facility issues, or other circumstances affecting court availability.</p>
+      <p>If Kupal Pikolbol cancels a paid booking, the customer will be contacted regarding the available <strong>refund or rescheduling arrangement</strong>.</p>
+
+      <h3>6. How to Request a Cancellation or Rescheduling</h3>
+      <p>For cancellation, refund, or rescheduling requests, please contact us through our official Facebook Page and provide:</p>
+      <ul>
+        <li>Booking ID</li>
+        <li>Full name</li>
+        <li>Scheduled date and time</li>
+        <li>Reason for the request</li>
+      </ul>
+      <p class="policy-contact"><a href="https://www.facebook.com/profile.php?id=61593038529583" target="_blank" rel="noopener">Message us on Facebook →</a></p>
+    </div>
+  </div>
+</div>
+
+<div aria-labelledby="termsPolicyTitle" aria-modal="true" class="info-popup policy-popup" id="termsPolicy" role="dialog">
+  <div class="info-popup-box policy-popup-box">
+    <button aria-label="Close terms and conditions" class="info-popup-close" data-close-popup="termsPolicy">×</button>
+    <div class="info-popup-kicker">INFO &amp; POLICIES</div>
+    <h2 class="info-popup-title" id="termsPolicyTitle">Terms &amp;<br/><span>Conditions.</span></h2>
+    <div class="policy-content">
+      <p>By making a booking with Kupal Pikolbol, you agree to the following terms and conditions.</p>
+
+      <h3>1. Booking</h3>
+      <ul>
+        <li>All court bookings must be made through the official Kupal Pikolbol booking system or through an authorized Kupal Pikolbol representative.</li>
+        <li>A booking is considered submitted once the required booking information and GCash payment reference have been provided.</li>
+        <li>Players are responsible for providing accurate contact and booking information.</li>
+        <li>Each booking is valid only for the selected date, court, and playing time.</li>
+      </ul>
+
+      <h3>2. Payment</h3>
+      <ul>
+        <li>Court fees must be paid through the payment method provided by Kupal Pikolbol.</li>
+        <li>Customers must provide the correct GCash payment reference when submitting a booking.</li>
+        <li>Bookings may remain subject to payment verification before being considered confirmed.</li>
+        <li>Customers should keep their payment reference and Booking ID for their records.</li>
+      </ul>
+
+      <h3>3. Arrival &amp; Use of Court</h3>
+      <ul>
+        <li>Players should arrive on time for their scheduled booking.</li>
+        <li>Court time is limited to the reserved period.</li>
+        <li>Players should vacate the court when their scheduled time ends so the next booking can begin.</li>
+        <li>Players are responsible for keeping the court and surrounding areas clean and orderly.</li>
+      </ul>
+
+      <h3>4. Court Rules &amp; Player Conduct</h3>
+      <p>Players are expected to follow reasonable facility and court rules, treat other players and staff with respect, use the court and equipment responsibly, and avoid behavior that may damage the facility or disturb other players.</p>
+      <p>Kupal Pikolbol reserves the right to address inappropriate or unsafe behavior.</p>
+
+      <h3>5. Cancellation &amp; Rescheduling</h3>
+      <p>Cancellations and rescheduling are subject to the <strong>Kupal Pikolbol Cancellation Policy</strong>. Customers should review the Cancellation Policy before completing their booking.</p>
+
+      <h3>6. No-Show</h3>
+      <p>A customer who does not arrive for their scheduled booking and does not contact Kupal Pikolbol beforehand will be considered a <strong>no-show</strong>. No-show bookings are non-refundable and non-reschedulable.</p>
+
+      <h3>7. Weather &amp; Court Availability</h3>
+      <p>Kupal Pikolbol may temporarily suspend or cancel play when weather, court conditions, maintenance, or other circumstances make playing unsafe or the court unavailable. Customers may contact Kupal Pikolbol through the official Facebook Page regarding available refund or rescheduling arrangements.</p>
+
+      <h3>8. Facility &amp; Personal Responsibility</h3>
+      <p>Players are responsible for their personal belongings while inside the facility. Kupal Pikolbol is not responsible for loss, theft, or damage to personal belongings brought to the facility.</p>
+
+      <h3>9. Safety</h3>
+      <p>Players are responsible for playing within their own physical ability and following reasonable safety practices. Please use appropriate sports attire and footwear suitable for pickleball and the court surface.</p>
+
+      <h3>10. Right to Refuse or Cancel a Booking</h3>
+      <p>Kupal Pikolbol reserves the right to refuse, suspend, or cancel a booking when necessary due to unsafe conditions, facility or maintenance issues, violation of facility rules, inappropriate behavior, or other circumstances affecting safe and proper operation of the facility.</p>
+
+      <h3>11. Contact</h3>
+      <p>For questions, booking concerns, cancellations, rescheduling, or other inquiries, please contact Kupal Pikolbol through the official Facebook Page.</p>
+      <p class="policy-contact"><a href="https://www.facebook.com/profile.php?id=61593038529583" target="_blank" rel="noopener">Message us on Facebook →</a></p>
+    </div>
+  </div>
+</div>
+
+<div aria-labelledby="privacyPolicyTitle" aria-modal="true" class="info-popup policy-popup" id="privacyPolicy" role="dialog">
+  <div class="info-popup-box policy-popup-box">
+    <button aria-label="Close privacy policy" class="info-popup-close" data-close-popup="privacyPolicy">×</button>
+    <div class="info-popup-kicker">INFO &amp; POLICIES</div>
+    <h2 class="info-popup-title" id="privacyPolicyTitle">Privacy<br/><span>Policy.</span></h2>
+    <div class="policy-content">
+      <p>Kupal Pikolbol respects your privacy. This Privacy Policy explains what information we collect when you use our booking service and how we use it.</p>
+
+      <h3>1. Information We Collect</h3>
+      <p>When you make a booking, we may collect:</p>
+      <ul>
+        <li>Full name</li>
+        <li>Phone number</li>
+        <li>Email address, if provided</li>
+        <li>Booking date</li>
+        <li>Selected court</li>
+        <li>Selected playing time</li>
+        <li>GCash payment reference number</li>
+        <li>Booking notes or other information you choose to provide</li>
+      </ul>
+      <p>We also generate a <strong>Booking ID</strong> to help you check and manage your booking.</p>
+
+      <h3>2. How We Use Your Information</h3>
+      <ul>
+        <li>Process and manage your court booking</li>
+        <li>Verify your payment</li>
+        <li>Confirm or update your booking</li>
+        <li>Contact you regarding your booking when necessary</li>
+        <li>Respond to booking concerns, cancellations, or rescheduling requests</li>
+        <li>Maintain booking and payment records</li>
+        <li>Manage court availability and prevent double bookings</li>
+        <li>Improve the operation of Kupal Pikolbol's booking service</li>
+      </ul>
+      <p>We do not require customers to create a member account to make a booking.</p>
+
+      <h3>3. Payment Information</h3>
+      <p>Kupal Pikolbol may collect your <strong>GCash payment reference number</strong> for payment verification. We do not ask customers to provide their GCash password, PIN, or other private account credentials through the booking system.</p>
+
+      <h3>4. How We Protect Your Information</h3>
+      <p>We take reasonable steps to protect customer information and limit access to authorized persons involved in managing Kupal Pikolbol bookings and operations. However, no electronic system can be guaranteed to be completely secure.</p>
+
+      <h3>5. Sharing of Information</h3>
+      <p>Customer information is used primarily for Kupal Pikolbol's booking and operational purposes. We do not sell customer information.</p>
+      <p>Information may be accessed by authorized persons when necessary to process bookings, verify payments, manage the facility, respond to customer concerns, or comply with applicable legal requirements.</p>
+
+      <h3>6. How Long We Keep Information</h3>
+      <p>Booking and payment information may be retained as part of Kupal Pikolbol's operational records. Records may be kept for as long as reasonably necessary for booking management, payment verification, recordkeeping, and other legitimate business purposes.</p>
+
+      <h3>7. Your Privacy Concerns</h3>
+      <p>If you have questions or concerns about how your information is handled, please contact Kupal Pikolbol through our official Facebook Page.</p>
+      <p class="policy-contact"><a href="https://www.facebook.com/profile.php?id=61593038529583" target="_blank" rel="noopener">Contact us on Facebook →</a></p>
+
+      <h3>8. Changes to This Privacy Policy</h3>
+      <p>Kupal Pikolbol may update this Privacy Policy when necessary. Any updated version will be made available through the Kupal Pikolbol website.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+// Rates + How to Book popup behavior
+(function(){
+  const popups=document.querySelectorAll('.info-popup');
+  const openPopup=id=>{const el=document.getElementById(id);if(!el)return;el.classList.add('open');document.body.style.overflow='hidden';};
+  const closePopup=el=>{el.classList.remove('open');if(!document.querySelector('.info-popup.open'))document.body.style.overflow='';};
+  document.querySelectorAll('[data-popup]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();openPopup(a.dataset.popup);}));
+  document.querySelectorAll('[data-close-popup]').forEach(b=>b.addEventListener('click',()=>closePopup(document.getElementById(b.dataset.closePopup))));
+  popups.forEach(p=>p.addEventListener('click',e=>{if(e.target===p)closePopup(p);}));
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'){const p=document.querySelector('.info-popup.open');if(p)closePopup(p);}});
+})();
+</script>
+<script id="policy-popup-controller">
+(function(){
+  function initPolicyPopups(){
+    var links = document.querySelectorAll('.policy-link[data-policy]');
+    var popups = document.querySelectorAll('.policy-popup');
+
+    links.forEach(function(link){
+      link.addEventListener('click', function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        var id = link.getAttribute('data-policy');
+        var popup = document.getElementById(id);
+        if (!popup) return;
+        popup.classList.add('open');
+        popup.setAttribute('aria-hidden','false');
+        document.body.style.overflow='hidden';
+      });
+    });
+
+    popups.forEach(function(popup){
+      popup.querySelectorAll('[data-close-popup]').forEach(function(btn){
+        btn.addEventListener('click', function(e){
+          e.preventDefault();
+          e.stopPropagation();
+          popup.classList.remove('open');
+          popup.setAttribute('aria-hidden','true');
+          if (!document.querySelector('.info-popup.open')) document.body.style.overflow='';
+        });
+      });
+
+      popup.addEventListener('click', function(e){
+        if (e.target === popup){
+          popup.classList.remove('open');
+          popup.setAttribute('aria-hidden','true');
+          if (!document.querySelector('.info-popup.open')) document.body.style.overflow='';
+        }
+      });
+    });
+
+    document.addEventListener('keydown', function(e){
+      if (e.key !== 'Escape') return;
+      var open = document.querySelector('.policy-popup.open');
+      if (!open) return;
+      open.classList.remove('open');
+      open.setAttribute('aria-hidden','true');
+      if (!document.querySelector('.info-popup.open')) document.body.style.overflow='';
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initPolicyPopups);
+  } else {
+    initPolicyPopups();
+  }
+})();
+</script>
+
+
+<div class="open-play-modal" id="openPlayRegisterModal" aria-hidden="true">
+  <div class="open-play-modal-card" role="dialog" aria-modal="true" aria-labelledby="openPlayRegisterTitle">
+    <button type="button" class="open-play-modal-close" id="openPlayRegisterClose" aria-label="Close registration">×</button>
+    <div class="open-play-eyebrow">KUPAL · OPEN PLAY REGISTRATION</div>
+    <h3 id="openPlayRegisterTitle">Save your <span>spot.</span></h3>
+    <div id="openPlayRegisterEventSummary"></div>
+    <form id="openPlayRegistrationForm" class="open-play-register-box">
+      <div class="op-form-grid">
+        <div class="op-form-field full"><label>Full Name</label><input id="opName" autocomplete="name" required placeholder="Your full name"></div>
+        <div class="op-form-field"><label>Mobile Number</label><input id="opPhone" inputmode="tel" autocomplete="tel" required placeholder="09XXXXXXXXX"></div>
+        <div class="op-form-field"><label>Level</label><select id="opLevel" required></select></div>
+        <div class="op-form-field full"><label>GCash Reference Number</label><input id="opPaymentRef" required placeholder="Enter your GCash reference number"></div>
+        <div class="op-form-field full">
+          <div class="op-gcash-paybox">
+            <div class="op-gcash-paybox-top"><span class="op-gcash-paybox-label">GCash payment</span><strong class="op-gcash-paybox-number">0945 630 7114</strong></div>
+            <button type="button" class="op-gcash-scan-btn" id="openOpGcashQr" aria-label="Scan to pay with GCash"><strong>Scan to pay</strong><span>View GCash QR →</span></button>
+          </div>
+        </div>
+        <div class="op-form-field full"><div class="op-form-note">After you submit, your registration is recorded as <b>Pending Verification</b>. Your player QR is generated immediately and will become active after payment is verified by KUPAL Open Play Admin.</div></div>
+      </div>
+      <div class="op-error" id="opRegError"></div>
+      <button class="op-submit" id="opSubmit" type="submit">SUBMIT REGISTRATION →</button>
+    </form>
+    <div class="op-success" id="opRegSuccess">
+      <div class="op-form-note"><b>Registration received.</b><br>Save this QR. It becomes valid for check-in once your GCash payment is verified.</div>
+      <div class="op-success-card">
+        <div class="op-form-field"><label>Player</label><div class="op-success-id" id="opSuccessPlayer"></div></div>
+        <div class="op-form-field" style="margin-top:14px"><label>Level</label><strong id="opSuccessLevel"></strong></div>
+        <div class="op-form-field" style="margin-top:14px"><label>Registration ID</label><div class="op-success-id" id="opSuccessId"></div></div>
+        <div id="opQrCode" style="margin:20px auto 8px;width:220px;height:220px;background:#fffdf6;padding:8px;border-radius:18px;display:grid;place-items:center"></div>
+        <div style="text-align:center;font-size:10px;color:#687269;line-height:1.5">PAYMENT STATUS: <b>PENDING VERIFICATION</b></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script id="open-play-live-script">
+(function(){
+  const API_URL="https://kupal-pikolbol-api.kupalpikolbol-official.workers.dev/api";
+  const root=document.getElementById("openPlayLiveContent"),modal=document.getElementById("openPlayModal"),body=document.getElementById("openPlayModalBody");
+  const registerModal=document.getElementById("openPlayRegisterModal"),registerBody=document.getElementById("openPlayRegisterEventSummary"),form=document.getElementById("openPlayRegistrationForm"),regClose=document.getElementById("openPlayRegisterClose"),errorBox=document.getElementById("opRegError"),submit=document.getElementById("opSubmit"),success=document.getElementById("opRegSuccess"),floatTag=document.getElementById("openPlayFloat");
+  if(!root||!modal||!registerModal||!form)return;
+  let selectedRegistrationEvent=null;
+  const esc=v=>String(v==null?"":v).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;");
+  const api=async(action,args=[])=>{const res=await fetch(API_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action,args})});const t=await res.text();let d;try{d=JSON.parse(t)}catch(e){throw new Error("Invalid API response.")}if(!res.ok||d?.success===false)throw new Error(d?.error||"Unable to contact Open Play.");return d?.data!==undefined?d.data:d;};
+  function timeLabel(t){const parts=String(t||"").split(":");const h=Number(parts[0]);const m=Number(parts[1]||0);if(Number.isNaN(h))return String(t||"");const ap=h>=12?"PM":"AM";const hh=h%12||12;return String(hh)+":"+String(m).padStart(2,"0")+" "+ap;}
+  function dateLabel(v){const p=String(v||"").split("-").map(Number);if(p.length!==3)return v||"Open Play";return new Date(p[0],p[1]-1,p[2]).toLocaleDateString("en-US",{weekday:"long",month:"long",day:"numeric",year:"numeric"});}
+  function shortDateLabel(v){const p=String(v||"").split("-").map(Number);if(p.length!==3)return "OPEN PLAY";return new Date(p[0],p[1]-1,p[2]).toLocaleDateString("en-US",{month:"short",day:"numeric"}).toUpperCase()+" · OPEN PLAY";}
+  function statusClass(s){const x=String(s||"").toLowerCase();return x==="open"?"open":(x==="full"?"full":"closed");}
+  function openRegistration(e){
+    selectedRegistrationEvent=e;
+    document.getElementById("opName").value="";
+    document.getElementById("opPhone").value="";
+    document.getElementById("opPaymentRef").value="";
+    errorBox.style.display="none";
+    success.style.display="none";
+    form.style.display="";
+    submit.disabled=false;
+    submit.textContent="SUBMIT REGISTRATION →";
+
+    const level=document.getElementById("opLevel");
+    const levels=[];
+    [e.court1Level,e.court2Level].forEach(v=>{
+      if(v&&levels.indexOf(v)<0)levels.push(v);
+    });
+
+    const availableLevels=levels.filter(v=>
+      Number(e.levelAvailability?.[v]??0)>0
+    );
+
+    level.innerHTML=levels.map(v=>{
+      const spots=Number(e.levelAvailability?.[v]??0);
+      const full=spots<=0;
+      return `<option value="${esc(v)}" ${full?"disabled":""}>${esc(v)}${full?" — FULL":` — ${spots} spot${spots===1?"":"s"} left`}</option>`;
+    }).join("");
+
+    if(availableLevels.length){
+      level.value=availableLevels[0];
+      submit.disabled=false;
+    }else{
+      level.innerHTML='<option value="" selected>No slots available</option>';
+      submit.disabled=true;
+      submit.textContent="REGISTRATION FULL";
+    }
+
+    registerBody.innerHTML=`<div class="open-play-detail">
+      <div><b>SESSION</b><strong>${esc(dateLabel(e.date))}</strong></div>
+      <div><b>TIME</b><strong>${esc(timeLabel(e.startTime))} — ${esc(timeLabel(e.endTime))}</strong></div>
+      <div><b>RATE</b><strong>₱${Number(e.ratePerPlayer||170).toLocaleString()} / player</strong></div>
+    </div>`;
+
+    registerModal.classList.add("open");
+    registerModal.setAttribute("aria-hidden","false");
+    document.body.style.overflow="hidden";
+  }
+  function closeRegistration(){registerModal.classList.remove("open");registerModal.setAttribute("aria-hidden","true");document.body.style.overflow="";}
+  function openModal(e){
+    const full=String(e.status).toLowerCase()==="full";
+    const closed=String(e.status).toLowerCase()!=="open";
+    const hasAvailableLevel=[e.court1Level,e.court2Level].some(v=>
+      v&&Number(e.levelAvailability?.[v]??0)>0
+    );
+    const registrationClosed=closed||full||!hasAvailableLevel;
+    const registrationNote=full||!hasAvailableLevel
+      ?"All slots for this session are full. Registration is closed."
+      :closed
+        ?"Registration is currently closed."
+        :"Registration is open. Complete the short form to reserve your spot.";
+
+    body.innerHTML=`<div class="open-play-date">${esc(dateLabel(e.date))}</div>
+      <div class="open-play-detail">
+        <div><b>Session</b><strong>${esc(timeLabel(e.startTime))} — ${esc(timeLabel(e.endTime))}</strong></div>
+        <div><b>Rate</b><strong>₱${Number(e.ratePerPlayer||170).toLocaleString()} / player</strong></div>
+        <div><b>Levels</b><strong>${esc(e.court1Level)}${e.courtCount==2?" + "+esc(e.court2Level):""}</strong></div>
+        <div><b>Spots</b><strong>${esc(e.spotsRemaining)} / ${esc(e.totalCapacity)} remaining</strong></div>
+      </div>
+      <div class="open-play-note">${registrationNote}</div>
+      <div class="open-play-actions">
+        <button type="button" class="open-play-btn secondary" id="openPlayFacebook">${e.facebookUrl?"View announcement ↗":"KUPAL Open Play"}</button>
+        ${!registrationClosed?`<button type="button" class="open-play-btn" id="openPlayRegister">REGISTER FOR OPEN PLAY →</button>`:""}
+      </div>`;
+
+    const fb=document.getElementById("openPlayFacebook");
+    if(fb&&e.facebookUrl)fb.onclick=()=>window.open(e.facebookUrl,"_blank","noopener");
+
+    const reg=document.getElementById("openPlayRegister");
+    if(reg)reg.onclick=()=>openRegistration(e);
+
+    modal.classList.add("open");
+    modal.setAttribute("aria-hidden","false");
+    document.body.style.overflow="hidden";
+  }
+  function close(){modal.classList.remove("open");modal.setAttribute("aria-hidden","true");document.body.style.overflow="";}
+  let qrLoader=null;
+  function ensureQRCode(){
+    if(window.QRCode) return Promise.resolve();
+    if(qrLoader) return qrLoader;
+    qrLoader=new Promise((resolve,reject)=>{
+      const sc=document.createElement("script"); sc.src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"; sc.async=true;
+      sc.onload=resolve; sc.onerror=()=>reject(new Error("QR generator could not load.")); document.head.appendChild(sc);
+    });
+    return qrLoader;
+  }
+  async function showSuccessQR(result){
+    const wrap=document.getElementById("opQrCode");wrap.innerHTML="<div style=\"font-size:10px;color:#687269\">Preparing your QR…</div>";
+    try{await ensureQRCode();new QRCode(wrap,{text:String(result.participantId||result.qrToken),width:220,height:220,colorDark:"#0d241d",colorLight:"#fffdf6",correctLevel:QRCode.CorrectLevel.M});}catch(e){wrap.innerHTML="<div style=\"font-size:10px;color:#9f3e3e;text-align:center\">QR generator unavailable. Your Registration ID is the backup.</div>";}
+    document.getElementById("opSuccessId").textContent=result.participantId||"—";
+    document.getElementById("opSuccessPlayer").textContent=result.playerName||"—";
+    document.getElementById("opSuccessLevel").textContent=result.level||"—";
+  }
+  async function load(){try{const events=await api("getPublicOpenPlayEvents",[]),list=(Array.isArray(events)?events:[]).filter(e=>String(e.status).toLowerCase()!=="cancelled"),today=new Date();today.setHours(0,0,0,0);const upcoming=list.filter(e=>{const d=new Date(String(e.date||""));return !Number.isNaN(d.getTime())&&d>=today;});upcoming.sort((a,b)=>String(a.date).localeCompare(String(b.date)));const actionable=upcoming.filter(e=>["open","full"].includes(String(e.status||"").toLowerCase())),next=actionable[0]||upcoming[0]||list[0];if(floatTag){floatTag.textContent=next?shortDateLabel(next.date):"OPEN PLAY";floatTag.onclick=next?()=>openModal(next):null;}if(!next){root.innerHTML='<div class="open-play-empty">No Open Play session has been announced yet. Check back soon.</div>';return;}const sc=statusClass(next.status);root.innerHTML=`<article class="open-play-card"><div><div class="open-play-eyebrow">Next Open Play</div><div class="open-play-date">${esc(dateLabel(next.date))}</div><div class="open-play-meta"><span class="open-play-pill ${sc}">${esc(next.status)}</span><span class="open-play-pill">${esc(next.courtCount)} court${next.courtCount==1?"":"s"}</span><span class="open-play-pill">${esc(next.court1Level)}${next.courtCount==2?" + "+esc(next.court2Level):""}</span></div></div><div class="open-play-side"><strong>${esc(timeLabel(next.startTime))} — ${esc(timeLabel(next.endTime))}</strong><small>₱${Number(next.ratePerPlayer||170).toLocaleString()} / player · ${esc(next.spotsRemaining)} spots left</small><div class="open-play-actions"><button type="button" class="open-play-btn" id="openPlayView">OPEN PLAY →</button></div></div></article>`;document.getElementById("openPlayView").onclick=()=>openModal(next);}catch(e){root.innerHTML='<div class="open-play-empty">Open Play is temporarily unavailable. Please check again shortly.</div>';}}
+  form.addEventListener("submit",async ev=>{ev.preventDefault();if(!selectedRegistrationEvent)throw new Error("Please select an Open Play session first.");errorBox.style.display="none";submit.disabled=true;submit.textContent="SUBMITTING…";try{const result=await api("registerOpenPlayParticipant",[{eventId:selectedRegistrationEvent.eventId,playerName:document.getElementById("opName").value,phone:document.getElementById("opPhone").value,level:document.getElementById("opLevel").value,paymentReference:document.getElementById("opPaymentRef").value}]);await showSuccessQR(result);form.style.display="none";success.style.display="block";}catch(e){errorBox.textContent=e.message||"Unable to submit registration.";errorBox.style.display="block";submit.disabled=false;submit.textContent="SUBMIT REGISTRATION →";}});
+  const openOpGcashQr=document.getElementById("openOpGcashQr");
+  const opGcashQrModal=document.getElementById("gcashQrModal");
+  if(openOpGcashQr&&opGcashQrModal){openOpGcashQr.addEventListener("click",()=>{opGcashQrModal.classList.add("open");opGcashQrModal.setAttribute("aria-hidden","false");});}
+  document.getElementById("openPlayClose").onclick=close;regClose.onclick=closeRegistration;modal.addEventListener("click",e=>{if(e.target===modal)close()});registerModal.addEventListener("click",e=>{if(e.target===registerModal)closeRegistration()});document.addEventListener("keydown",e=>{if(e.key==="Escape"){close();closeRegistration();}});load();
+})();
+</script>
+
+
+
+</body>
+
+
+</html>
+
+
