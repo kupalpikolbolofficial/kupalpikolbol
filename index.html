@@ -1713,6 +1713,28 @@ button,a{ -webkit-tap-highlight-color:transparent; }
 .op-gcash-scan-btn span{font-size:11px;color:#f4dc32}
 @media(max-width:560px){.op-gcash-paybox{padding:12px}.op-gcash-paybox-number{font-size:14px}}
 </style>
+<style id="mobile-nav-fix">
+.mobile-nav-toggle,.mobile-nav-panel{display:none}
+@media(max-width:700px){
+.nav{padding:18px 18px!important;align-items:center!important}
+.navlinks,.nav .navbtn{display:none!important}
+.mobile-nav-toggle{display:flex!important;width:46px!important;height:46px!important;flex:0 0 46px!important;padding:0!important;margin:0!important;border:1px solid rgba(244,220,50,.55)!important;border-radius:50%!important;background:rgba(8,20,15,.7)!important;align-items:center!important;justify-content:center!important;flex-direction:column!important;gap:5px!important;cursor:pointer!important;z-index:10002!important}
+.mobile-nav-toggle span{display:block!important;width:18px!important;height:2px!important;border-radius:2px!important;background:#f4dc32!important;transition:transform .22s ease,opacity .22s ease!important}
+.mobile-nav-toggle.is-open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.mobile-nav-toggle.is-open span:nth-child(2){opacity:0}
+.mobile-nav-toggle.is-open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.mobile-nav-panel{position:fixed!important;inset:0!important;display:flex!important;align-items:flex-start!important;justify-content:flex-end!important;padding:14px!important;background:rgba(3,10,7,.72)!important;backdrop-filter:blur(12px)!important;-webkit-backdrop-filter:blur(12px)!important;opacity:0!important;visibility:hidden!important;pointer-events:none!important;transition:opacity .22s ease,visibility .22s ease!important;z-index:10000!important}
+.mobile-nav-panel.is-open{opacity:1!important;visibility:visible!important;pointer-events:auto!important}
+.mobile-nav-inner{position:relative!important;width:min(340px,calc(100vw - 28px))!important;margin-top:58px!important;padding:25px 22px 22px!important;box-sizing:border-box!important;background:#f5f1e7!important;color:#0b1712!important;border:1px solid rgba(10,17,14,.12)!important;border-radius:24px!important;box-shadow:0 25px 70px rgba(0,0,0,.3)!important}
+.mobile-nav-close{position:absolute!important;top:14px!important;right:14px!important;width:38px!important;height:38px!important;border:1px solid #d5d0c3!important;border-radius:50%!important;background:transparent!important;color:#0b1712!important;font-size:20px!important;line-height:1!important;cursor:pointer!important}
+.mobile-nav-kicker{margin:2px 48px 18px 2px!important;color:#0d5a3d!important;font-size:9px!important;line-height:1.2!important;font-weight:800!important;letter-spacing:.2em!important}
+.mobile-nav-inner>a{display:flex!important;align-items:center!important;justify-content:space-between!important;min-height:52px!important;padding:0 2px!important;border-bottom:1px solid #e1dcd0!important;color:#0b1712!important;text-decoration:none!important;font-size:14px!important;font-weight:700!important;letter-spacing:-.01em!important}
+.mobile-nav-inner>a span{color:#0d5a3d!important;font-size:15px!important}
+.mobile-nav-inner .mobile-nav-reserve{margin-top:14px!important;padding:0 18px!important;min-height:48px!important;border:0!important;border-radius:999px!important;background:#0d241d!important;color:#fff!important;justify-content:center!important}
+.mobile-nav-inner .mobile-nav-reserve span{color:#f4dc32!important;margin-left:8px}
+body.mobile-nav-open{overflow:hidden!important}
+}
+</style>
 </head>
 <body>
 <div class="noise"></div>
@@ -1724,7 +1746,21 @@ button,a{ -webkit-tap-highlight-color:transparent; }
 <a href="https://www.facebook.com/profile.php?id=61593038529583" target="_blank" rel="noopener">Facebook</a>
 <a href="https://maps.app.goo.gl/wJQ49g7U4NAUNWs76" target="_blank" rel="noopener">Location</a>
 </nav>
+<button class="mobile-nav-toggle" id="mobileNavToggle" type="button" aria-label="Open menu" aria-expanded="false">
+<span></span><span></span><span></span>
+</button>
 <a class="navbtn" href="#book">Reserve</a>
+<div class="mobile-nav-panel" id="mobileNavPanel" aria-hidden="true">
+<div class="mobile-nav-inner">
+<button class="mobile-nav-close" id="mobileNavClose" type="button" aria-label="Close menu">×</button>
+<div class="mobile-nav-kicker">KUPAL PIKOLBOL</div>
+<a data-popup="ratesPopup" href="#">Rates <span>↗</span></a>
+<a data-popup="howPopup" href="#">How to Book <span>↗</span></a>
+<a href="https://www.facebook.com/profile.php?id=61593038529583" target="_blank" rel="noopener">Facebook <span>↗</span></a>
+<a href="https://maps.app.goo.gl/wJQ49g7U4NAUNWs76" target="_blank" rel="noopener">Location <span>↗</span></a>
+<a class="mobile-nav-reserve" href="#book">Reserve a Court <span>→</span></a>
+</div>
+</div>
 </header>
 <section class="hero">
 <div>
@@ -2213,9 +2249,30 @@ PLAY NOW · REGRET NOTHING ·
 
   function showBookingSuccess(ids){
     const list=ids.join(", ");
-    const box=document.createElement("div");box.className="info-popup";box.style.display="flex";
-    box.innerHTML=`<div class="info-popup-box" style="max-width:620px"><button class="info-popup-close" aria-label="Close">×</button><div class="info-popup-kicker">BOOKING SUBMITTED</div><h2 class="info-popup-title">You're in.<br/><span>For verification.</span></h2><p class="info-popup-lead">Your booking has been submitted and is pending payment verification.</p><div style="background:#f4efe3;border-radius:18px;padding:20px;margin-top:20px"><small style="display:block;letter-spacing:.12em;text-transform:uppercase;font-weight:800">Booking ID</small><strong style="display:block;font-size:22px;margin-top:8px;word-break:break-word">${esc(list)}</strong></div><p class="info-popup-lead" style="margin-top:18px">Keep this Booking ID and your GCash reference number for your records.</p></div>`;
-    document.body.appendChild(box);box.querySelector(".info-popup-close").addEventListener("click",()=>box.remove());box.addEventListener("click",e=>{if(e.target===box)box.remove()});
+    const box=document.createElement("div");
+    box.className="info-popup booking-success-popup";
+    box.style.display="flex";
+    box.innerHTML=`<div class="info-popup-box booking-success-box">
+      <button class="info-popup-close" aria-label="Close">×</button>
+      <div class="booking-success-mark">✓</div>
+      <div class="info-popup-kicker">BOOKING SUBMITTED</div>
+      <h2 class="info-popup-title">You're in.<br><span>For verification.</span></h2>
+      <p class="info-popup-lead">Your booking is safely recorded and is now waiting for GCash payment verification.</p>
+      <div class="booking-success-id">
+        <div class="booking-success-id-label">BOOKING ID</div>
+        <strong>${esc(list)}</strong>
+      </div>
+      <div class="booking-success-note">
+        <span class="booking-success-note-icon">i</span>
+        <p>Keep your Booking ID and GCash reference number. KUPAL Open Play Admin will verify your payment before the booking becomes active.</p>
+      </div>
+      <button type="button" class="booking-success-done">DONE</button>
+    </div>`;
+    document.body.appendChild(box);
+    const remove=()=>box.remove();
+    box.querySelector(".info-popup-close").addEventListener("click",remove);
+    box.querySelector(".booking-success-done").addEventListener("click",remove);
+    box.addEventListener("click",e=>{if(e.target===box)remove()});
   }
 
   function showFindModal(){
@@ -2863,6 +2920,244 @@ PLAY NOW · REGRET NOTHING ·
   color:#287052;
 }
 </style>
+<style id="booking-success-aesthetic">
+.booking-success-popup{
+  background:rgba(5,12,9,.72)!important;
+  backdrop-filter:blur(10px)!important;
+  -webkit-backdrop-filter:blur(10px)!important;
+}
+.booking-success-box{
+  position:relative!important;
+  width:min(620px,calc(100vw - 36px))!important;
+  max-width:620px!important;
+  box-sizing:border-box!important;
+  padding:46px 52px 42px!important;
+  background:#f5f1e7!important;
+  border:1px solid rgba(13,36,29,.12)!important;
+  border-radius:28px!important;
+  box-shadow:0 28px 80px rgba(0,0,0,.28)!important;
+  overflow:hidden!important;
+}
+.booking-success-box:before{
+  content:"";
+  position:absolute;
+  left:0;right:0;top:0;
+  height:5px;
+  background:#f4dc32;
+}
+.booking-success-box .info-popup-close{
+  position:absolute!important;
+  top:20px!important;
+  right:20px!important;
+  width:42px!important;
+  height:42px!important;
+  border-radius:50%!important;
+  border:1px solid #d7d1c4!important;
+  background:transparent!important;
+  color:#0d241d!important;
+  font-size:18px!important;
+  line-height:1!important;
+}
+.booking-success-mark{
+  width:42px;
+  height:42px;
+  margin-bottom:18px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+  background:#0d241d;
+  color:#f4dc32;
+  font-family:Arial,sans-serif;
+  font-size:20px;
+  font-weight:800;
+}
+.booking-success-box .info-popup-kicker{
+  margin:0 0 12px!important;
+  color:#0d5a3d!important;
+  font-size:9px!important;
+  font-weight:800!important;
+  letter-spacing:.24em!important;
+}
+.booking-success-box .info-popup-title{
+  margin:0!important;
+  max-width:470px!important;
+  font-size:clamp(46px,7vw,68px)!important;
+  line-height:.94!important;
+  letter-spacing:-.055em!important;
+  font-weight:700!important;
+}
+.booking-success-box .info-popup-title span{
+  color:#0d5a3d!important;
+}
+.booking-success-box .info-popup-lead{
+  max-width:500px!important;
+  margin:22px 0 0!important;
+  color:#69736b!important;
+  font-size:14px!important;
+  line-height:1.55!important;
+}
+.booking-success-id{
+  margin-top:24px;
+  padding:18px 20px;
+  background:#ebe6da;
+  border:1px solid #ddd7ca;
+  border-radius:17px;
+}
+.booking-success-id-label{
+  color:#657068;
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:.18em;
+  margin-bottom:7px;
+}
+.booking-success-id strong{
+  display:block;
+  color:#101713;
+  font-family:var(--font-body,Arial,sans-serif);
+  font-size:21px;
+  line-height:1.25;
+  letter-spacing:-.02em;
+  word-break:break-word;
+}
+.booking-success-note{
+  display:flex;
+  align-items:flex-start;
+  gap:11px;
+  margin-top:15px;
+  padding:14px 16px;
+  background:#faf7ef;
+  border:1px solid #e1dbce;
+  border-radius:15px;
+}
+.booking-success-note-icon{
+  flex:0 0 20px;
+  width:20px;
+  height:20px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+  background:#dfece5;
+  color:#0d5a3d;
+  font:800 11px/1 Arial,sans-serif;
+}
+.booking-success-note p{
+  margin:0!important;
+  color:#68736c!important;
+  font-size:11px!important;
+  line-height:1.5!important;
+}
+.booking-success-done{
+  width:100%;
+  height:48px;
+  margin-top:18px;
+  border:0;
+  border-radius:999px;
+  background:#0d241d;
+  color:#fff;
+  font-family:var(--font-body,Arial,sans-serif);
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.12em;
+  cursor:pointer;
+  transition:transform .2s ease,background .2s ease;
+}
+.booking-success-done:hover{
+  transform:translateY(-1px);
+  background:#123d30;
+}
+@media(max-width:600px){
+  .booking-success-box{
+    padding:38px 24px 28px!important;
+    border-radius:23px!important;
+  }
+  .booking-success-box .info-popup-close{
+    top:14px!important;
+    right:14px!important;
+  }
+  .booking-success-box .info-popup-title{
+    font-size:44px!important;
+  }
+  .booking-success-box .info-popup-lead{
+    font-size:13px!important;
+  }
+}
+</style>
+
+<style id="payment-total-aesthetic">
+.payment-total{
+  position:relative!important;
+  min-height:82px!important;
+  box-sizing:border-box!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  gap:20px!important;
+  margin:6px 0 18px!important;
+  padding:17px 20px!important;
+  background:#ebe6da!important;
+  border:1px solid #ddd7ca!important;
+  border-radius:17px!important;
+  overflow:hidden!important;
+}
+.payment-total:before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:0;
+  bottom:0;
+  width:4px;
+  background:#f4dc32;
+}
+.payment-total span{
+  position:relative!important;
+  margin:0!important;
+  font-family:var(--font-body,Arial,sans-serif)!important;
+  font-size:12px!important;
+  line-height:1.25!important;
+  font-weight:800!important;
+  color:#657068!important;
+  text-transform:uppercase!important;
+  letter-spacing:.18em!important;
+}
+.payment-total strong{
+  position:relative!important;
+  margin:0!important;
+  font-family:var(--font-body,Arial,sans-serif)!important;
+  font-size:28px!important;
+  line-height:1!important;
+  font-weight:800!important;
+  letter-spacing:-.035em!important;
+  color:#0d241d!important;
+  white-space:nowrap!important;
+}
+@media(max-width:560px){
+  .payment-total{
+    min-height:76px!important;
+    padding:15px 17px!important;
+  }
+  .payment-total strong{font-size:25px!important}
+}
+</style>
+
+<script id="mobile-nav-fix-js">
+(function(){
+const toggle=document.getElementById("mobileNavToggle"),panel=document.getElementById("mobileNavPanel"),close=document.getElementById("mobileNavClose");
+if(!toggle||!panel)return;
+function setMenu(open){
+toggle.classList.toggle("is-open",open);panel.classList.toggle("is-open",open);
+toggle.setAttribute("aria-expanded",String(open));panel.setAttribute("aria-hidden",String(!open));
+document.body.classList.toggle("mobile-nav-open",open);
+}
+toggle.addEventListener("click",()=>setMenu(!panel.classList.contains("is-open")));
+if(close)close.addEventListener("click",()=>setMenu(false));
+panel.addEventListener("click",e=>{if(e.target===panel)setMenu(false)});
+panel.querySelectorAll("a").forEach(a=>a.addEventListener("click",()=>setMenu(false)));
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&panel.classList.contains("is-open"))setMenu(false)});
+window.addEventListener("resize",()=>{if(window.innerWidth>700)setMenu(false)});
+})();
+</script>
 </body>
 
 
