@@ -2241,8 +2241,16 @@ PLAY NOW · REGRET NOTHING ·
     <div id="openPlayRegisterEventSummary"></div>
     <form id="openPlayRegistrationForm" class="open-play-register-box">
       <div class="op-form-grid">
-        <div class="op-form-field full"><label>Full Name</label><input id="opName" autocomplete="name" required placeholder="Your full name"></div>
-        <div class="op-form-field"><label>Mobile Number</label><input id="opPhone" inputmode="tel" autocomplete="tel" required placeholder="09XXXXXXXXX"></div>
+        <div id="opSinglePlayerFields" class="full" style="display:contents">
+          <div class="op-form-field full"><label>Full Name</label><input id="opName" autocomplete="name" required placeholder="Your full name"></div>
+          <div class="op-form-field"><label>Mobile Number</label><input id="opPhone" inputmode="tel" autocomplete="tel" required placeholder="09XXXXXXXXX"></div>
+        </div>
+        <div id="opPairPlayerFields" class="full" style="display:none">
+          <div class="op-form-field"><label>Player 1 — Full Name</label><input id="opPairName1" autocomplete="name" placeholder="Player 1 full name"></div>
+          <div class="op-form-field"><label>Player 1 — Mobile Number</label><input id="opPairPhone1" inputmode="tel" autocomplete="tel" placeholder="09XXXXXXXXX"></div>
+          <div class="op-form-field"><label>Player 2 — Full Name</label><input id="opPairName2" autocomplete="name" placeholder="Player 2 full name"></div>
+          <div class="op-form-field"><label>Player 2 — Mobile Number</label><input id="opPairPhone2" inputmode="tel" autocomplete="tel" placeholder="09XXXXXXXXX"></div>
+        </div>
         <div class="op-form-field"><label>Level</label><select id="opLevel" required></select></div>
         <div class="op-form-field full"><label>GCash Reference Number</label><input id="opPaymentRef" required placeholder="Enter your GCash reference number"></div>
         <div class="op-form-field full">
@@ -2259,7 +2267,7 @@ PLAY NOW · REGRET NOTHING ·
     <div class="op-success" id="opRegSuccess">
       <div class="op-form-note"><b>Registration received.</b><br>Save this QR. It becomes valid for check-in once your GCash payment is verified.</div>
       <div class="op-success-card">
-        <div class="op-form-field"><label>Player</label><div class="op-success-id" id="opSuccessPlayer"></div></div>
+        <div class="op-form-field"><label>Player / Pair</label><div class="op-success-id" id="opSuccessPlayer"></div></div>
         <div class="op-form-field" style="margin-top:14px"><label>Level</label><strong id="opSuccessLevel"></strong></div>
         <div class="op-form-field" style="margin-top:14px"><label>Registration ID</label><div class="op-success-id" id="opSuccessId"></div></div>
         <div id="opQrCode" style="margin:20px auto 8px;width:220px;height:220px;background:#fffdf6;padding:8px;border-radius:18px;display:grid;place-items:center"></div>
@@ -2270,6 +2278,12 @@ PLAY NOW · REGRET NOTHING ·
 </div>
 
 
+<style id="fixed-pairs-public-ui">
+#opPairPlayerFields{display:grid!important;grid-template-columns:1fr 1fr;gap:12px}
+#opPairPlayerFields .op-form-field{margin:0}
+.fixed-pair-note{background:#e6e2d7;border-radius:14px;padding:12px;font-size:11px;line-height:1.5;color:#687269;margin-bottom:2px}
+@media(max-width:620px){#opPairPlayerFields{grid-template-columns:1fr}}
+</style>
 <script id="open-play-live-script">
 (function(){
   const API_URL="https://kupal-pikolbol-api.kupalpikolbol-official.workers.dev/api";
@@ -2285,8 +2299,13 @@ PLAY NOW · REGRET NOTHING ·
   function statusClass(s){const x=String(s||"").toLowerCase();return x==="open"?"open":(x==="full"?"full":"closed");}
   function openRegistration(e){
     selectedRegistrationEvent=e;
+    const fixed=String(e.registrationFormat||"individual")==="fixed_pairs";
+    const single=document.getElementById("opSinglePlayerFields"),pair=document.getElementById("opPairPlayerFields");
+    if(single)single.style.display=fixed?"none":"contents";
+    if(pair)pair.style.display=fixed?"grid":"none";
     document.getElementById("opName").value="";
     document.getElementById("opPhone").value="";
+    ["opPairName1","opPairPhone1","opPairName2","opPairPhone2"].forEach(id=>{const el=document.getElementById(id);if(el)el.value="";});
     document.getElementById("opPaymentRef").value="";
     errorBox.style.display="none";
     success.style.display="none";
@@ -2322,8 +2341,8 @@ PLAY NOW · REGRET NOTHING ·
     registerBody.innerHTML=`<div class="open-play-detail">
       <div><b>SESSION</b><strong>${esc(dateLabel(e.date))}</strong></div>
       <div><b>TIME</b><strong>${esc(timeLabel(e.startTime))} — ${esc(timeLabel(e.endTime))}</strong></div>
-      <div><b>RATE</b><strong>₱${Number(e.ratePerPlayer||170).toLocaleString()} / player</strong></div>
-    </div>`;
+      <div><b>REGISTRATION</b><strong>${fixed?`₱${(Number(e.ratePerPlayer||170)*2).toLocaleString()} / pair (2 players)`:`₱${Number(e.ratePerPlayer||170).toLocaleString()} / player`}</strong></div>
+    </div>${fixed?`<div class="fixed-pair-note"><b>FIXED PAIR</b> — Register 2 players together. Your partner stays with you for the session; opponents rotate.</div>`:""}`;
 
     registerModal.classList.add("open");
     registerModal.setAttribute("aria-hidden","false");
@@ -2347,7 +2366,7 @@ PLAY NOW · REGRET NOTHING ·
     body.innerHTML=`<div class="open-play-date">${esc(dateLabel(e.date))}</div>
       <div class="open-play-detail">
         <div><b>Session</b><strong>${esc(timeLabel(e.startTime))} — ${esc(timeLabel(e.endTime))}</strong></div>
-        <div><b>Rate</b><strong>₱${Number(e.ratePerPlayer||170).toLocaleString()} / player</strong></div>
+        <div><b>Rate</b><strong>${String(e.registrationFormat||"individual")==="fixed_pairs"?`₱${(Number(e.ratePerPlayer||170)*2).toLocaleString()} / pair`:`₱${Number(e.ratePerPlayer||170).toLocaleString()} / player`}</strong></div>
         <div><b>Levels</b><strong>${esc(e.court1Level)}${e.courtCount==2?" + "+esc(e.court2Level):""}</strong></div>
         <div><b>Spots</b><strong>${esc(e.spotsRemaining)} / ${esc(e.totalCapacity)} remaining</strong></div>
       </div>
@@ -2389,7 +2408,7 @@ PLAY NOW · REGRET NOTHING ·
         </div>
         <div class="open-play-picker-side">
           <strong>${esc(timeLabel(e.startTime))} — ${esc(timeLabel(e.endTime))}</strong>
-          <small>₱${Number(e.ratePerPlayer||170).toLocaleString()} / player · ${esc(e.spotsRemaining)} spots left</small>
+          <small>${String(e.registrationFormat||"individual")==="fixed_pairs"?`₱${(Number(e.ratePerPlayer||170)*2).toLocaleString()} / pair`:`₱${Number(e.ratePerPlayer||170).toLocaleString()} / player`} · ${esc(e.spotsRemaining)} spots left</small>
           <div class="open-play-actions">
             <button type="button" class="open-play-btn" data-open-event="${esc(e.eventId)}">VIEW EVENT →</button>
             ${canRegister?`<button type="button" class="open-play-btn secondary" data-register-event="${esc(e.eventId)}">REGISTER →</button>`:''}
@@ -2420,14 +2439,24 @@ PLAY NOW · REGRET NOTHING ·
     return qrLoader;
   }
   async function showSuccessQR(result){
-    const wrap=document.getElementById("opQrCode");wrap.innerHTML="<div style=\"font-size:10px;color:#687269\">Preparing your QR…</div>";
+    const wrap=document.getElementById("opQrCode");
+    if(result.registrationFormat==="fixed_pairs"){
+      wrap.innerHTML=`<div style="text-align:center;font-size:11px;color:#687269;line-height:1.5"><b>PAIR REGISTERED</b><br>${esc((result.participantIds||[]).join(" · "))}<br><small>Each player will receive their own active QR after payment verification.</small></div>`;
+      document.getElementById("opSuccessId").textContent=(result.participantIds||[]).join(" · ");
+      document.getElementById("opSuccessPlayer").textContent=(result.playerNames||[]).join(" + ");
+      document.getElementById("opSuccessLevel").textContent=`${result.level||"—"} · PAIR`;
+      return;
+    }
+    wrap.innerHTML='<div style="font-size:10px;color:#687269">Preparing your QR…</div>';
     try{await ensureQRCode();new QRCode(wrap,{text:String(result.participantId||result.qrToken),width:220,height:220,colorDark:"#0d241d",colorLight:"#fffdf6",correctLevel:QRCode.CorrectLevel.M});}catch(e){wrap.innerHTML="<div style=\"font-size:10px;color:#9f3e3e;text-align:center\">QR generator unavailable. Your Registration ID is the backup.</div>";}
     document.getElementById("opSuccessId").textContent=result.participantId||"—";
     document.getElementById("opSuccessPlayer").textContent=result.playerName||"—";
     document.getElementById("opSuccessLevel").textContent=result.level||"—";
   }
   async function load(){try{const events=await api("getPublicOpenPlayEvents",[]),list=(Array.isArray(events)?events:[]).filter(e=>{const s=String(e.status||"").toLowerCase();return s!=="cancelled"&&s!=="completed";}),today=new Date();today.setHours(0,0,0,0);const upcoming=list.filter(e=>{const d=new Date(String(e.date||""));return !Number.isNaN(d.getTime())&&d>=today;});upcoming.sort((a,b)=>String(a.date).localeCompare(String(b.date)));const actionable=upcoming.filter(e=>["open","full"].includes(String(e.status||"").toLowerCase())),next=actionable[0]||upcoming[0]||list[0];if(floatTag){floatTag.textContent=next?shortDateLabel(next.date):"OPEN PLAY";floatTag.onclick=upcoming.length>1?()=>openEventChooser(upcoming):(next?()=>openModal(next):null);}if(!next){root.innerHTML='<div class="open-play-empty">No Open Play session has been announced yet. Check back soon.</div>';return;}const sc=statusClass(next.status);root.innerHTML=`<article class="open-play-card"><div><div class="open-play-eyebrow">Next Open Play</div><div class="open-play-date">${esc(dateLabel(next.date))}</div><div class="open-play-meta"><span class="open-play-pill ${sc}">${esc(next.status)}</span><span class="open-play-pill">${esc(next.courtCount)} court${next.courtCount==1?"":"s"}</span><span class="open-play-pill">${esc(next.court1Level)}${next.courtCount==2?" + "+esc(next.court2Level):""}</span></div></div><div class="open-play-side"><strong>${esc(timeLabel(next.startTime))} — ${esc(timeLabel(next.endTime))}</strong><small>₱${Number(next.ratePerPlayer||170).toLocaleString()} / player · ${esc(next.spotsRemaining)} spots left</small><div class="open-play-actions"><button type="button" class="open-play-btn" id="openPlayView">OPEN PLAY →</button></div></div></article>`;document.getElementById("openPlayView").onclick=()=>openEventChooser(upcoming.length?upcoming:[next]);}catch(e){root.innerHTML='<div class="open-play-empty">Open Play is temporarily unavailable. Please check again shortly.</div>';}}
-  form.addEventListener("submit",async ev=>{ev.preventDefault();if(!selectedRegistrationEvent)throw new Error("Please select an Open Play session first.");errorBox.style.display="none";submit.disabled=true;submit.textContent="SUBMITTING…";try{const result=await api("registerOpenPlayParticipant",[{eventId:selectedRegistrationEvent.eventId,playerName:document.getElementById("opName").value,phone:document.getElementById("opPhone").value,level:document.getElementById("opLevel").value,paymentReference:document.getElementById("opPaymentRef").value}]);await showSuccessQR(result);form.style.display="none";success.style.display="block";}catch(e){errorBox.textContent=e.message||"Unable to submit registration.";errorBox.style.display="block";submit.disabled=false;submit.textContent="SUBMIT REGISTRATION →";}});
+  form.addEventListener("submit",async ev=>{ev.preventDefault();if(!selectedRegistrationEvent)throw new Error("Please select an Open Play session first.");errorBox.style.display="none";submit.disabled=true;submit.textContent="SUBMITTING…";try{const fixed=String(selectedRegistrationEvent.registrationFormat||"individual")==="fixed_pairs";
+    const payload=fixed?{eventId:selectedRegistrationEvent.eventId,player1Name:document.getElementById("opPairName1").value,player1Phone:document.getElementById("opPairPhone1").value,player2Name:document.getElementById("opPairName2").value,player2Phone:document.getElementById("opPairPhone2").value,level:document.getElementById("opLevel").value,paymentReference:document.getElementById("opPaymentRef").value}:{eventId:selectedRegistrationEvent.eventId,playerName:document.getElementById("opName").value,phone:document.getElementById("opPhone").value,level:document.getElementById("opLevel").value,paymentReference:document.getElementById("opPaymentRef").value};
+    const result=await api("registerOpenPlayParticipant",[payload]);await showSuccessQR(result);form.style.display="none";success.style.display="block";}catch(e){errorBox.textContent=e.message||"Unable to submit registration.";errorBox.style.display="block";submit.disabled=false;submit.textContent="SUBMIT REGISTRATION →";}});
   const openOpGcashQr=document.getElementById("openOpGcashQr");
   const opGcashQrModal=document.getElementById("gcashQrModal");
   if(openOpGcashQr&&opGcashQrModal){openOpGcashQr.addEventListener("click",()=>{opGcashQrModal.classList.add("open");opGcashQrModal.setAttribute("aria-hidden","false");});}
