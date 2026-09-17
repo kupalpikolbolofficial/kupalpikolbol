@@ -1289,10 +1289,212 @@ button,input,select,textarea{
 .open-play-inner{max-width:1320px;margin:auto;position:relative;z-index:1}.open-play-head{display:flex;justify-content:space-between;align-items:end;gap:30px;margin-bottom:30px}.open-play-eyebrow{font-size:10px;letter-spacing:.24em;text-transform:uppercase;font-weight:900;color:#f4dc32}.open-play-head h2{font-family:"League Spartan";font-size:clamp(48px,7vw,88px);line-height:.82;letter-spacing:-.075em;margin:10px 0 0}.open-play-head h2 span{color:#f4dc32}.open-play-head p{max-width:430px;color:#aeb8b0;line-height:1.65;font-size:13px;margin:0}.open-play-card{background:#f3efe4;color:#101310;border-radius:24px;padding:24px;display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center;border:1px solid rgba(255,255,255,.08)}.open-play-date{font-family:"League Spartan";font-size:32px;letter-spacing:-.055em}.open-play-meta{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}.open-play-pill{display:inline-flex;border-radius:999px;padding:7px 10px;background:#e4e0d5;font-size:9px;font-weight:900;text-transform:uppercase;letter-spacing:.06em}.open-play-pill.open{background:#dbeedb;color:#24532e}.open-play-pill.full,.open-play-pill.closed{background:#f0dfd8;color:#843f38}.open-play-side{text-align:right}.open-play-side strong{display:block;font-family:"League Spartan";font-size:27px;letter-spacing:-.04em}.open-play-side small{display:block;color:#687269;margin:3px 0 13px}.open-play-actions{display:flex;gap:8px;justify-content:flex-end}.open-play-btn{border:0;border-radius:999px;padding:13px 17px;background:#f4dc32;color:#111;font-weight:950;font-size:10px;text-transform:uppercase;letter-spacing:.07em}.open-play-btn.secondary{background:#0d241d;color:#fff}.open-play-empty{border:1px dashed rgba(255,255,255,.2);border-radius:22px;padding:28px;color:#aeb8b0;font-size:12px}.open-play-modal{position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.72);backdrop-filter:blur(12px);display:none;place-items:center;padding:18px}.open-play-modal.open{display:grid}.open-play-modal-card{width:min(620px,100%);background:#f3efe4;color:#111;border-radius:28px;padding:30px;position:relative;max-height:90vh;overflow:auto}.open-play-modal-close{position:absolute;right:18px;top:18px;width:40px;height:40px;border-radius:50%;border:1px solid #cfc9ba;background:transparent;font-size:20px}.open-play-modal h3{font-family:"League Spartan";font-size:54px;line-height:.82;letter-spacing:-.07em;margin:35px 0 20px}.open-play-modal h3 span{color:#0d241d}.open-play-detail{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:18px 0}.open-play-detail div{background:#fffdf6;border:1px solid #d8d3c6;border-radius:16px;padding:14px}.open-play-detail b{display:block;font-size:9px;text-transform:uppercase;letter-spacing:.14em;color:#687269;margin-bottom:5px}.open-play-detail strong{font-size:15px}.open-play-note{background:#e6e2d7;border-radius:15px;padding:13px;color:#687269;font-size:11px;line-height:1.55;margin-bottom:18px}.open-play-form{display:grid;gap:12px}.open-play-form label{font-size:9px;text-transform:uppercase;letter-spacing:.14em;font-weight:900}.open-play-form input,.open-play-form select{width:100%;border:1px solid #d5d0c2;border-radius:13px;background:#fffdf6;color:#111;padding:13px}.open-play-form .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}.open-play-success{background:#dbeedb;color:#24532e;border-radius:16px;padding:15px;font-size:12px;line-height:1.55}.open-play-error{color:#9f3e3e;font-size:11px;font-weight:800;min-height:16px}@media(max-width:700px){.open-play-head{display:block}.open-play-head p{margin-top:18px}.open-play-card{grid-template-columns:1fr}.open-play-side{text-align:left}.open-play-actions{justify-content:flex-start}.open-play-detail,.open-play-form .row{grid-template-columns:1fr}.open-play-modal-card{padding:22px}.open-play-modal h3{font-size:46px}}
 </style>
 
+<style id="open-play-multi-css">
+/* Open Play section — balanced rows and cleaner spacing */
+#openPlayLiveContent{
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+}
+#openPlayLiveContent .open-play-card-multi{
+  width:100%;
+  height:154px;
+  min-height:154px;
+  box-sizing:border-box;
+  margin:0!important;
+  padding:0!important;
+  overflow:hidden;
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) 260px!important;
+  background:#f3efe4!important;
+  border:1px solid #ddd7c9!important;
+  border-radius:22px!important;
+  align-items:stretch!important;
+}
+#openPlayLiveContent .open-play-card-multi>div:first-child{
+  min-width:0;
+  padding:19px 26px 18px;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-start;
+}
+#openPlayLiveContent .open-play-card-multi .open-play-eyebrow{
+  font-family:"DM Sans",Arial,sans-serif!important;
+  font-size:9px!important;
+  line-height:1.2!important;
+  font-weight:800!important;
+  letter-spacing:.20em!important;
+  color:#0d5a3d!important;
+  margin:0 0 7px!important;
+}
+#openPlayLiveContent .open-play-card-multi .open-play-date{
+  font-family:"League Spartan",Arial,sans-serif!important;
+  font-size:28px!important;
+  font-weight:500!important;
+  line-height:1.03!important;
+  letter-spacing:-.045em!important;
+  color:#101310!important;
+  margin:0!important;
+  white-space:normal!important;
+}
+#openPlayLiveContent .open-play-card-multi .open-play-meta{
+  display:flex!important;
+  align-items:center!important;
+  gap:7px!important;
+  flex-wrap:wrap!important;
+  margin-top:auto!important;
+  padding:10px 0 0!important;
+}
+#openPlayLiveContent .open-play-card-multi .open-play-pill{
+  min-height:24px;
+  box-sizing:border-box;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  padding:6px 10px!important;
+  border-radius:999px!important;
+  white-space:nowrap!important;
+  font-family:"DM Sans",Arial,sans-serif!important;
+  font-size:8px!important;
+  line-height:1!important;
+  font-weight:800!important;
+  letter-spacing:.04em!important;
+}
+#openPlayLiveContent .open-play-card-multi .open-play-side{
+  width:auto!important;
+  min-width:0!important;
+  padding:0 24px 18px!important;
+  background:#e9e4d8!important;
+  border-left:1px solid #d8d2c4!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:flex-start!important;
+  justify-content:flex-start!important;
+  text-align:left!important;
+}
+#openPlayLiveContent .open-play-card-multi .open-play-side strong{
+  display:block!important;
+  font-family:"DM Sans",Arial,sans-serif!important;
+  font-size:18px!important;
+  font-weight:700!important;
+  line-height:1.15!important;
+  letter-spacing:-.02em!important;
+  white-space:nowrap!important;
+  color:#101310!important;
+  margin:37px 0 0!important;
+}
+#openPlayLiveContent .open-play-card-multi .open-play-side small{
+  display:block!important;
+  font-family:"DM Sans",Arial,sans-serif!important;
+  font-size:10px!important;
+  font-weight:500!important;
+  line-height:1.3!important;
+  color:#687269!important;
+  margin:4px 0 0!important;
+}
+#openPlayLiveContent .open-play-card-multi .open-play-actions{
+  display:flex!important;
+  width:100%!important;
+  margin-top:auto!important;
+  padding:0!important;
+  justify-content:flex-start!important;
+  align-items:center!important;
+}
+#openPlayLiveContent .open-play-card-multi .open-play-actions .open-play-btn{
+  width:120px!important;
+  min-width:120px!important;
+  height:38px!important;
+  min-height:38px!important;
+  box-sizing:border-box!important;
+  padding:0 12px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  font-family:"DM Sans",Arial,sans-serif!important;
+  font-size:9px!important;
+  font-weight:800!important;
+  letter-spacing:.02em!important;
+}
+@media(max-width:760px){
+  #openPlayLiveContent{gap:14px}
+  #openPlayLiveContent .open-play-card-multi{
+    height:auto;
+    min-height:0;
+    grid-template-columns:1fr!important;
+  }
+  #openPlayLiveContent .open-play-card-multi>div:first-child{
+    padding:19px 20px 17px;
+  }
+  #openPlayLiveContent .open-play-card-multi .open-play-date{
+    font-size:27px!important;
+  }
+  #openPlayLiveContent .open-play-card-multi .open-play-meta{
+    margin-top:12px!important;
+    padding-top:0!important;
+  }
+  #openPlayLiveContent .open-play-card-multi .open-play-side{
+    border-left:0!important;
+    border-top:1px solid #d8d2c4!important;
+    padding:17px 20px 18px!important;
+  }
+  #openPlayLiveContent .open-play-card-multi .open-play-side strong{
+    margin:0!important;
+  }
+}
+</style>
+<style id="open-play-modal-cleanup">
+#openPlayModal .open-play-modal-card > .open-play-eyebrow{
+  display:none!important;
+}
+#openPlayModal .open-play-modal-card > h3{
+  margin-top:0!important;
+}
+</style>
+
 <style id="open-play-picker-css">
-.open-play-picker-card{background:#fffdf6;color:#101310;border:1px solid #d8d3c6;border-radius:20px;padding:18px;margin:10px 0;display:grid;grid-template-columns:1fr auto;gap:18px;align-items:center}
-.open-play-picker-side{text-align:right}.open-play-picker-side strong{display:block;font-family:"League Spartan",Arial,sans-serif;font-size:22px;letter-spacing:-.04em}.open-play-picker-side small{display:block;color:#687269;margin:3px 0 10px}.open-play-picker-card .open-play-actions{flex-wrap:wrap}
-@media(max-width:700px){.open-play-picker-card{grid-template-columns:1fr}.open-play-picker-side{text-align:left}.open-play-picker-card .open-play-actions{justify-content:flex-start}}
+.open-play-picker-card{
+  background:#fffdf6;color:#101310;border:1px solid #d8d3c6;border-radius:20px;padding:0;margin:10px 0;
+  display:grid;grid-template-columns:minmax(0,1fr) 245px;gap:0;min-height:178px;box-sizing:border-box;overflow:hidden;
+}
+.open-play-picker-card>div:first-child{min-width:0;padding:18px;display:flex;flex-direction:column}
+.open-play-picker-card .open-play-date{
+  margin:5px 0 0!important;font-family:"DM Sans",Arial,sans-serif!important;font-size:27px!important;
+  font-weight:600!important;line-height:1.08!important;letter-spacing:-.045em!important;white-space:normal!important;
+}
+.open-play-picker-card .open-play-meta{
+  margin-top:auto!important;padding-top:14px!important;display:flex!important;align-items:center!important;
+  gap:6px!important;flex-wrap:wrap!important;
+}
+.open-play-picker-side{
+  width:auto;min-width:0;padding:0 18px 18px;background:#f0ece2;border-left:1px solid #d8d3c6;
+  display:flex;flex-direction:column;align-items:flex-start;text-align:left;
+}
+.open-play-picker-info{display:flex;flex-direction:column;align-items:flex-start;padding-top:46px}
+.open-play-picker-side strong{
+  display:block;font-family:"DM Sans",Arial,sans-serif!important;font-size:20px!important;font-weight:700!important;
+  line-height:1.15!important;letter-spacing:-.025em!important;white-space:nowrap;
+}
+.open-play-picker-side small{
+  display:block;font-family:"DM Sans",Arial,sans-serif!important;font-size:10px!important;font-weight:500!important;
+  line-height:1.3!important;color:#687269;margin-top:4px;
+}
+.open-play-picker-card .open-play-actions{
+  margin-top:auto!important;padding:0!important;display:flex!important;gap:8px!important;
+  justify-content:flex-start!important;align-items:center!important;
+}
+.open-play-picker-card .open-play-actions .open-play-btn{
+  width:108px!important;min-width:108px!important;height:40px!important;min-height:40px!important;
+  flex:0 0 108px!important;padding:0 8px!important;display:flex!important;align-items:center!important;
+  justify-content:center!important;box-sizing:border-box!important;font-family:"DM Sans",Arial,sans-serif!important;
+  font-size:9px!important;font-weight:800!important;
+}
+@media(max-width:700px){
+  .open-play-picker-card{grid-template-columns:1fr;gap:0;min-height:0}
+  .open-play-picker-side{
+    width:100%;min-width:0;border-left:0;border-top:1px solid #d8d3c6;padding:17px 18px 18px;
+  }
+  .open-play-picker-info{padding-top:0}
+}
 </style>
 
 <style id="open-play-registration-css">
@@ -1730,6 +1932,7 @@ PLAY NOW · REGRET NOTHING ·
     monthlyStatus: {},
     loadedMonth: "",
     clubInfo: {},
+    openPlayEvents: [],
     loading: false
   };
 
@@ -1776,7 +1979,7 @@ PLAY NOW · REGRET NOTHING ·
       const num=document.createElement("span"); num.className="num"; num.textContent=d.getDate();
       b.append(dow,num);
       if(d.toDateString()===state.date.toDateString()) b.classList.add("selected");
-      b.addEventListener("click",()=>{state.date=new Date(d);state.slots=[];state.bookings=bookingsForSelectedDate();renderCalendar();updateSummary();loadBookings()});
+      b.addEventListener("click",()=>{state.date=new Date(d);state.slots=[];state.bookings=bookingsForSelectedDate();renderCalendar();updateSummary();renderTimes();loadBookings();loadOpenPlayEvents()});
       compact.appendChild(b);
     }
   }
@@ -1810,7 +2013,25 @@ PLAY NOW · REGRET NOTHING ·
     }
   }
 
+  function eventDateKey(value){
+    const s=String(value||"").trim();
+    if(/^\\d{4}-\\d{2}-\\d{2}$/.test(s)) return s;
+    const d=new Date(s);
+    return Number.isNaN(d.getTime())?"":isoDate(d);
+  }
+
+  function openPlayStatusFor(start,end){
+    const selected=isoDate(state.date);
+    const a=toMinutes(start), b=toMinutes(end);
+    return state.openPlayEvents.some(e=>{
+      if(eventDateKey(e.date)!==selected)return false;
+      const es=toMinutes(e.startTime), ee=toMinutes(e.endTime);
+      return es<b && a<ee && String(e.status||"").toLowerCase()!=="cancelled";
+    });
+  }
+
   function bookingStatusFor(start,end){
+    if(openPlayStatusFor(start,end)) return "openplay";
     const a=toMinutes(start), b=toMinutes(end);
     const matches=state.bookings.filter(x=>String(x.courtId)===String(state.courtId)).filter(x=>{
       const s=toMinutes(x.startTime), e=toMinutes(x.endTime); return s<b && a<e;
@@ -1825,16 +2046,32 @@ PLAY NOW · REGRET NOTHING ·
     Object.values(groups).forEach(el=>el.innerHTML="");
     if(!state.courtId){Object.values(groups)[0].innerHTML='<div class="availability-empty">Loading courts…</div>';return;}
     for(const t of timeSlots){
-      const h=Number(t.slice(0,2)); const status=bookingStatusFor(t,addHour(t));
-      const b=document.createElement("button"); b.type="button"; b.className="time"; b.textContent=timeLabel(t)+" — "+timeLabel(addHour(t));
+      const h=Number(t.slice(0,2));
+      const status=bookingStatusFor(t,addHour(t));
+      const b=document.createElement("button");
+      b.type="button";
+      b.className="time";
+      b.textContent=timeLabel(t)+" — "+timeLabel(addHour(t));
       if(status!=="available"){b.classList.add(status);b.disabled=true;}
-      if(state.slots.includes(t)){b.classList.add("active");b.disabled=false;}
+      if(state.slots.includes(t) && status!=="openplay"){b.classList.add("active");b.disabled=false;}
       b.addEventListener("click",()=>{
-        if(state.slots.includes(t)) state.slots=state.slots.filter(x=>x!==t); else state.slots=[...state.slots,t].sort((a,b)=>toMinutes(a)-toMinutes(b));
+        if(b.disabled)return;
+        if(state.slots.includes(t)) state.slots=state.slots.filter(x=>x!==t);
+        else state.slots=[...state.slots,t].sort((a,b)=>toMinutes(a)-toMinutes(b));
         renderTimes();updateSummary();
       });
       groups[h<12?"morning":h<18?"afternoon":"evening"].appendChild(b);
     }
+  }
+
+  async function loadOpenPlayEvents(){
+    try{
+      const data=await api("getPublicOpenPlayEvents",[]);
+      state.openPlayEvents=Array.isArray(data)?data:[];
+    }catch(err){
+      state.openPlayEvents=[];
+    }
+    renderTimes();
   }
 
   function price(){return Number(state.clubInfo["Booking Price"])||250;}
@@ -1889,14 +2126,16 @@ PLAY NOW · REGRET NOTHING ·
 
   async function init(){
     try{
-      const [info,courts,monthStatus]=await Promise.all([
+      const [info,courts,monthStatus,openPlayEvents]=await Promise.all([
         api("getClubInfo"),
         api("getCourts"),
-        api("getMonthlyBookingStatus",[state.date.getFullYear(),state.date.getMonth()])
+        api("getMonthlyBookingStatus",[state.date.getFullYear(),state.date.getMonth()]),
+        api("getPublicOpenPlayEvents",[])
       ]);
       state.clubInfo=info||{};
       state.courts=Array.isArray(courts)?courts:[];
       state.monthlyStatus=(monthStatus&&typeof monthStatus==="object")?monthStatus:{};
+      state.openPlayEvents=Array.isArray(openPlayEvents)?openPlayEvents:[];
       state.loadedMonth=currentMonthKey();
       state.bookings=bookingsForSelectedDate();
       renderCourts();renderCalendar();updateSummary();renderTimes();setNote("Live availability · updates from KUPAL booking system.");
@@ -1905,8 +2144,8 @@ PLAY NOW · REGRET NOTHING ·
     }
   }
 
-  document.getElementById("prev").addEventListener("click",()=>{state.date=new Date(state.date.getFullYear(),state.date.getMonth(),state.date.getDate()-7);state.slots=[];state.bookings=bookingsForSelectedDate();renderCalendar();updateSummary();loadBookings()});
-  document.getElementById("next").addEventListener("click",()=>{state.date=new Date(state.date.getFullYear(),state.date.getMonth(),state.date.getDate()+7);state.slots=[];state.bookings=bookingsForSelectedDate();renderCalendar();updateSummary();loadBookings()});
+  document.getElementById("prev").addEventListener("click",()=>{state.date=new Date(state.date.getFullYear(),state.date.getMonth(),state.date.getDate()-7);state.slots=[];state.bookings=bookingsForSelectedDate();renderCalendar();updateSummary();renderTimes();loadBookings();loadOpenPlayEvents()});
+  document.getElementById("next").addEventListener("click",()=>{state.date=new Date(state.date.getFullYear(),state.date.getMonth(),state.date.getDate()+7);state.slots=[];state.bookings=bookingsForSelectedDate();renderCalendar();updateSummary();renderTimes();loadBookings();loadOpenPlayEvents()});
 
   const modal=document.getElementById("modal");
   document.getElementById("review").addEventListener("click",()=>{
@@ -2246,12 +2485,20 @@ PLAY NOW · REGRET NOTHING ·
           <div class="op-form-field"><label>Mobile Number</label><input id="opPhone" inputmode="tel" autocomplete="tel" required placeholder="09XXXXXXXXX"></div>
         </div>
         <div id="opPairPlayerFields" class="full" style="display:none">
-          <div class="op-form-field"><label>Player 1 — Full Name</label><input id="opPairName1" autocomplete="name" placeholder="Player 1 full name"></div>
-          <div class="op-form-field"><label>Player 1 — Mobile Number</label><input id="opPairPhone1" inputmode="tel" autocomplete="tel" placeholder="09XXXXXXXXX"></div>
-          <div class="op-form-field"><label>Player 2 — Full Name</label><input id="opPairName2" autocomplete="name" placeholder="Player 2 full name"></div>
-          <div class="op-form-field"><label>Player 2 — Mobile Number</label><input id="opPairPhone2" inputmode="tel" autocomplete="tel" placeholder="09XXXXXXXXX"></div>
+          <div class="op-pair-card">
+            <div class="op-pair-card-title"><span>PLAYER 1</span><small>Partner</small></div>
+            <div class="op-form-field"><label>Full Name</label><input id="opPairName1" autocomplete="name" placeholder="Player 1 full name"></div>
+            <div class="op-form-field"><label>Mobile Number</label><input id="opPairPhone1" inputmode="tel" autocomplete="tel" placeholder="09XXXXXXXXX"></div>
+          </div>
+          <div class="op-pair-card">
+            <div class="op-pair-card-title"><span>PLAYER 2</span><small>Partner</small></div>
+            <div class="op-form-field"><label>Full Name</label><input id="opPairName2" autocomplete="name" placeholder="Player 2 full name"></div>
+            <div class="op-form-field"><label>Mobile Number</label><input id="opPairPhone2" inputmode="tel" autocomplete="tel" placeholder="09XXXXXXXXX"></div>
+          </div>
         </div>
-        <div class="op-form-field"><label>Level</label><select id="opLevel" required></select></div>
+        <div id="opLevelField" class="op-form-field full"><label>Level</label><select id="opLevel" required></select></div>
+        
+
         <div class="op-form-field full"><label>GCash Reference Number</label><input id="opPaymentRef" required placeholder="Enter your GCash reference number"></div>
         <div class="op-form-field full">
           <div class="op-gcash-paybox">
@@ -2279,10 +2526,75 @@ PLAY NOW · REGRET NOTHING ·
 
 
 <style id="fixed-pairs-public-ui">
-#opPairPlayerFields{display:grid!important;grid-template-columns:1fr 1fr;gap:12px}
-#opPairPlayerFields .op-form-field{margin:0}
-.fixed-pair-note{background:#e6e2d7;border-radius:14px;padding:12px;font-size:11px;line-height:1.5;color:#687269;margin-bottom:2px}
-@media(max-width:620px){#opPairPlayerFields{grid-template-columns:1fr}}
+#opPairPlayerFields{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:10px;
+  align-items:stretch;
+}
+#opPairPlayerFields .op-pair-card{
+  background:#fffdf6;
+  border:1px solid #d8d3c6;
+  border-radius:15px;
+  padding:12px 13px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:9px 12px;
+}
+#opPairPlayerFields .op-pair-card-title{
+  grid-column:1/-1;
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  padding-bottom:1px;
+}
+#opPairPlayerFields .op-pair-card-title span{
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:.15em;
+  color:#0d5a3d;
+}
+#opPairPlayerFields .op-pair-card-title small{
+  font-size:9px;
+  color:#8a918b;
+}
+#opPairPlayerFields .op-form-field{
+  margin:0;
+  min-width:0;
+}
+#opPairPlayerFields .op-form-field input{
+  min-width:0;
+  width:100%;
+}
+#opPairPlayerFields + .op-form-field{
+  width:100%;
+}
+.fixed-pair-note{
+  background:#e6e2d7;
+  border-radius:14px;
+  padding:11px 12px;
+  font-size:11px;
+  line-height:1.5;
+  color:#687269;
+  margin-bottom:1px;
+}
+@media(max-width:620px){
+  #opPairPlayerFields .op-pair-card{
+    grid-template-columns:1fr 1fr;
+  }
+}
+@media(max-width:430px){
+  #opPairPlayerFields .op-pair-card{
+    grid-template-columns:1fr;
+  }
+  #opPairPlayerFields .op-pair-card-title{
+    grid-column:1;
+  }
+}
+
+#opPairPlayerFields{grid-column:1/-1!important;width:100%}
+#opLevelField{grid-column:1/-1!important;width:100%}
+#opLevelField select{width:100%}
 </style>
 <script id="open-play-live-script">
 (function(){
@@ -2421,8 +2733,10 @@ PLAY NOW · REGRET NOTHING ·
           </div>
         </div>
         <div class="open-play-picker-side">
-          <strong>${esc(timeLabel(e.startTime))} — ${esc(timeLabel(e.endTime))}</strong>
-          <small>${String(e.registrationFormat||"individual")==="fixed_pairs"?`₱${(Number(e.ratePerPlayer||170)*2).toLocaleString()} / pair`:`₱${Number(e.ratePerPlayer||170).toLocaleString()} / player`} · ${String(e.registrationFormat||"individual")=="fixed_pairs"?Math.floor(Number(e.spotsRemaining||0)/2):Number(e.spotsRemaining||0)} ${String(e.registrationFormat||"individual")=="fixed_pairs"?'pairs':'spots'} left</small>
+          <div class="open-play-picker-info">
+            <strong>${esc(timeLabel(e.startTime))} — ${esc(timeLabel(e.endTime))}</strong>
+            <small>${String(e.registrationFormat||"individual")==="fixed_pairs"?`₱${(Number(e.ratePerPlayer||170)*2).toLocaleString()} / pair`:`₱${Number(e.ratePerPlayer||170).toLocaleString()} / player`} · ${String(e.registrationFormat||"individual")=="fixed_pairs"?Math.floor(Number(e.spotsRemaining||0)/2):Number(e.spotsRemaining||0)} ${String(e.registrationFormat||"individual")=="fixed_pairs"?'pairs':'spots'} left</small>
+          </div>
           <div class="open-play-actions">
             <button type="button" class="open-play-btn" data-open-event="${esc(e.eventId)}">VIEW EVENT →</button>
             ${canRegister?`<button type="button" class="open-play-btn secondary" data-register-event="${esc(e.eventId)}">REGISTER →</button>`:''}
@@ -2455,10 +2769,38 @@ PLAY NOW · REGRET NOTHING ·
   async function showSuccessQR(result){
     const wrap=document.getElementById("opQrCode");
     if(result.registrationFormat==="fixed_pairs"){
-      wrap.innerHTML=`<div style="text-align:center;font-size:11px;color:#687269;line-height:1.5"><b>PAIR REGISTERED</b><br>${esc((result.participantIds||[]).join(" · "))}<br><small>Each player will receive their own active QR after payment verification.</small></div>`;
-      document.getElementById("opSuccessId").textContent=(result.pairId||"PAIR") + " · " + (result.participantIds||[]).join(" · ");
-      document.getElementById("opSuccessPlayer").textContent=(result.playerNames||[]).join(" + ");
+      const names=result.playerNames||[];
+      const ids=result.participantIds||[];
+      const tokens=result.qrTokens||[];
+      wrap.style.width="100%";
+      wrap.style.height="auto";
+      wrap.style.background="transparent";
+      wrap.style.padding="0";
+      wrap.style.display="block";
+      wrap.innerHTML=`<div style="text-align:center;margin-bottom:12px;color:#0d5a3d;font-weight:900;font-size:11px;letter-spacing:.12em">PAIR REGISTERED</div>
+        <div class="op-pair-qr-grid">
+          ${names.map((name,i)=>`<div class="op-pair-qr-card">
+            <div class="op-pair-qr-name">${esc(name)}</div>
+            <div class="op-pair-qr-code" id="opPairQr${i}"><span style="font-size:10px;color:#687269">Preparing QR…</span></div>
+            <small>Player ${i+1} · ${esc(ids[i]||"—")}<br>QR becomes valid after payment verification.</small>
+          </div>`).join("")}
+        </div>`;
+      document.getElementById("opSuccessId").textContent=(result.pairId||"PAIR") + " · " + ids.join(" · ");
+      document.getElementById("opSuccessPlayer").textContent=names.join(" + ");
       document.getElementById("opSuccessLevel").textContent=`${result.level||"—"} · PAIR`;
+      try{
+        await ensureQRCode();
+        tokens.forEach((token,i)=>{
+          const target=document.getElementById("opPairQr"+i);
+          if(target)target.innerHTML="";
+          if(target && token)new QRCode(target,{text:String(token),width:166,height:166,colorDark:"#0d241d",colorLight:"#ffffff",correctLevel:QRCode.CorrectLevel.M});
+        });
+      }catch(e){
+        tokens.forEach((token,i)=>{
+          const target=document.getElementById("opPairQr"+i);
+          if(target)target.innerHTML='<span style="font-size:10px;color:#9f3e3e;text-align:center">QR generator unavailable.<br>Keep your Registration ID.</span>';
+        });
+      }
       return;
     }
     wrap.innerHTML='<div style="font-size:10px;color:#687269">Preparing your QR…</div>';
@@ -2467,7 +2809,25 @@ PLAY NOW · REGRET NOTHING ·
     document.getElementById("opSuccessPlayer").textContent=result.playerName||"—";
     document.getElementById("opSuccessLevel").textContent=result.level||"—";
   }
-  async function load(){try{const events=await api("getPublicOpenPlayEvents",[]),list=(Array.isArray(events)?events:[]).filter(e=>{const s=String(e.status||"").toLowerCase();return s!=="cancelled"&&s!=="completed";}),today=new Date();today.setHours(0,0,0,0);const upcoming=list.filter(e=>{const d=new Date(String(e.date||""));return !Number.isNaN(d.getTime())&&d>=today;});upcoming.sort((a,b)=>String(a.date).localeCompare(String(b.date)));const actionable=upcoming.filter(e=>["open","full"].includes(String(e.status||"").toLowerCase())),next=actionable[0]||upcoming[0]||list[0];if(floatTag){floatTag.textContent=next?shortDateLabel(next.date):"OPEN PLAY";floatTag.onclick=upcoming.length>1?()=>openEventChooser(upcoming):(next?()=>openModal(next):null);}if(!next){root.innerHTML='<div class="open-play-empty">No Open Play session has been announced yet. Check back soon.</div>';return;}const sc=statusClass(next.status);root.innerHTML=`<article class="open-play-card"><div><div class="open-play-eyebrow">Next Open Play</div><div class="open-play-date">${esc(dateLabel(next.date))}</div><div class="open-play-meta"><span class="open-play-pill ${sc}">${esc(next.status)}</span><span class="open-play-pill">${esc(next.courtCount)} court${next.courtCount==1?"":"s"}</span><span class="open-play-pill">${esc(next.court1Level)}${next.courtCount==2?" + "+esc(next.court2Level):""}</span></div></div><div class="open-play-side"><strong>${esc(timeLabel(next.startTime))} — ${esc(timeLabel(next.endTime))}</strong><small>${String(next.registrationFormat||"individual")=="fixed_pairs"?`₱${(Number(next.ratePerPlayer||170)*2).toLocaleString()} / pair`:`₱${Number(next.ratePerPlayer||170).toLocaleString()} / player`} · ${String(next.registrationFormat||"individual")=="fixed_pairs"?Math.floor(Number(next.spotsRemaining||0)/2):Number(next.spotsRemaining||0)} ${String(next.registrationFormat||"individual")=="fixed_pairs"?'pairs':'spots'} left</small><div class="open-play-actions"><button type="button" class="open-play-btn" id="openPlayView">OPEN PLAY →</button></div></div></article>`;document.getElementById("openPlayView").onclick=()=>openEventChooser(upcoming.length?upcoming:[next]);}catch(e){root.innerHTML='<div class="open-play-empty">Open Play is temporarily unavailable. Please check again shortly.</div>';}}
+  async function load(){
+    try{
+      const events=await api("getPublicOpenPlayEvents",[]),list=(Array.isArray(events)?events:[]).filter(e=>{const s=String(e.status||"").toLowerCase();return s!=="cancelled"&&s!=="completed";}),today=new Date();
+      today.setHours(0,0,0,0);
+      const upcoming=list.filter(e=>{const d=new Date(String(e.date||""));return !Number.isNaN(d.getTime())&&d>=today;}).sort((a,b)=>String(a.date).localeCompare(String(b.date)));
+      const actionable=upcoming.filter(e=>["open","full"].includes(String(e.status||"").toLowerCase())),next=actionable[0]||upcoming[0]||list[0];
+      if(floatTag){floatTag.textContent=next?shortDateLabel(next.date):"OPEN PLAY";floatTag.onclick=upcoming.length>1?()=>openEventChooser(upcoming):(next?()=>openModal(next):null);}
+      if(!upcoming.length){root.innerHTML='<div class="open-play-empty">No Open Play session has been announced yet. Check back soon.</div>';return;}
+      root.innerHTML=upcoming.map((e,i)=>{
+        const sc=statusClass(e.status),fixed=String(e.registrationFormat||"individual")==="fixed_pairs";
+        const spots=fixed?Math.floor(Number(e.spotsRemaining||0)/2):Number(e.spotsRemaining||0);
+        const capacity=fixed?Math.floor(Number(e.totalCapacity||0)/2):Number(e.totalCapacity||0);
+        const rate=fixed?`₱${(Number(e.ratePerPlayer||170)*2).toLocaleString()} / pair`:`₱${Number(e.ratePerPlayer||170).toLocaleString()} / player`;
+        const unit=fixed?'pairs':'spots';
+        return `<article class="open-play-card open-play-card-multi"><div><div class="open-play-eyebrow">${fixed?"FIXED PAIR EVENT":"OPEN PLAY SESSION"}</div><div class="open-play-date">${esc(dateLabel(e.date))}</div><div class="open-play-meta"><span class="open-play-pill ${sc}">${esc(e.status)}</span><span class="open-play-pill">${esc(e.courtCount)} court${e.courtCount==1?"":"s"}</span><span class="open-play-pill">${esc(e.court1Level)}${e.courtCount==2?" + "+esc(e.court2Level):""}${fixed?"  ·  FIXED PAIRS":""}</span></div></div><div class="open-play-side"><strong>${esc(timeLabel(e.startTime))} — ${esc(timeLabel(e.endTime))}</strong><small>${rate} · ${esc(spots)} / ${esc(capacity)} ${unit} left</small><div class="open-play-actions"><button type="button" class="open-play-btn" data-open-event="${esc(e.eventId)}">OPEN PLAY →</button></div></div></article>`;
+      }).join('');
+      root.querySelectorAll('[data-open-event]').forEach(btn=>btn.addEventListener('click',()=>{const e=upcoming.find(x=>String(x.eventId)===String(btn.dataset.openEvent));if(e)openModal(e);}));
+    }catch(e){root.innerHTML='<div class="open-play-empty">Open Play is temporarily unavailable. Please check again shortly.</div>';}
+  }
   form.addEventListener("submit",async ev=>{ev.preventDefault();if(!selectedRegistrationEvent)throw new Error("Please select an Open Play session first.");errorBox.style.display="none";submit.disabled=true;submit.textContent="SUBMITTING…";try{const fixed=String(selectedRegistrationEvent.registrationFormat||"individual")==="fixed_pairs";
     const payload=fixed?{eventId:selectedRegistrationEvent.eventId,player1Name:document.getElementById("opPairName1").value,player1Phone:document.getElementById("opPairPhone1").value,player2Name:document.getElementById("opPairName2").value,player2Phone:document.getElementById("opPairPhone2").value,level:document.getElementById("opLevel").value,paymentReference:document.getElementById("opPaymentRef").value}:{eventId:selectedRegistrationEvent.eventId,playerName:document.getElementById("opName").value,phone:document.getElementById("opPhone").value,level:document.getElementById("opLevel").value,paymentReference:document.getElementById("opPaymentRef").value};
     const result=await api("registerOpenPlayParticipant",[payload]);await showSuccessQR(result);form.style.display="none";success.style.display="block";}catch(e){errorBox.textContent=e.message||"Unable to submit registration.";errorBox.style.display="block";submit.disabled=false;submit.textContent="SUBMIT REGISTRATION →";}});
@@ -2480,6 +2840,29 @@ PLAY NOW · REGRET NOTHING ·
 
 
 
+<style id="open-play-card-final-normalization">
+#openPlayLiveContent .open-play-card-multi .open-play-side *,
+#openPlayLiveContent .open-play-card-multi .open-play-meta *{
+  box-sizing:border-box;
+}
+</style>
+<style id="open-play-booking-slot-enhancement">
+.time-group .time.openplay{
+  background:#e5f1eb!important;
+  border-color:#9fc7b3!important;
+  color:#27634d!important;
+  cursor:not-allowed!important;
+}
+.time-group .time.openplay::after{
+  content:"Open Play"!important;
+  float:right;
+  font-size:8px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  font-weight:800;
+  color:#287052;
+}
+</style>
 </body>
 
 
