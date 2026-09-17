@@ -2303,9 +2303,20 @@ PLAY NOW · REGRET NOTHING ·
     const single=document.getElementById("opSinglePlayerFields"),pair=document.getElementById("opPairPlayerFields");
     if(single)single.style.display=fixed?"none":"contents";
     if(pair)pair.style.display=fixed?"grid":"none";
+
+    const opName=document.getElementById("opName");
+    const opPhone=document.getElementById("opPhone");
+    const pairIds=["opPairName1","opPairPhone1","opPairName2","opPairPhone2"];
+    if(opName)opName.required=!fixed;
+    if(opPhone)opPhone.required=!fixed;
+    pairIds.forEach(id=>{
+      const el=document.getElementById(id);
+      if(el)el.required=fixed;
+    });
+
     document.getElementById("opName").value="";
     document.getElementById("opPhone").value="";
-    ["opPairName1","opPairPhone1","opPairName2","opPairPhone2"].forEach(id=>{const el=document.getElementById(id);if(el)el.value="";});
+    pairIds.forEach(id=>{const el=document.getElementById(id);if(el)el.value="";});
     document.getElementById("opPaymentRef").value="";
     errorBox.style.display="none";
     success.style.display="none";
@@ -2319,9 +2330,12 @@ PLAY NOW · REGRET NOTHING ·
       if(v&&levels.indexOf(v)<0)levels.push(v);
     });
 
-    const availableLevels=levels.filter(v=>
-      Number(e.levelAvailability?.[v]??0)>0
-    );
+    const availableLevels=levels.filter(v=>{
+      const raw=e.levelAvailability?.[v];
+      // Current backend supplies levelAvailability. Keep legacy compatibility
+      // for older event responses so an open event is not falsely treated as full.
+      return raw===undefined ? String(e.status||"").toLowerCase()==="open" : Number(raw)>0;
+    });
 
     level.innerHTML=levels.map(v=>{
       const spots=Number(e.levelAvailability?.[v]??0);
@@ -2442,7 +2456,7 @@ PLAY NOW · REGRET NOTHING ·
     const wrap=document.getElementById("opQrCode");
     if(result.registrationFormat==="fixed_pairs"){
       wrap.innerHTML=`<div style="text-align:center;font-size:11px;color:#687269;line-height:1.5"><b>PAIR REGISTERED</b><br>${esc((result.participantIds||[]).join(" · "))}<br><small>Each player will receive their own active QR after payment verification.</small></div>`;
-      document.getElementById("opSuccessId").textContent=(result.participantIds||[]).join(" · ");
+      document.getElementById("opSuccessId").textContent=(result.pairId||"PAIR") + " · " + (result.participantIds||[]).join(" · ");
       document.getElementById("opSuccessPlayer").textContent=(result.playerNames||[]).join(" + ");
       document.getElementById("opSuccessLevel").textContent=`${result.level||"—"} · PAIR`;
       return;
@@ -2470,4 +2484,3 @@ PLAY NOW · REGRET NOTHING ·
 
 
 </html>
-
