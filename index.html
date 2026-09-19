@@ -1955,6 +1955,56 @@ PLAY NOW · REGRET NOTHING ·
   </div>
 </div>
 <div class="toast" id="toast">Booking updated.</div>
+
+<style id="mobile-popup-scroll-only">
+/* MOBILE POPUP SCROLL FIX
+   Behavior only — existing popup content, wording, fields and layout are unchanged.
+   Allows long payment/registration popups to scroll so the bottom action button
+   remains reachable on small screens. */
+.modalbox,
+.open-play-modal-card{
+  max-height:calc(100vh - 24px)!important;
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+  -webkit-overflow-scrolling:touch;
+  overscroll-behavior:contain;
+}
+
+@media(max-width:700px){
+  .modal{
+    padding:12px!important;
+    align-items:center!important;
+  }
+  .modalbox{
+    max-height:calc(100dvh - 24px)!important;
+    overflow-y:auto!important;
+    overflow-x:hidden!important;
+    -webkit-overflow-scrolling:touch;
+    padding-bottom:24px!important;
+  }
+  .open-play-modal{
+    padding:10px!important;
+    align-items:center!important;
+  }
+  .open-play-modal-card{
+    max-height:calc(100dvh - 20px)!important;
+    overflow-y:auto!important;
+    overflow-x:hidden!important;
+    -webkit-overflow-scrolling:touch;
+    padding-bottom:24px!important;
+  }
+}
+
+@media(max-width:560px){
+  .modalbox{
+    max-height:calc(100dvh - 16px)!important;
+  }
+  .open-play-modal-card{
+    max-height:calc(100dvh - 16px)!important;
+  }
+}
+</style>
+
 <script>
 (() => {
   const API_URL = "https://kupal-pikolbol-api.kupalpikolbol-official.workers.dev/api";
